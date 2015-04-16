@@ -20,7 +20,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="Dota2\bin\Release\Dota2.dll" target="lib\net40\Dota2.dll" />
-        <file src="Dota2\bin\Release\Dota2.XML" target="lib\net40\Dota2.xml" />
+        <file src="bin\Release\Dota2.dll" target="lib\net40\Dota2.dll" />
+        <file src="bin\Release\Dota2.XML" target="lib\net40\Dota2.xml" />
     </files>
 </package>
