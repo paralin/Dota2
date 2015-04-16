@@ -10,7 +10,7 @@
         <BuildPackage Condition=" '$(BuildPackage)' == '' ">false</BuildPackage>
 
         <!-- Determines if package restore consent is required to restore packages -->
-        <RequireRestoreConsent Condition=" '$(RequireRestoreConsent)' != 'false' ">true</RequireRestoreConsent>
+        <RequireRestoreConsent Condition=" '$(RequireRestoreConsent)' != 'false' ">false</RequireRestoreConsent>
         
         <!-- Download NuGet.exe if it does not already exist -->
         <DownloadNuGetExe Condition=" '$(DownloadNuGetExe)' == '' ">false</DownloadNuGetExe>
@@ -52,7 +52,7 @@
         <SolutionDirParsed Condition=" '$(OS)' == 'Windows_NT' ">$(SolutionDir) </SolutionDirParsed>
         <SolutionDirParsed Condition=" '$(OS)' != 'Windows_NT' ">$(SolutionDir)</SolutionDirParsed>
         <RestoreCommand Condition=" '$(OS)' == 'Windows_NT' ">$(NuGetCommand) install "$(PackagesConfig)" -source "$(PackageSources)"  $(RequireConsentSwitch) -solutionDir "$(SolutionDirParsed)"</RestoreCommand>
-        <RestoreCommand Condition=" '$(OS)' != 'Windows_NT' ">bash $(NuGetToolsPath)\..\..\.ci\exec-with-retry.sh $(NuGetCommand) install "$(PackagesConfig)" -source "$(PackageSources)"  $(RequireConsentSwitch) -solutionDir "$(SolutionDirParsed)"</RestoreCommand>
+        <RestoreCommand Condition=" '$(OS)' != 'Windows_NT' ">bash $(NuGetToolsPath)\..\.ci\exec-with-retry.sh $(NuGetCommand) install "$(PackagesConfig)" -source "$(PackageSources)"  $(RequireConsentSwitch) -solutionDir "$(SolutionDirParsed)"</RestoreCommand>
 		
         <BuildCommand>$(NuGetCommand) pack "$(ProjectPath)" -p Configuration=$(Configuration) -o "$(PackageOutputDir)" -symbols</BuildCommand>
 
