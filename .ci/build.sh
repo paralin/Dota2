@@ -6,5 +6,5 @@ function ExitIfNonZero {
 	fi
 }
 
-xbuild /p:NoWarn=1584 Dota2.sln /target:Release
+xbuild /p:NoWarn=1584 Dota2.sln /p:Configuration=Release
 ExitIfNonZero $?
