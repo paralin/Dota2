@@ -17,6 +17,7 @@ script:
 notifications:
   irc:
     channels:
-      - "irc.gamesurge.net#opensteamworks"
+      - "irc.gamesurge.net#dota2mods"
+      - "irc.gamesurge.net#dotacode"
     on_success: always
     on_failure: always
