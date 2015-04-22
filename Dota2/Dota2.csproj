@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Generated\Datagram\SteamMsgDatagram.cs" />
     <Compile Include="Base\Generated\GC\Dota\MsgGCClient.cs" />
     <Compile Include="Base\Generated\GC\Dota\MsgGCClientFantasy.cs" />
     <Compile Include="Base\Generated\GC\Dota\MsgGCCommon.cs" />
@@ -61,16 +62,15 @@
     <Compile Include="Base\Generated\GC\SteamMsgGCEcon.cs" />
     <Compile Include="Base\Generated\GC\SteamMsgGCSDK.cs" />
     <Compile Include="Base\Generated\GC\SteamMsgGCSystem.cs" />
-    <Compile Include="Base\Generated\Unified\Steamworks\SteamMsgCloudSteamworks.cs" />
-    <Compile Include="Base\Generated\Unified\Steamworks\SteamMsgOAuthSteamworks.cs" />
-    <Compile Include="Base\Generated\Unified\Steamworks\SteamMsgPublishedFileSteamworks.cs" />
-    <Compile Include="Callbacks.cs" />
-    <Compile Include="DotaGCHandler.cs" />
+    <Compile Include="Datagram\DatagramClient.cs" />
+    <Compile Include="GC\Callbacks.cs" />
+    <Compile Include="GC\DotaGCHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

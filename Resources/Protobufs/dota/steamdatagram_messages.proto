@@ -16,6 +16,12 @@ enum ESteamDatagramMsgID {
 	k_ESteamDatagramMsg_Stats = 13;
 }
 
+message CMsgSteamDatagramRouterPingRequest
+{
+	optional fixed32 client_timestamp = 1;
+	repeated uint32 request_latency_service_ids = 2 [packed = true];
+}
+
 message CMsgSteamDatagramRouterPingReply {
 	optional fixed32 client_timestamp = 1;
 	repeated fixed32 latency_datacenter_ids = 2 [packed = true];

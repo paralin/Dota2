@@ -609,6 +609,13 @@ namespace Dota2.GC.Dota.Internal
       get { return _game_list_index; }
       set { _game_list_index = value; }
     }
+    private readonly global::System.Collections.Generic.List<ulong> _lobby_ids = new global::System.Collections.Generic.List<ulong>();
+    [global::ProtoBuf.ProtoMember(6, Name=@"lobby_ids", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<ulong> lobby_ids
+    {
+      get { return _lobby_ids; }
+    }
+  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -680,6 +687,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _game_list; }
     }
   
+
+    private bool _specific_games = default(bool);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"specific_games", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool specific_games
+    {
+      get { return _specific_games; }
+      set { _specific_games = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

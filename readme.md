@@ -31,6 +31,9 @@ To use the GC handler, it's simple:
 client = new SteamClient();
 DotaGCHandler.Bootstrap(client);
 dota = client.GetHandler<DotaGCHandler>();
+
+// ... later when Steam is connected
+dota.Start();
 ```
 
 You can register callbacks like any other Steam network functionality from Steamkit.

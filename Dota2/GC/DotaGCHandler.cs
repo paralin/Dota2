@@ -13,6 +13,7 @@ using ProtoBuf;
 using SteamKit2;
 using SteamKit2.GC;
 using SteamKit2.Internal;
+using Timer = System.Timers.Timer;
 
 namespace Dota2
 {
@@ -22,9 +23,21 @@ namespace Dota2
     public sealed partial class DotaGCHandler : ClientMsgHandler
     {
         private List<CMsgSerializedSOCache> cache = new List<CMsgSerializedSOCache>();
+        private Timer gcConnectTimer;
+        private bool running = false;
 
         internal DotaGCHandler()
         {
+            gcConnectTimer = new Timer(5000);
+            gcConnectTimer.Elapsed += (sender, args) =>
+            {
+                if (!running)
+                {
+                    gcConnectTimer.Stop();
+                    return;
+                }
+                SayHello();
+            };
         }
 
         /// <summary>
@@ -74,8 +87,18 @@ namespace Dota2
             Client.Send(clientMsg);
         }
 
+        /// <summary>
+        /// Old method of starting the DOTA client.
+        /// </summary>
+        [Obsolete("LaunchDota is deprecated, use Start/Stop instead.")]
         public void LaunchDota()
         {
+            Start();
+        }
+
+        public void Start()
+        {
+            running = true;
             var playGame = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
 
             playGame.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed
@@ -83,15 +106,28 @@ namespace Dota2
                 game_id = new GameID(570),
             });
 
-            // send it off
-            // notice here we're sending this message directly using the SteamClient
             Client.Send(playGame);
 
-            Thread.Sleep(5000);
+            gcConnectTimer.Stop();
+            SayHello();
+            gcConnectTimer.Start();
+        }
 
-            // inform the dota GC that we want a session
-            var clientHello = new ClientGCMsgProtobuf<CMsgClientHello>((uint) EGCBaseClientMsg.k_EMsgGCClientHello);
+        public void SayHello()
+        {
+            if (!running) return;
+            var clientHello = new ClientGCMsgProtobuf<CMsgClientHello>((uint)EGCBaseClientMsg.k_EMsgGCClientHello);
             Send(clientHello, 570);
+        }
+
+        public void Stop()
+        {
+            running = false;
+            gcConnectTimer.Stop();
+
+            var playGame = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
+            // playGame.Body.games_played left empty
+            Client.Send(playGame);
         }
 
         /// <summary>
@@ -587,8 +623,17 @@ namespace Dota2
 
         private void HandleConnectionStatus(IPacketGCMsg obj)
         {
+            if (!running)
+            {
+                // Stahhp
+                Stop();
+                return;
+            }
+
             var resp = new ClientGCMsgProtobuf<CMsgConnectionStatus>(obj);
             Client.PostCallback(new ConnectionStatus(resp.Body));
+
+            if(resp.Body.status != GCConnectionStatus.GCConnectionStatus_HAVE_SESSION) gcConnectTimer.Start();
         }
 
         private void HandleOtherJoinedChannel(IPacketGCMsg obj)
@@ -651,6 +696,13 @@ namespace Dota2
         //Initial message sent when connected to the GC
         private void HandleWelcome(IPacketGCMsg msg)
         {
+            gcConnectTimer.Stop();
+            
+            // Clear these. They will be updated in the Subscriptions if they exist still.
+            Lobby = null;
+            Party = null;
+            PartyInvite = null;
+
             var wel = new ClientGCMsgProtobuf<CMsgClientWelcome>(msg);
             Client.PostCallback(new GCWelcomeCallback(wel.Body));
 
