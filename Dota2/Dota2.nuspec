@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Dota2</id>
-        <version>0.1.2</version>
+        <version>0.1.3</version>
         <title>Dota2</title>
         <authors>paralin</authors>
         <licenseUrl>https://github.com/paralin/Dota2/blob/master/Dota2/license.txt</licenseUrl>
@@ -11,7 +11,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>A plugin for SteamKit that interacts with the DOTA 2 game coordinator.</description>
         <summary />
-        <releaseNotes>Release notes are available at https://github.com/paralin/Dota2/releases/tag/Dota2_0.1.2</releaseNotes>
+        <releaseNotes>Release notes are available at https://github.com/paralin/Dota2/releases/tag/Dota2_0.1.3</releaseNotes>
         <copyright />
         <tags>steam networking steamkit dota dota2</tags>
         <dependencies>
