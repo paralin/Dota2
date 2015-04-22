@@ -62,7 +62,6 @@
     <Compile Include="Base\Generated\GC\SteamMsgGCEcon.cs" />
     <Compile Include="Base\Generated\GC\SteamMsgGCSDK.cs" />
     <Compile Include="Base\Generated\GC\SteamMsgGCSystem.cs" />
-    <Compile Include="Datagram\DatagramClient.cs" />
     <Compile Include="GC\Callbacks.cs" />
     <Compile Include="GC\DotaGCHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
