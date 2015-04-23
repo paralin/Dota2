@@ -262,6 +262,17 @@ namespace Dota2
         }
 
         /// <summary>
+        /// Send a request for player information.
+        /// </summary>
+        /// <param name="ids">DOTA 2 profile ids.</param>
+        public void RequestPlayerInfo(IEnumerable<UInt32> ids)
+        {
+            var req = new ClientGCMsgProtobuf<CMsgGCPlayerInfoRequest>((uint) EDOTAGCMsg.k_EMsgGCPlayerInfoRequest);
+            req.Body.account_ids.AddRange(ids);
+            Send(req, 570);
+        }
+
+        /// <summary>
         /// Requests the entire pro team list.
         /// </summary>
         public void RequestProTeamList()
@@ -493,7 +504,8 @@ namespace Dota2
                         {(uint) EDOTAGCMsg.k_EMsgGCMatchDetailsResponse, HandleMatchDetailsResponse},
                         {(uint) EGCBaseClientMsg.k_EMsgGCClientConnectionStatus, HandleConnectionStatus},
                         {(uint) EDOTAGCMsg.k_EMsgGCProTeamListResponse, HandleProTeamList},
-                        {(uint) EDOTAGCMsg.k_EMsgGCFantasyLeagueInfo, HandleFantasyLeagueInfo}
+                        {(uint) EDOTAGCMsg.k_EMsgGCFantasyLeagueInfo, HandleFantasyLeagueInfo},
+                        {(uint) EDOTAGCMsg.k_EMsgGCPlayerInfo, HandlePlayerInfo}
                     };
                     Action<IPacketGCMsg> func;
                     if (!messageMap.TryGetValue(gcmsg.MsgType, out func))
@@ -625,6 +637,12 @@ namespace Dota2
         {
             var resp = new ClientGCMsgProtobuf<CMsgDOTAFantasyLeagueInfo>(obj);
             Client.PostCallback(new FantasyLeagueInfo(resp.Body));
+        }
+
+        private void HandlePlayerInfo(IPacketGCMsg obj)
+        {
+            var resp = new ClientGCMsgProtobuf<CMsgGCPlayerInfo>(obj);
+            Client.PostCallback(new PlayerInfo(resp.Body.player_infos));
         }
 
         private void HandlePracticeLobbyListResponse(IPacketGCMsg obj)

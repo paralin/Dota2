@@ -4,6 +4,8 @@
  */
 
 
+using System.Collections.Generic;
+using System.Linq;
 using Dota2.GC.Dota.Internal;
 using Dota2.GC.Internal;
 using SteamKit2;
@@ -350,15 +352,15 @@ namespace Dota2
         }
 
         /// <summary>
-        /// The GC has supplied us with some fantasy league information
+        /// The GC has supplied us with some player information
         /// </summary>
-        public sealed class FantasyLeagueInfo : CallbackMsg
+        public sealed class PlayerInfo : CallbackMsg
         {
-            public CMsgDOTAFantasyLeagueInfo result;
+            public CMsgGCPlayerInfo.PlayerInfo[] player_infos;
 
-            internal FantasyLeagueInfo(CMsgDOTAFantasyLeagueInfo msg)
+            internal PlayerInfo(List<CMsgGCPlayerInfo.PlayerInfo> msg)
             {
-                result = msg;
+                player_infos = msg.ToArray();
             }
         }
     }
