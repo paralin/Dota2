@@ -96,6 +96,9 @@ namespace Dota2
             Start();
         }
 
+        /// <summary>
+        /// Start playing DOTA 2 and automatically request a GC session.
+        /// </summary>
         public void Start()
         {
             running = true;
@@ -113,6 +116,9 @@ namespace Dota2
             gcConnectTimer.Start();
         }
 
+        /// <summary>
+        /// Send the hello message requesting a GC session. Do not call this manually!
+        /// </summary>
         public void SayHello()
         {
             if (!running) return;
@@ -120,6 +126,9 @@ namespace Dota2
             Send(clientHello, 570);
         }
 
+        /// <summary>
+        /// Stop playing DOTA 2.
+        /// </summary>
         public void Stop()
         {
             running = false;
@@ -163,12 +172,6 @@ namespace Dota2
             invite.Body.game_language_enum = 1;
             invite.Body.game_language_name = "english";
             Send(invite, 570);
-        }
-
-        public void CloseDota()
-        {
-            var playGame = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
-            Client.Send(playGame);
         }
 
         /// <summary>
@@ -241,6 +244,11 @@ namespace Dota2
             Send(joinChannel, 570);
         }
 
+        /// <summary>
+        /// Requests a subscription refresh for a specific cache ID.
+        /// </summary>
+        /// <param name="type">the type of the cache</param>
+        /// <param name="id">the cache soid</param>
         public void RequestSubscriptionRefresh(uint type, ulong id)
         {
             var refresh =
@@ -253,6 +261,20 @@ namespace Dota2
             Send(refresh, 570);
         }
 
+        /// <summary>
+        /// Requests the entire pro team list.
+        /// </summary>
+        public void RequestProTeamList()
+        {
+            var req = new ClientGCMsgProtobuf<CMsgDOTAProTeamListRequest>((uint) EDOTAGCMsg.k_EMsgGCProTeamListRequest);
+            Send(req, 570);
+        }
+
+        /// <summary>
+        /// Switches team in a GC Lobby.
+        /// </summary>
+        /// <param name="team">target team</param>
+        /// <param name="slot">slot on the team</param>
         public void JoinTeam(DOTA_GC_TEAM team, uint slot = 1)
         {
             var joinSlot =
@@ -315,6 +337,18 @@ namespace Dota2
             invite.Body.steam_id_dest = steam_id;
             invite.Body.steam_id_src = 0;
             Client.Send(invite);
+        }
+
+        /// <summary>
+        /// Sets the team details on the team the bot is sitting on.
+        /// </summary>
+        /// <param name="teamid"></param>
+        public void ApplyTeamToLobby(uint teamid)
+        {
+            var apply =
+                new ClientGCMsgProtobuf<CMsgApplyTeamToPracticeLobby>((uint) EDOTAGCMsg.k_EMsgGCApplyTeamToPracticeLobby);
+            apply.Body.team_id = teamid;
+            Send(apply, 570);
         }
 
         /// <summary>
@@ -458,6 +492,8 @@ namespace Dota2
                         {(uint) EGCBaseMsg.k_EMsgGCInvitationCreated, HandleInvitationCreated},
                         {(uint) EDOTAGCMsg.k_EMsgGCMatchDetailsResponse, HandleMatchDetailsResponse},
                         {(uint) EGCBaseClientMsg.k_EMsgGCClientConnectionStatus, HandleConnectionStatus},
+                        {(uint) EDOTAGCMsg.k_EMsgGCProTeamListResponse, HandleProTeamList},
+                        {(uint) EDOTAGCMsg.k_EMsgGCFantasyLeagueInfo, HandleFantasyLeagueInfo}
                     };
                     Action<IPacketGCMsg> func;
                     if (!messageMap.TryGetValue(gcmsg.MsgType, out func))
@@ -585,6 +621,12 @@ namespace Dota2
             }
         }
 
+        private void HandleFantasyLeagueInfo(IPacketGCMsg obj)
+        {
+            var resp = new ClientGCMsgProtobuf<CMsgDOTAFantasyLeagueInfo>(obj);
+            Client.PostCallback(new FantasyLeagueInfo(resp.Body));
+        }
+
         private void HandlePracticeLobbyListResponse(IPacketGCMsg obj)
         {
             var resp = new ClientGCMsgProtobuf<CMsgPracticeLobbyListResponse>(obj);
@@ -634,6 +676,12 @@ namespace Dota2
             Client.PostCallback(new ConnectionStatus(resp.Body));
 
             if(resp.Body.status != GCConnectionStatus.GCConnectionStatus_HAVE_SESSION) gcConnectTimer.Start();
+        }
+
+        private void HandleProTeamList(IPacketGCMsg msg)
+        {
+            var resp = new ClientGCMsgProtobuf<CMsgDOTAProTeamListResponse>(msg);
+            Client.PostCallback(new ProTeamListResponse(resp.Body));
         }
 
         private void HandleOtherJoinedChannel(IPacketGCMsg obj)

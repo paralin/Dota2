@@ -113,6 +113,19 @@ namespace Dota2
         }
 
         /// <summary>
+        ///     Pro team list response
+        /// </summary>
+        public sealed class ProTeamListResponse : CallbackMsg
+        {
+            public CMsgDOTAProTeamListResponse result;
+
+            internal ProTeamListResponse(CMsgDOTAProTeamListResponse msg)
+            {
+                result = msg;
+            }
+        }
+
+        /// <summary>
         ///     A user joined our chat channel
         /// </summary>
         public sealed class OtherJoinedChannel : CallbackMsg
@@ -269,6 +282,9 @@ namespace Dota2
             }
         }
 
+        /// <summary>
+        /// Response to a request for practice lobby list.
+        /// </summary>
         public sealed class PracticeLobbyListResponse : CallbackMsg
         {
             public CMsgPracticeLobbyListResponse result;
@@ -320,6 +336,9 @@ namespace Dota2
             }
         }
 
+        /// <summary>
+        /// Called when a DOTA callback is not handled.
+        /// </summary>
         public sealed class UnhandledDotaGCCallback : CallbackMsg
         {
             public IPacketGCMsg Message;
@@ -327,6 +346,19 @@ namespace Dota2
             internal UnhandledDotaGCCallback(IPacketGCMsg msg)
             {
                 Message = msg;
+            }
+        }
+
+        /// <summary>
+        /// The GC has supplied us with some fantasy league information
+        /// </summary>
+        public sealed class FantasyLeagueInfo : CallbackMsg
+        {
+            public CMsgDOTAFantasyLeagueInfo result;
+
+            internal FantasyLeagueInfo(CMsgDOTAFantasyLeagueInfo msg)
+            {
+                result = msg;
             }
         }
     }
