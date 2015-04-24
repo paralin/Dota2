@@ -363,5 +363,18 @@ namespace Dota2
                 player_infos = msg.ToArray();
             }
         }
+
+        /// <summary>
+        /// The GC has supplied us with some player information
+        /// </summary>
+        public sealed class FantasyLeagueInfo : CallbackMsg
+        {
+            public CMsgDOTAFantasyLeagueInfo info;
+
+            internal FantasyLeagueInfo(CMsgDOTAFantasyLeagueInfo msg)
+            {
+                info = msg;
+            }
+        }
     }
 }
