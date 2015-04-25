@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Data\LobbyExtraData.cs" />
     <Compile Include="Base\Generated\Datagram\SteamMsgDatagram.cs" />
     <Compile Include="Base\Generated\GC\Dota\MsgGCClient.cs" />
     <Compile Include="Base\Generated\GC\Dota\MsgGCClientFantasy.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Base\Generated\GC\SteamMsgGCSDK.cs" />
     <Compile Include="Base\Generated\GC\SteamMsgGCSystem.cs" />
     <Compile Include="GC\Callbacks.cs" />
+    <Compile Include="GC\DotaExtensions.cs" />
     <Compile Include="GC\DotaGCHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
