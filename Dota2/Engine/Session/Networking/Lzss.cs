@@ -8,19 +8,19 @@
 namespace Dota2.Engine.Session.Networking
 {
     /// <summary>
-    /// LZss compression.
+    ///     LZss compression.
     /// </summary>
     internal class Lzss
     {
         public static byte[] Decompress(byte[] buffer)
         {
-            uint decompressed_length = BitConverter.ToUInt32(buffer, 0);
-            byte[] decompressed = new byte[decompressed_length];
+            var decompressed_length = BitConverter.ToUInt32(buffer, 0);
+            var decompressed = new byte[decompressed_length];
             uint decompressing_at = 0;
 
             uint buffer_at = 4;
             uint since_block = 0;
-            int block = 0;
+            var block = 0;
 
             while (true)
             {
@@ -34,14 +34,14 @@ namespace Dota2.Engine.Session.Networking
 
                 if ((block & 1) == 0)
                 {
-                    byte b = buffer[buffer_at];
+                    var b = buffer[buffer_at];
                     decompressed[decompressing_at] = b;
                     ++decompressing_at;
                 }
                 else
                 {
                     uint b = buffer[buffer_at + 1];
-                    byte to_read = (byte)(b & 0x0F);
+                    var to_read = (byte) (b & 0x0F);
 
                     if (to_read == 0)
                     {
@@ -50,10 +50,10 @@ namespace Dota2.Engine.Session.Networking
 
                     ++to_read;
 
-                    uint offset = (((uint)(buffer[buffer_at] << 4)) | (b >> 4)) + 1;
+                    var offset = (((uint) (buffer[buffer_at] << 4)) | (b >> 4)) + 1;
                     ++buffer_at;
 
-                    for (int i = 0; i < to_read; ++i)
+                    for (var i = 0; i < to_read; ++i)
                     {
                         decompressed[decompressing_at] = decompressed[decompressing_at - offset];
                         ++decompressing_at;

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 
 /*
     This file heavily based off of the nora project.
@@ -9,10 +8,14 @@ using System.Reflection;
 namespace Dota2.Engine.Game.Data
 {
     /// <summary>
-    /// A flat network table.
+    ///     A flat network table.
     /// </summary>
     public class FlatTable
     {
+        public string NetTableName { get; private set; }
+        public bool NeedsDecoder { get; private set; }
+        public List<PropertyInfo> Properties { get; private set; }
+
         public static FlatTable CreateWith(
             string name,
             bool needsDecoder,
@@ -25,9 +28,5 @@ namespace Dota2.Engine.Game.Data
                 Properties = properties
             };
         }
-
-        public string NetTableName { get; private set; }
-        public bool NeedsDecoder { get; private set; }
-        public List<PropertyInfo> Properties { get; private set; }
     }
 }

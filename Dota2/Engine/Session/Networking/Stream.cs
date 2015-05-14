@@ -11,28 +11,29 @@ using Snappy.Sharp;
 namespace Dota2.Engine.Session.Networking
 {
     /// <summary>
-    /// A network stream over a connection.
+    ///     A network stream over a connection.
     /// </summary>
     internal class Stream
     {
-        public static Stream Create()
-        {
-            return new Stream();
-        }
-
-        public bool Receiving { get; private set; }
-        private ChunkedHeader header;
+        private int countReceived;
         private byte[] dataIn;
         private bool[] dataReceived;
-        private int countReceived;
+        private ChunkedHeader header;
 
         private Stream()
         {
         }
 
-        public Nullable<Message> Receive(Bitstream stream)
+        public bool Receiving { get; private set; }
+
+        public static Stream Create()
         {
-            bool hasData = stream.ReadBool();
+            return new Stream();
+        }
+
+        public Message? Receive(Bitstream stream)
+        {
+            var hasData = stream.ReadBool();
 
             if (!hasData)
             {
@@ -43,10 +44,7 @@ namespace Dota2.Engine.Session.Networking
             {
                 return ReadChunk(stream);
             }
-            else
-            {
-                return ReadSingle(stream);
-            }
+            return ReadSingle(stream);
         }
 
         private void ReadChunkHeader(Bitstream stream)
@@ -56,10 +54,10 @@ namespace Dota2.Engine.Session.Networking
             header.IsFile = stream.ReadBool();
             if (header.IsFile)
             {
-                uint filenameLength = stream.ReadUInt32();
-                byte[] filename = new byte[filenameLength + 1]; // semantically wrong. should be
-                                                                // 0x104
-                stream.Read(filename, 0, (int)filenameLength); // and then read to end of string
+                var filenameLength = stream.ReadUInt32();
+                var filename = new byte[filenameLength + 1]; // semantically wrong. should be
+                // 0x104
+                stream.Read(filename, 0, (int) filenameLength); // and then read to end of string
                 filename[filenameLength] = 0; // whatever 
                 header.Filename = Encoding.UTF8.GetString(filename);
                 throw new NotImplementedException();
@@ -73,7 +71,7 @@ namespace Dota2.Engine.Session.Networking
 
             header.ByteLength = stream.ReadBits(26);
             header.ChunkCount =
-                (header.ByteLength + DotaGameConnection.BYTES_PER_CHUNK - 1) /
+                (header.ByteLength + DotaGameConnection.BYTES_PER_CHUNK - 1)/
                 DotaGameConnection.BYTES_PER_CHUNK;
 
             Receiving = true;
@@ -82,33 +80,33 @@ namespace Dota2.Engine.Session.Networking
             countReceived = 0;
         }
 
-        private Nullable<Message> ReadChunk(Bitstream stream)
+        private Message? ReadChunk(Bitstream stream)
         {
-            uint offset = stream.ReadBits(18);
-            uint count = stream.ReadBits(3);
+            var offset = stream.ReadBits(18);
+            var count = stream.ReadBits(3);
 
             if (offset == 0)
             {
                 ReadChunkHeader(stream);
             }
 
-            uint byteOffset = offset * DotaGameConnection.BYTES_PER_CHUNK;
+            var byteOffset = offset*DotaGameConnection.BYTES_PER_CHUNK;
 
             uint byteCount;
             if (offset + count < header.ChunkCount)
             {
-                byteCount = count * DotaGameConnection.BYTES_PER_CHUNK;
+                byteCount = count*DotaGameConnection.BYTES_PER_CHUNK;
             }
             else
             {
                 byteCount = header.ByteLength - byteOffset;
             }
 
-            stream.Read(dataIn, (int)byteOffset, (int)byteCount);
+            stream.Read(dataIn, (int) byteOffset, (int) byteCount);
 
-            for (uint i = offset;
-                    i < offset + count;
-                    ++i)
+            for (var i = offset;
+                i < offset + count;
+                ++i)
             {
                 if (!dataReceived[i])
                 {
@@ -124,27 +122,23 @@ namespace Dota2.Engine.Session.Networking
                 {
                     IsCompressed = header.IsCompressed,
                     DecompressedLength = header.DecompressedLength,
-
-                    Data = dataIn,
+                    Data = dataIn
                 };
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         private Message ReadSingle(Bitstream stream)
         {
-            bool isCompressed = stream.ReadBool();
+            var isCompressed = stream.ReadBool();
 
             if (isCompressed)
             {
-                uint uncompressed_length = stream.ReadBits(26);
-                uint length = stream.ReadBits(18);
+                var uncompressed_length = stream.ReadBits(26);
+                var length = stream.ReadBits(18);
 
-                byte[] data = new byte[length];
-                stream.Read(data, 0, (int)length);
+                var data = new byte[length];
+                stream.Read(data, 0, (int) length);
 
                 var decomp = new SnappyDecompressor();
 
@@ -156,38 +150,33 @@ namespace Dota2.Engine.Session.Networking
             }
             else
             {
-                uint length = stream.ReadBits(18);
+                var length = stream.ReadBits(18);
 
-                byte[] data = new byte[length];
-                stream.Read(data, 0, (int)length);
+                var data = new byte[length];
+                stream.Read(data, 0, (int) length);
 
                 return new Message
                 {
                     IsCompressed = false,
-                    Data = data,
+                    Data = data
                 };
             }
         }
 
         private struct ChunkedHeader
         {
-
             public uint ChunkCount { get; set; }
             public uint ByteLength { get; set; }
-
             public bool IsCompressed { get; set; }
             public uint DecompressedLength { get; set; }
-
             public bool IsFile { get; set; }
             public string Filename { get; set; }
         }
 
         public struct Message
         {
-
             public bool IsCompressed { get; set; }
             public uint DecompressedLength { get; set; }
-
             public byte[] Data { get; set; }
         }
     }

@@ -41,6 +41,10 @@
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Stateless, Version=2.5.15.0, Culture=neutral, PublicKeyToken=93038f0927583c9a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stateless.2.5.15.0\lib\portable-net40+sl50+win+wp80\Stateless.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SteamKit2, Version=1.6.2.38878, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SteamKit2.1.6.2\lib\net40\SteamKit2.dll</HintPath>
       <Private>True</Private>
@@ -66,8 +70,12 @@
     <Compile Include="Base\Generated\GC\SteamMsgGCEcon.cs" />
     <Compile Include="Base\Generated\GC\SteamMsgGCSDK.cs" />
     <Compile Include="Base\Generated\GC\SteamMsgGCSystem.cs" />
+    <Compile Include="Base\Generated\Networking\AiActivity.cs" />
+    <Compile Include="Base\Generated\Networking\DotaUserMessages.cs" />
+    <Compile Include="Base\Generated\Networking\MsgDotaCommonMessages.cs" />
     <Compile Include="Base\Generated\Networking\MsgNetMessages.cs" />
     <Compile Include="Base\Generated\Networking\MsgNetworkTypes.cs" />
+    <Compile Include="Base\Generated\Networking\UserMessages.cs" />
     <Compile Include="Engine\Data\AuthTicket.cs" />
     <Compile Include="Engine\Data\ConnectDetails.cs" />
     <Compile Include="Engine\DotaGameClient.cs" />
@@ -82,11 +90,22 @@
     <Compile Include="Engine\Game\Data\UserCmd.cs" />
     <Compile Include="Engine\Game\Data\Vector.cs" />
     <Compile Include="Engine\Game\DotaGameState.cs" />
+    <Compile Include="Engine\Session\Actuators\UserCmdGenerator.cs" />
     <Compile Include="Engine\Session\DotaGameConnection.cs" />
     <Compile Include="Engine\Session\DotaGameSession.cs" />
+    <Compile Include="Engine\Session\State\Enums\Events.cs" />
+    <Compile Include="Engine\Session\State\Enums\States.cs" />
+    <Compile Include="Engine\Session\Handlers\Game\Game.cs" />
+    <Compile Include="Engine\Session\Handlers\Handshake\DotaHandshake.cs" />
+    <Compile Include="Engine\Session\State\Interfaces\MessageHandler.cs" />
     <Compile Include="Engine\Session\Networking\Lzss.cs" />
     <Compile Include="Engine\Session\Networking\Stream.cs" />
     <Compile Include="Engine\Session\Networking\Subchannel.cs" />
+    <Compile Include="Engine\Session\Handlers\Signon\DotaSignon.cs" />
+    <Compile Include="Engine\Session\Unpackers\EntityUpdater.cs" />
+    <Compile Include="Engine\Session\Unpackers\PropertyValueUnpacker.cs" />
+    <Compile Include="Engine\Session\Unpackers\SendTableFlattener.cs" />
+    <Compile Include="Engine\Session\Unpackers\StringTableUpdater.cs" />
     <Compile Include="GC\Callbacks.cs" />
     <Compile Include="GC\DotaExtensions.cs" />
     <Compile Include="GC\DotaGCHandler.cs" />

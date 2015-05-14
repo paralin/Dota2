@@ -12,11 +12,12 @@ using SteamKit2;
 namespace Dota2.Engine.Data
 {
     /// <summary>
-    /// Generates auth tickets.
+    ///     Generates auth tickets.
     /// </summary>
-    class AuthTicket
+    internal class AuthTicket
     {
-        private static int connectionCount = 0;
+        private static int connectionCount;
+
         public static byte[] CreateAuthTicket(byte[] token, IPAddress ip)
         {
             uint sessionSize = 4 + // unknown 1
@@ -26,7 +27,7 @@ namespace Dota2.Engine.Data
                                4 + // timestamp
                                4; // connection count
 
-            MemoryStream stream = new MemoryStream();
+            var stream = new MemoryStream();
             using (var writer = new BinaryWriter(stream))
             {
                 writer.Write(token.Length);
@@ -36,7 +37,7 @@ namespace Dota2.Engine.Data
                 writer.Write(1);
                 writer.Write(2);
 
-                byte[] externalBytes = ip.GetAddressBytes();
+                var externalBytes = ip.GetAddressBytes();
                 writer.Write(externalBytes.Reverse().ToArray());
 
                 writer.Write(0);
@@ -48,17 +49,17 @@ namespace Dota2.Engine.Data
         }
 
         public static byte[] CreateServerTicket(
-                SteamID id, byte[] auth, byte[] ownershipTicket)
+            SteamID id, byte[] auth, byte[] ownershipTicket)
         {
             long size = 8 + // steam ID
                         auth.Length +
                         4 + // length of ticket
                         ownershipTicket.Length;
 
-            MemoryStream stream = new MemoryStream();
+            var stream = new MemoryStream();
             using (var writer = new BinaryWriter(stream))
             {
-                writer.Write((ushort)size);
+                writer.Write((ushort) size);
                 writer.Write(id.ConvertToUInt64());
 
                 writer.Write(auth.ToArray());

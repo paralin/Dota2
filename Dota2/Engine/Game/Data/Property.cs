@@ -5,15 +5,25 @@
 
 using System;
 using System.Collections.Generic;
+using Dota2.Engine.Session.Unpackers;
 using Dota2.Utils;
 
 namespace Dota2.Engine.Game.Data
 {
     /// <summary>
-    /// A networked entity property.
+    ///     A networked entity property.
     /// </summary>
     public abstract class Property
     {
+        public readonly PropertyInfo Info;
+
+        protected Property(PropertyInfo info)
+        {
+            Info = info;
+        }
+
+        public uint UpdatedAt { get; private set; }
+
         public static Property For(PropertyInfo info)
         {
             switch (info.Type)
@@ -37,23 +47,12 @@ namespace Dota2.Engine.Game.Data
             }
         }
 
-        private static readonly ILog log = LogManager.GetLogger(typeof (Property));
-
-        public readonly PropertyInfo Info;
-        public uint UpdatedAt { get; private set; }
-
-        protected Property(PropertyInfo info)
-        {
-            this.Info = info;
-        }
-
         public abstract Property Copy();
-
         protected abstract void Unpack(uint tick, PropertyValueUnpacker unpacker, Bitstream stream);
 
         public void Update(uint tick, PropertyValueUnpacker unpacker, Bitstream stream)
         {
-            this.UpdatedAt = tick;
+            UpdatedAt = tick;
             Unpack(tick, unpacker, stream);
         }
 
@@ -64,15 +63,15 @@ namespace Dota2.Engine.Game.Data
 
         public abstract class TypedProperty<T> : Property
         {
-            public T Value { get; protected set; }
-
             protected TypedProperty(PropertyInfo info) : base(info)
             {
             }
 
+            public T Value { get; protected set; }
+
             public override string ToString()
             {
-                return this.Value.ToString();
+                return Value.ToString();
             }
         }
 
@@ -175,14 +174,14 @@ namespace Dota2.Engine.Game.Data
         {
             public ArrayProperty(PropertyInfo info) : base(info)
             {
-                this.Value = new List<Property>();
+                Value = new List<Property>();
             }
 
             public override Property Copy()
             {
                 var copy = new ArrayProperty(Info);
 
-                foreach (var item in this.Value)
+                foreach (var item in Value)
                 {
                     copy.Value.Add(item.Copy());
                 }

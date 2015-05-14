@@ -8,28 +8,28 @@ using Dota2.GC.Dota.Internal;
 namespace Dota2.Engine.Game.Data
 {
     /// <summary>
-    /// An entity class.
+    ///     An entity class.
     /// </summary>
     public struct EntityClass
     {
+        public uint Id { get; private set; }
+        public string DataTableName { get; private set; }
+        public string ClassName { get; private set; }
+
         /// <summary>
-        /// Parse a ClassInfo proto.
+        ///     Parse a ClassInfo proto.
         /// </summary>
         /// <param name="proto">Class info proto</param>
         /// <returns>EntityClass instance</returns>
         public static EntityClass CreateWith(CSVCMsg_ClassInfo.class_t proto)
         {
-            return new EntityClass()
+            return new EntityClass
             {
                 Id = (uint) proto.class_id,
                 DataTableName = proto.data_table_name,
-                ClassName = proto.class_name,
+                ClassName = proto.class_name
             };
         }
-
-        public uint Id { get; private set; }
-        public string DataTableName { get; private set; }
-        public string ClassName { get; private set; }
 
         public override bool Equals(object obj)
         {

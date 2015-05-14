@@ -14,7 +14,6 @@ using ProtoBuf;
 using Snappy.Sharp;
 using Stream = Dota2.Engine.Session.Networking.Stream;
 
-
 /*
     This file heavily based off of the nora project.
     See https://github.com/dschleck/nora/blob/master/lara/net/Connection.cs
@@ -24,9 +23,85 @@ namespace Dota2.Engine.Session
 {
     internal class DotaGameConnection : IDisposable
     {
+        private const int NUM_STREAMS = 2;
+        private const int NUM_SUBCHANNELS = 8;
+        private const int MAX_PACKET_SIZE = 1040;
+        private const int PACKET_CHECKSUM_OFFSET = 4 + 4 + 1;
+        private const int PACKET_RELIABLE_STATE_OFFSET = 4 + 4 + 1 + 2;
+        private const int PACKET_HEADER_SIZE = 4 + 4 + 1 + 2 + 1; // seq ack flags checksum rs
+        private const int CHUNKS_PER_MESSAGE = 4;
+        public const int BYTES_PER_CHUNK = 1 << 8;
+        private const int BYTES_PER_MESSAGE = CHUNKS_PER_MESSAGE*BYTES_PER_CHUNK;
+        private const uint OOB_PACKET = 0xFFFFFFFF;
+        private const uint SPLIT_PACKET = 0xFFFFFFFE;
+        private const uint COMPRESSED_PACKET = 0xFFFFFFFD;
+        private const uint LZSS_COMPRESSION = 0x53535A4C; // LZSS => SSZL
+        private const uint ACK_EVERY = 6;
+        private readonly object messageLock;
+        private readonly ConcurrentQueue<byte[]> messagesOutOfBand;
+        private readonly Queue<byte[]> messagesReliable;
+        private readonly Queue<byte[]> messagesUnreliable;
+        private readonly ConcurrentQueue<Message> receivedInBand;
+        private readonly ConcurrentQueue<byte[]> receivedOutOfBand;
+        private readonly SnappyDecompressor snappyDecompressor;
+        private readonly Socket socket;
+        private readonly Dictionary<uint, SplitPacket> splitPackets;
+        private readonly Stream[] streams;
+        private readonly Subchannel[] subchannels;
+        private uint lastAckRecv;
+        private uint lastAckSent;
+        private uint receivedTotal;
+        private byte reliableStateIn;
+        private byte reliableStateOut;
+        private uint sequenceIn; // seen
+        private uint sequenceOut; // sent
+        private State state;
+
+        private DotaGameConnection()
+        {
+            ShouldSendAcks = false;
+
+            snappyDecompressor = new SnappyDecompressor();
+
+            state = State.Closed;
+            socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            streams = new Stream[NUM_STREAMS];
+            subchannels = new Subchannel[NUM_SUBCHANNELS];
+            splitPackets = new Dictionary<uint, SplitPacket>();
+
+            sequenceOut = 0;
+            reliableStateOut = 0;
+            lastAckRecv = 0;
+
+            sequenceIn = 0;
+            receivedTotal = 0;
+            reliableStateIn = 0;
+            lastAckSent = 0xFFFFFFFF;
+
+            messageLock = new object();
+            messagesOutOfBand = new ConcurrentQueue<byte[]>();
+            messagesReliable = new Queue<byte[]>();
+            messagesUnreliable = new Queue<byte[]>();
+
+            receivedInBand = new ConcurrentQueue<Message>();
+            receivedOutOfBand = new ConcurrentQueue<byte[]>();
+        }
+
+        public bool ShouldSendAcks { get; set; }
+
+        public void Dispose()
+        {
+            if (state == State.Connected)
+            {
+                // TODO: Disconnect();
+            }
+
+            socket.Dispose();
+        }
+
         public static DotaGameConnection CreateWith(DOTAConnectDetails details)
         {
-            DotaGameConnection connection = new DotaGameConnection();
+            var connection = new DotaGameConnection();
 
             for (uint i = 0; i < NUM_STREAMS; ++i)
             {
@@ -40,19 +115,20 @@ namespace Dota2.Engine.Session
 
             if (details.ConnectInfo.StartsWith("="))
             {
-                throw new NotImplementedException("STEAM3 datagram connection not implemented yet. Use a less advanced datacenter.");
+                throw new NotImplementedException(
+                    "STEAM3 datagram connection not implemented yet. Use a less advanced datacenter.");
             }
 
             // Parse the IP address
             IPEndPoint endp;
             IPAddress addr;
 
-            string[] parts = details.ConnectInfo.Split(':');
+            var parts = details.ConnectInfo.Split(':');
             if (!IPAddress.TryParse(parts[0], out addr))
             {
                 throw new InvalidOperationException("Invalid IP address specified on lobby.");
             }
-            
+
             endp = new IPEndPoint(addr, int.Parse(parts[1]));
 
             connection.socket.Connect(endp);
@@ -67,97 +143,15 @@ namespace Dota2.Engine.Session
             byte[] bytes;
             using (var stream = Bitstream.Create())
             {
-                Serializer.SerializeWithLengthPrefix<T>(stream, proto, PrefixStyle.Base128);
+                Serializer.SerializeWithLengthPrefix(stream, proto, PrefixStyle.Base128);
                 bytes = stream.ToBytes();
             }
 
-            return new Message()
+            return new Message
             {
                 Type = type,
-                Data = bytes,
+                Data = bytes
             };
-        }
-
-        private const int NUM_STREAMS = 2;
-        private const int NUM_SUBCHANNELS = 8;
-
-        private const int MAX_PACKET_SIZE = 1040;
-        private const int PACKET_CHECKSUM_OFFSET = 4 + 4 + 1;
-        private const int PACKET_RELIABLE_STATE_OFFSET = 4 + 4 + 1 + 2;
-        private const int PACKET_HEADER_SIZE = 4 + 4 + 1 + 2 + 1; // seq ack flags checksum rs
-
-        private const int CHUNKS_PER_MESSAGE = 4;
-        public const int BYTES_PER_CHUNK = 1 << 8;
-        private const int BYTES_PER_MESSAGE = CHUNKS_PER_MESSAGE * BYTES_PER_CHUNK;
-
-        private const uint OOB_PACKET = 0xFFFFFFFF;
-        private const uint SPLIT_PACKET = 0xFFFFFFFE;
-        private const uint COMPRESSED_PACKET = 0xFFFFFFFD;
-        private const uint LZSS_COMPRESSION = 0x53535A4C; // LZSS => SSZL
-
-        private enum PacketFlags
-        {
-            IsReliable = 1,
-        }
-
-        private const uint ACK_EVERY = 6;
-
-        public bool ShouldSendAcks { get; set; }
-
-        private State state;
-        private Socket socket;
-
-        private uint sequenceOut; // sent
-        private byte reliableStateOut;
-        private uint lastAckRecv;
-
-        private uint sequenceIn; // seen
-        private uint receivedTotal;
-        private byte reliableStateIn;
-        private uint lastAckSent;
-
-        private Stream[] streams;
-        private Subchannel[] subchannels;
-        private Dictionary<UInt32, SplitPacket> splitPackets;
-
-        private object messageLock;
-        private ConcurrentQueue<byte[]> messagesOutOfBand;
-        private Queue<byte[]> messagesReliable;
-        private Queue<byte[]> messagesUnreliable;
-
-        private ConcurrentQueue<Message> receivedInBand;
-        private ConcurrentQueue<byte[]> receivedOutOfBand;
-
-        private SnappyDecompressor snappyDecompressor;
-
-        private DotaGameConnection()
-        {
-            this.ShouldSendAcks = false;
-
-            this.snappyDecompressor = new SnappyDecompressor();
-
-            this.state = State.Closed;
-            this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            this.streams = new Stream[NUM_STREAMS];
-            this.subchannels = new Subchannel[NUM_SUBCHANNELS];
-            this.splitPackets = new Dictionary<uint, SplitPacket>();
-
-            this.sequenceOut = 0;
-            this.reliableStateOut = 0;
-            this.lastAckRecv = 0;
-
-            this.sequenceIn = 0;
-            this.receivedTotal = 0;
-            this.reliableStateIn = 0;
-            this.lastAckSent = 0xFFFFFFFF;
-
-            this.messageLock = new object();
-            this.messagesOutOfBand = new ConcurrentQueue<byte[]>();
-            this.messagesReliable = new Queue<byte[]>();
-            this.messagesUnreliable = new Queue<byte[]>();
-
-            this.receivedInBand = new ConcurrentQueue<Message>();
-            this.receivedOutOfBand = new ConcurrentQueue<byte[]>();
         }
 
         public void Open()
@@ -169,16 +163,6 @@ namespace Dota2.Engine.Session
         public void OpenChannel()
         {
             ShouldSendAcks = true;
-        }
-
-        public void Dispose()
-        {
-            if (state == State.Connected)
-            {
-                // TODO: Disconnect();
-            }
-
-            socket.Dispose();
         }
 
         public void SendReliably(params Message[] messages)
@@ -222,6 +206,7 @@ namespace Dota2.Engine.Session
                 messagesUnreliable.Enqueue(bytes);
             }
         }
+
         public void EnqueueOutOfBand(byte[] message)
         {
             messagesOutOfBand.Enqueue(message);
@@ -229,7 +214,7 @@ namespace Dota2.Engine.Session
 
         public List<Message> GetInBand()
         {
-            List<Message> messages = new List<Message>();
+            var messages = new List<Message>();
 
             Message message;
             while (receivedInBand.TryDequeue(out message))
@@ -242,7 +227,7 @@ namespace Dota2.Engine.Session
 
         public List<byte[]> GetOutOfBand()
         {
-            List<byte[]> messages = new List<byte[]>();
+            var messages = new List<byte[]>();
 
             byte[] message;
             while (receivedOutOfBand.TryDequeue(out message))
@@ -267,13 +252,13 @@ namespace Dota2.Engine.Session
 
         private void Run()
         {
-            byte[] bytes = new byte[2048];
+            var bytes = new byte[2048];
 
             while (state != State.Closed)
             {
                 if (socket.Poll(1000, SelectMode.SelectRead))
                 {
-                    int got = socket.Receive(bytes);
+                    var got = socket.Receive(bytes);
                     ReceivePacket(bytes, got);
                 }
 
@@ -292,29 +277,29 @@ namespace Dota2.Engine.Session
 
             using (var stream = Bitstream.CreateWith(bytes, length))
             {
-                uint type = stream.ReadUInt32();
+                var type = stream.ReadUInt32();
 
                 if (type == COMPRESSED_PACKET)
                 {
-                    uint method = stream.ReadUInt32();
+                    var method = stream.ReadUInt32();
 
-                    byte[] compressed = new byte[length - 8];
+                    var compressed = new byte[length - 8];
                     stream.Read(compressed, 0, compressed.Length);
 
-                    byte[] decompressed = Lzss.Decompress(compressed);
+                    var decompressed = Lzss.Decompress(compressed);
                     ProcessPacket(decompressed, decompressed.Length);
                 }
                 else if (type == SPLIT_PACKET)
                 {
-                    uint request = stream.ReadUInt32();
-                    byte total = stream.ReadByte();
-                    byte index = stream.ReadByte();
-                    UInt16 size = stream.ReadUInt16();
+                    var request = stream.ReadUInt32();
+                    var total = stream.ReadByte();
+                    var index = stream.ReadByte();
+                    var size = stream.ReadUInt16();
 
                     SplitPacket split;
                     if (!splitPackets.ContainsKey(request))
                     {
-                        split = new SplitPacket()
+                        split = new SplitPacket
                         {
                             Request = request,
                             Total = total,
@@ -329,7 +314,7 @@ namespace Dota2.Engine.Session
                         split = splitPackets[request];
                     }
 
-                    byte[] buffer = new byte[Math.Min(size, (stream.Remain + 7) / 8)];
+                    var buffer = new byte[Math.Min(size, (stream.Remain + 7)/8)];
                     stream.Read(buffer, 0, buffer.Length);
                     split.Data[index] = buffer;
 
@@ -341,14 +326,14 @@ namespace Dota2.Engine.Session
 
                     if (split.Received == split.Total)
                     {
-                        byte[] full = split.Data.SelectMany(b => b).ToArray();
+                        var full = split.Data.SelectMany(b => b).ToArray();
                         ReceivePacket(full, full.Length);
                         splitPackets.Remove(request);
                     }
                 }
                 else if (type == OOB_PACKET)
                 {
-                    byte[] data = new byte[stream.Length - 4];
+                    var data = new byte[stream.Length - 4];
                     stream.Read(data, 0, data.Length);
 
                     receivedOutOfBand.Enqueue(data);
@@ -364,14 +349,14 @@ namespace Dota2.Engine.Session
         {
             using (var stream = Bitstream.CreateWith(bytes, length))
             {
-                uint seq = stream.ReadUInt32();
-                uint ack = stream.ReadUInt32();
+                var seq = stream.ReadUInt32();
+                var ack = stream.ReadUInt32();
 
-                byte flags = stream.ReadByte();
-                ushort checksum = stream.ReadUInt16();
+                var flags = stream.ReadByte();
+                var checksum = stream.ReadUInt16();
 
-                long at = stream.Position;
-                ushort computed = CrcUtils.Compute16(stream);
+                var at = stream.Position;
+                var computed = CrcUtils.Compute16(stream);
                 stream.Position = at;
 
                 if (checksum != computed)
@@ -379,7 +364,7 @@ namespace Dota2.Engine.Session
                     return;
                 }
 
-                byte reliableState = stream.ReadByte();
+                var reliableState = stream.ReadByte();
 
                 if (seq < sequenceIn)
                 {
@@ -389,8 +374,8 @@ namespace Dota2.Engine.Session
 
                 for (byte i = 0; i < subchannels.Length; ++i)
                 {
-                    Subchannel channel = subchannels[i];
-                    int mask = 1 << i;
+                    var channel = subchannels[i];
+                    var mask = 1 << i;
 
                     if ((reliableStateOut & mask) == (reliableState & mask))
                     {
@@ -409,12 +394,12 @@ namespace Dota2.Engine.Session
                     }
                 }
 
-                if ((flags & (uint)PacketFlags.IsReliable) != 0)
+                if ((flags & (uint) PacketFlags.IsReliable) != 0)
                 {
-                    uint bit = stream.ReadBits(3);
+                    var bit = stream.ReadBits(3);
                     reliableStateIn = Flip(reliableStateIn, bit);
 
-                    for (int i = 0; i < streams.Length; ++i)
+                    for (var i = 0; i < streams.Length; ++i)
                     {
                         var message = streams[i].Receive(stream);
 
@@ -432,8 +417,8 @@ namespace Dota2.Engine.Session
 
                 if (!stream.Eof)
                 {
-                    byte remain = (byte)stream.Remain;
-                    int expect = (1 << remain) - 1;
+                    var remain = (byte) stream.Remain;
+                    var expect = (1 << remain) - 1;
                 }
 
                 lastAckRecv = ack;
@@ -462,24 +447,24 @@ namespace Dota2.Engine.Session
 
                 if (!stream.Eof)
                 {
-                    byte remain = (byte)stream.Remain;
-                    int expect = (1 << remain) - 1;
+                    var remain = (byte) stream.Remain;
+                    var expect = (1 << remain) - 1;
                 }
             }
         }
 
         private void HandleMessage(Bitstream stream)
         {
-            uint type = stream.ReadVarUInt();
-            uint length = stream.ReadVarUInt();
+            var type = stream.ReadVarUInt();
+            var length = stream.ReadVarUInt();
 
-            byte[] bytes = new byte[length];
-            stream.Read(bytes, 0, (int)length);
+            var bytes = new byte[length];
+            stream.Read(bytes, 0, (int) length);
 
             receivedInBand.Enqueue(new Message
             {
                 Type = type,
-                Data = bytes,
+                Data = bytes
             });
         }
 
@@ -488,9 +473,9 @@ namespace Dota2.Engine.Session
             var packet = MakePacket();
 
             packet.Stream.WriteByte(0);
-            Serializer.SerializeWithLengthPrefix<CNETMsg_NOP>(packet.Stream, new CNETMsg_NOP(), PrefixStyle.Base128);
+            Serializer.SerializeWithLengthPrefix(packet.Stream, new CNETMsg_NOP(), PrefixStyle.Base128);
             packet.Stream.WriteByte(0);
-            Serializer.SerializeWithLengthPrefix<CNETMsg_NOP>(packet.Stream, new CNETMsg_NOP(), PrefixStyle.Base128);
+            Serializer.SerializeWithLengthPrefix(packet.Stream, new CNETMsg_NOP(), PrefixStyle.Base128);
 
             SendDatagram(packet);
         }
@@ -512,7 +497,7 @@ namespace Dota2.Engine.Session
                     stream.WriteUInt32(OOB_PACKET);
                     stream.Write(message);
 
-                    byte[] bytes = new byte[stream.Length];
+                    var bytes = new byte[stream.Length];
                     stream.Position = 0;
                     stream.Read(bytes, 0, bytes.Length);
                     socket.Send(bytes);
@@ -527,7 +512,7 @@ namespace Dota2.Engine.Session
             // see if there are any subchannels where we could send messages
             if (subchannels.Any(channel => !channel.Blocked))
             {
-                Subchannel queued = subchannels.FirstOrDefault(channel => channel.Queued);
+                var queued = subchannels.FirstOrDefault(channel => channel.Queued);
 
                 if (queued != null)
                 {
@@ -557,7 +542,7 @@ namespace Dota2.Engine.Session
 
             if (toSend != null)
             {
-                packet.Flags |= (int)PacketFlags.IsReliable;
+                packet.Flags |= (int) PacketFlags.IsReliable;
 
                 packet.Stream.WriteBits(toSend.Index, 3);
                 reliableStateOut = Flip(reliableStateOut, toSend.Index);
@@ -570,7 +555,7 @@ namespace Dota2.Engine.Session
 
             if (messagesUnreliable.Count > 0)
             {
-                long space = MAX_PACKET_SIZE - (packet.Stream.Position + 7) / 8;
+                var space = MAX_PACKET_SIZE - (packet.Stream.Position + 7)/8;
 
                 byte[] bytes;
                 lock (messageLock)
@@ -588,11 +573,11 @@ namespace Dota2.Engine.Session
         {
             lastAckSent = receivedTotal;
 
-            packet.Stream.Position = PACKET_RELIABLE_STATE_OFFSET * 8;
+            packet.Stream.Position = PACKET_RELIABLE_STATE_OFFSET*8;
             packet.Stream.WriteByte(reliableStateIn);
 
-            packet.Stream.Position = PACKET_RELIABLE_STATE_OFFSET * 8;
-            ushort crc = CrcUtils.Compute16(packet.Stream);
+            packet.Stream.Position = PACKET_RELIABLE_STATE_OFFSET*8;
+            var crc = CrcUtils.Compute16(packet.Stream);
 
             packet.Stream.Position = 0;
             packet.Stream.WriteUInt32(packet.Seq);
@@ -600,7 +585,7 @@ namespace Dota2.Engine.Session
             packet.Stream.WriteByte(packet.Flags);
             packet.Stream.WriteUInt16(crc);
 
-            byte[] bytes = new byte[packet.Stream.Length];
+            var bytes = new byte[packet.Stream.Length];
             packet.Stream.Position = 0;
             packet.Stream.Read(bytes, 0, bytes.Length);
 
@@ -609,10 +594,10 @@ namespace Dota2.Engine.Session
 
         private void SendRawDatagram(Bitstream stream)
         {
-            byte[] bytes = new byte[stream.Length];
+            var bytes = new byte[stream.Length];
 
             stream.Position = 0;
-            stream.Read(bytes, 0, (int)stream.Length);
+            stream.Read(bytes, 0, (int) stream.Length);
 
             socket.Send(bytes);
         }
@@ -623,67 +608,29 @@ namespace Dota2.Engine.Session
             {
                 Seq = ++sequenceOut,
                 Ack = sequenceIn,
-
-                Stream = Bitstream.Create(),
+                Stream = Bitstream.Create()
             };
 
             packet.Stream.SetLength(PACKET_HEADER_SIZE);
-            packet.Stream.Position = PACKET_HEADER_SIZE * 8;
+            packet.Stream.Position = PACKET_HEADER_SIZE*8;
 
             return packet;
         }
 
-        public struct Packet
-        {
-
-            public uint Seq { get; set; }
-            public uint Ack { get; set; }
-            public byte Flags { get; set; }
-
-            public Bitstream Stream { get; set; }
-        }
-
-        public struct Message
-        {
-
-            public uint Type { get; set; }
-            public byte[] Data { get; set; }
-        }
-
-        private class SplitPacket
-        {
-
-            public uint Request { get; set; }
-            public byte Received { get; set; }
-            public byte Total { get; set; }
-            public byte[][] Data { get; set; }
-            public bool[] Present { get; set; }
-        }
-
-        private enum State
-        {
-
-            Closed,
-            Opened,
-            Handshaking,
-            Connected,
-        }
-
         private static byte[] TakeMessages(Queue<byte[]> messages, long maxLength)
         {
-
             using (var stream = new MemoryStream())
             {
                 while (messages.Count > 0)
                 {
-                    byte[] peek = messages.Peek();
+                    var peek = messages.Peek();
 
                     if (stream.Position + peek.Length > maxLength)
                     {
                         break;
                     }
 
-                    byte[] head = messages.Dequeue();
+                    var head = messages.Dequeue();
 
                     stream.Write(head, 0, head.Length);
                 }
@@ -694,7 +641,43 @@ namespace Dota2.Engine.Session
 
         private static byte Flip(byte b, uint index)
         {
-            return (byte)(b ^ (1 << (int)index));
+            return (byte) (b ^ (1 << (int) index));
+        }
+
+        private enum PacketFlags
+        {
+            IsReliable = 1
+        }
+
+        public struct Packet
+        {
+            public uint Seq { get; set; }
+            public uint Ack { get; set; }
+            public byte Flags { get; set; }
+            public Bitstream Stream { get; set; }
+        }
+
+        public struct Message
+        {
+            public uint Type { get; set; }
+            public byte[] Data { get; set; }
+        }
+
+        private class SplitPacket
+        {
+            public uint Request { get; set; }
+            public byte Received { get; set; }
+            public byte Total { get; set; }
+            public byte[][] Data { get; set; }
+            public bool[] Present { get; set; }
+        }
+
+        private enum State
+        {
+            Closed,
+            Opened,
+            Handshaking,
+            Connected
         }
     }
 }

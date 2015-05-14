@@ -12,60 +12,58 @@ using Dota2.GC.Dota.Internal;
 namespace Dota2.Engine.Game
 {
     /// <summary>
-    /// Simulates the data stored in a DOTA 2 client.
+    ///     Simulates the data stored in a DOTA 2 client.
     /// </summary>
     internal class DotaGameState
     {
         /// <summary>
-        /// Connect details
+        ///     Connect details
         /// </summary>
-        private DOTAConnectDetails _details;
+        private readonly DOTAConnectDetails _details;
+
+        /// <summary>
+        ///     Instantiates a new game state.
+        /// </summary>
+        /// <param name="details"></param>
+        internal DotaGameState(DOTAConnectDetails details)
+        {
+            _details = details;
+
+            CVars = new Dictionary<string, string>();
+            Strings = new List<StringTable>();
+            StringsIndex = new Dictionary<string, int>();
+            Classes = new List<EntityClass>();
+            ClassesByName = new Dictionary<string, EntityClass>();
+            SendTables = new List<SendTable>();
+            FlatTables = new List<FlatTable>();
+            Properties = new Dictionary<PropertyHandle, Property>();
+            Slots = new Dictionary<uint, Slot>();
+
+            Created = new List<uint>();
+            Deleted = new List<uint>();
+
+            Reset();
+        }
 
         public int Baseline { get; set; }
         public uint ServerCount { get; set; }
         public float TickInterval { get; set; }
         public uint ClientTick { get; set; }
         public uint ServerTick { get; set; }
-        public Dictionary<string, string> CVars { get; private set; }
-        public List<StringTable> Strings { get; private set; }
-        public Dictionary<string, int> StringsIndex { get; private set; }
-
-        public List<EntityClass> Classes { get; private set; }
-        public Dictionary<string, EntityClass> ClassesByName { get; private set; }
-        public List<SendTable> SendTables { get; private set; }
-        public List<FlatTable> FlatTables { get; private set; }
-        public Dictionary<PropertyHandle, Property> Properties { get; private set; }
-        public Dictionary<uint, Slot> Slots { get; private set; }
-
-        public List<uint> Created { get; private set; }
-        public List<uint> Deleted { get; private set; }
+        public Dictionary<string, string> CVars { get; }
+        public List<StringTable> Strings { get; }
+        public Dictionary<string, int> StringsIndex { get; }
+        public List<EntityClass> Classes { get; }
+        public Dictionary<string, EntityClass> ClassesByName { get; }
+        public List<SendTable> SendTables { get; }
+        public List<FlatTable> FlatTables { get; }
+        public Dictionary<PropertyHandle, Property> Properties { get; }
+        public Dictionary<uint, Slot> Slots { get; }
+        public List<uint> Created { get; }
+        public List<uint> Deleted { get; }
 
         /// <summary>
-        /// Instantiates a new game state.
-        /// </summary>
-        /// <param name="details"></param>
-        internal DotaGameState(DOTAConnectDetails details)
-        {
-            this._details = details;
-            
-            this.CVars = new Dictionary<string, string>();
-            this.Strings = new List<StringTable>();
-            this.StringsIndex = new Dictionary<string, int>();
-            this.Classes = new List<EntityClass>();
-            this.ClassesByName = new Dictionary<string, EntityClass>();
-            this.SendTables = new List<SendTable>();
-            this.FlatTables = new List<FlatTable>();
-            this.Properties = new Dictionary<PropertyHandle, Property>();
-            this.Slots = new Dictionary<uint, Slot>();
-
-            this.Created = new List<uint>();
-            this.Deleted = new List<uint>();
-
-            Reset();
-        }
-
-        /// <summary>
-        /// Reset the local data.
+        ///     Reset the local data.
         /// </summary>
         public void Reset()
         {
@@ -115,12 +113,12 @@ namespace Dota2.Engine.Game
             Deleted.Clear();
         }
 
-
         public CMsg_CVars ExposeCVars()
         {
-            CMsg_CVars exposed = new CMsg_CVars();
+            var exposed = new CMsg_CVars();
 
-            exposed.cvars.AddRange(CVars.Select(kv => {
+            exposed.cvars.AddRange(CVars.Select(kv =>
+            {
                 var var = new CMsg_CVars.CVar();
                 var.name = kv.Key;
                 var.value = kv.Value;
@@ -143,33 +141,33 @@ namespace Dota2.Engine.Game
                     return false;
                 }
 
-                PropertyHandle handle = (PropertyHandle)o;
+                var handle = (PropertyHandle) o;
                 return Entity == handle.Entity &&
-                    Table.Equals(handle.Table) &&
-                    Name.Equals(handle.Name);
+                       Table.Equals(handle.Table) &&
+                       Name.Equals(handle.Name);
             }
 
             public override int GetHashCode()
             {
-                int result = (int)Entity;
-                result = 31 * result + Table.GetHashCode();
-                result = 31 * result + Name.GetHashCode();
+                var result = (int) Entity;
+                result = 31*result + Table.GetHashCode();
+                result = 31*result + Name.GetHashCode();
                 return result;
             }
         }
 
         internal class Slot
         {
+            public Slot(Entity entity)
+            {
+                Entity = entity;
+                Live = true;
+                Baselines = new Entity[2];
+            }
+
             public Entity Entity { get; set; }
             public bool Live { get; set; }
             public Entity[] Baselines { get; set; }
-
-            public Slot(Entity entity)
-            {
-                this.Entity = entity;
-                this.Live = true;
-                this.Baselines = new Entity[2];
-            }
         }
     }
 }
