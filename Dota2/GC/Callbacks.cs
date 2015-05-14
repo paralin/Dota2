@@ -115,6 +115,32 @@ namespace Dota2
         }
 
         /// <summary>
+        /// Auth list ack.
+        /// </summary>
+        public sealed class AuthListAck : CallbackMsg
+        {
+            public CMsgClientAuthListAck authAck;
+
+            internal AuthListAck(CMsgClientAuthListAck ack)
+            {
+                authAck = ack;
+            }
+        }
+
+        /// <summary>
+        /// Begin session response.
+        /// </summary>
+        public sealed class BeginSessionResponse : CallbackMsg
+        {
+            public MsgClientOGSBeginSessionResponse response;
+
+            internal BeginSessionResponse(MsgClientOGSBeginSessionResponse resp)
+            {
+                this.response = resp;
+            }
+        }
+
+        /// <summary>
         ///     Pro team list response
         /// </summary>
         public sealed class ProTeamListResponse : CallbackMsg

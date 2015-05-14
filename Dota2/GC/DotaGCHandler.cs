@@ -6,14 +6,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
+using System.Timers;
+using Dota2.Base.Data;
 using Dota2.GC.Dota.Internal;
 using Dota2.GC.Internal;
 using ProtoBuf;
 using SteamKit2;
 using SteamKit2.GC;
 using SteamKit2.Internal;
-using Timer = System.Timers.Timer;
 
 namespace Dota2
 {
@@ -25,9 +25,27 @@ namespace Dota2
         private List<CMsgSerializedSOCache> cache = new List<CMsgSerializedSOCache>();
         private Timer gcConnectTimer;
         private bool running = false;
+        internal SteamClient SteamClient;
+        private bool ready = false;
+        private Games gameId = Games.DOTA2;
 
-        internal DotaGCHandler()
+        /// <summary>
+        /// The Game ID the handler will use.
+        /// </summary>
+        public Games GameID => gameId;
+
+        /// <summary>
+        /// Is the GC ready?
+        /// </summary>
+        public bool Ready
         {
+            get { return ready; }
+        }
+
+        internal DotaGCHandler(SteamClient client, Games appId)
+        {
+            gameId = appId;
+            SteamClient = client;
             gcConnectTimer = new Timer(5000);
             gcConnectTimer.Elapsed += (sender, args) =>
             {
@@ -44,9 +62,10 @@ namespace Dota2
         /// Setup the DOTA 2 GC handler on an existing client.
         /// </summary>
         /// <param name="client"></param>
-        public static void Bootstrap(SteamClient client)
+        /// <param name="appId">Optional, specify the GC to communicate with.</param>
+        public static void Bootstrap(SteamClient client, Games appId = Games.DOTA2)
         {
-            client.AddHandler(new DotaGCHandler());
+            client.AddHandler(new DotaGCHandler(client, appId));
         }
 
         /// <summary>
@@ -71,16 +90,15 @@ namespace Dota2
         public CMsgClientUDSInviteToGame Invitation { get; private set; }
 
         /// <summary>
-        ///     Sends a game coordinator message for a specific appid.
+        ///     Sends a game coordinator message.
         /// </summary>
         /// <param name="msg">The GC message to send.</param>
-        /// <param name="appId">The app id of the game coordinator to send to.</param>
-        public void Send(IClientGCMsg msg, uint appId)
+        public void Send(IClientGCMsg msg)
         {
             var clientMsg = new ClientMsgProtobuf<CMsgGCClient>(EMsg.ClientToGC);
 
             clientMsg.Body.msgtype = MsgUtil.MakeGCMsg(msg.MsgType, msg.IsProto);
-            clientMsg.Body.appid = appId;
+            clientMsg.Body.appid = (uint)GameID;
 
             clientMsg.Body.payload = msg.Serialize();
 
@@ -106,7 +124,7 @@ namespace Dota2
 
             playGame.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed
             {
-                game_id = new GameID(570),
+                game_id = (ulong)GameID
             });
 
             Client.Send(playGame);
@@ -123,7 +141,7 @@ namespace Dota2
         {
             if (!running) return;
             var clientHello = new ClientGCMsgProtobuf<CMsgClientHello>((uint)EGCBaseClientMsg.k_EMsgGCClientHello);
-            Send(clientHello, 570);
+            Send(clientHello);
         }
 
         /// <summary>
@@ -145,7 +163,7 @@ namespace Dota2
         public void AbandonGame()
         {
             var abandon = new ClientGCMsgProtobuf<CMsgAbandonCurrentGame>((uint) EDOTAGCMsg.k_EMsgGCAbandonCurrentGame);
-            Send(abandon, 570);
+            Send(abandon);
         }
 
         /// <summary>
@@ -154,7 +172,7 @@ namespace Dota2
         public void StopQueue()
         {
             var queue = new ClientGCMsgProtobuf<CMsgStopFindingMatch>((uint) EDOTAGCMsg.k_EMsgGCStopFindingMatch);
-            Send(queue, 570);
+            Send(queue);
         }
 
         /// <summary>
@@ -171,7 +189,7 @@ namespace Dota2
             invite.Body.team_id = 0;
             invite.Body.game_language_enum = 1;
             invite.Body.game_language_name = "english";
-            Send(invite, 570);
+            Send(invite);
         }
 
         /// <summary>
@@ -184,7 +202,7 @@ namespace Dota2
             var joinLobby = new ClientGCMsgProtobuf<CMsgPracticeLobbyJoin>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyJoin);
             joinLobby.Body.lobby_id = lobbyId;
             joinLobby.Body.pass_key = pass_key;
-            Send(joinLobby, 570);
+            Send(joinLobby);
         }
 
         /// <summary>
@@ -195,7 +213,7 @@ namespace Dota2
             var leaveLobby =
                 new ClientGCMsgProtobuf<CMsgPracticeLobbyLeave>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyLeave);
             Lobby = null;
-            Send(leaveLobby, 570);
+            Send(leaveLobby);
         }
 
         /// <summary>
@@ -205,7 +223,7 @@ namespace Dota2
         {
             var leaveParty = new ClientGCMsgProtobuf<CMsgLeaveParty>((uint) EGCBaseMsg.k_EMsgGCLeaveParty);
             Party = null;
-            Send(leaveParty, 570);
+            Send(leaveParty);
         }
 
         /// <summary>
@@ -214,7 +232,7 @@ namespace Dota2
         public void Pong()
         {
             var pingResponse = new ClientGCMsgProtobuf<CMsgGCClientPing>((uint) EGCBaseClientMsg.k_EMsgGCPingResponse);
-            Send(pingResponse, 570);
+            Send(pingResponse);
         }
 
         /// <summary>
@@ -227,7 +245,7 @@ namespace Dota2
                 new ClientGCMsgProtobuf<CMsgPracticeLobbyJoinBroadcastChannel>(
                     (uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyJoinBroadcastChannel);
             joinChannel.Body.channel = channel;
-            Send(joinChannel, 570);
+            Send(joinChannel);
         }
 
         /// <summary>
@@ -241,7 +259,7 @@ namespace Dota2
                 {
                     Body = {team = team}
                 };
-            Send(joinChannel, 570);
+            Send(joinChannel);
         }
 
         /// <summary>
@@ -258,7 +276,7 @@ namespace Dota2
                 id = id,
                 type = type
             };
-            Send(refresh, 570);
+            Send(refresh);
         }
 
         /// <summary>
@@ -269,7 +287,7 @@ namespace Dota2
         {
             var req = new ClientGCMsgProtobuf<CMsgGCPlayerInfoRequest>((uint) EDOTAGCMsg.k_EMsgGCPlayerInfoRequest);
             req.Body.account_ids.AddRange(ids);
-            Send(req, 570);
+            Send(req);
         }
 
         /// <summary>
@@ -278,7 +296,7 @@ namespace Dota2
         public void RequestProTeamList()
         {
             var req = new ClientGCMsgProtobuf<CMsgDOTAProTeamListRequest>((uint) EDOTAGCMsg.k_EMsgGCProTeamListRequest);
-            Send(req, 570);
+            Send(req);
         }
 
         /// <summary>
@@ -292,7 +310,7 @@ namespace Dota2
                 new ClientGCMsgProtobuf<CMsgPracticeLobbySetTeamSlot>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbySetTeamSlot);
             joinSlot.Body.team = team;
             joinSlot.Body.slot = slot;
-            Send(joinSlot, 570);
+            Send(joinSlot);
         }
 
         /// <summary>
@@ -302,7 +320,7 @@ namespace Dota2
         {
             var start =
                 new ClientGCMsgProtobuf<CMsgPracticeLobbyLaunch>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyLaunch);
-            Send(start, 570);
+            Send(start);
         }
 
         /// <summary>
@@ -323,7 +341,7 @@ namespace Dota2
             create.Body.tournament_id = tournament;
             create.Body.lobby_details = details;
             create.Body.lobby_details.pass_key = pass_key;
-            Send(create, 570);
+            Send(create);
         }
 
         /// <summary>
@@ -334,7 +352,7 @@ namespace Dota2
         {
             var invite = new ClientGCMsgProtobuf<CMsgInviteToParty>((uint) EGCBaseMsg.k_EMsgGCInviteToParty);
             invite.Body.steam_id = steam_id;
-            Send(invite, 570);
+            Send(invite);
         }
 
         /// <summary>
@@ -359,7 +377,7 @@ namespace Dota2
             var apply =
                 new ClientGCMsgProtobuf<CMsgApplyTeamToPracticeLobby>((uint) EDOTAGCMsg.k_EMsgGCApplyTeamToPracticeLobby);
             apply.Body.team_id = teamid;
-            Send(apply, 570);
+            Send(apply);
         }
 
         /// <summary>
@@ -371,7 +389,7 @@ namespace Dota2
             var slot =
                 new ClientGCMsgProtobuf<CMsgDOTAPartyMemberSetCoach>((uint) EDOTAGCMsg.k_EMsgGCPartyMemberSetCoach);
             slot.Body.wants_coach = coach;
-            Send(slot, 570);
+            Send(slot);
         }
 
         /// <summary>
@@ -382,7 +400,7 @@ namespace Dota2
         {
             var kick = new ClientGCMsgProtobuf<CMsgKickFromParty>((uint) EGCBaseMsg.k_EMsgGCKickFromParty);
             kick.Body.steam_id = steam_id;
-            Send(kick, 570);
+            Send(kick);
         }
 
         /// <summary>
@@ -393,7 +411,7 @@ namespace Dota2
         {
             var kick = new ClientGCMsgProtobuf<CMsgPracticeLobbyKick>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyKick);
             kick.Body.account_id = account_id;
-            Send(kick, 570);
+            Send(kick);
         }
 
         /// <summary>
@@ -406,7 +424,7 @@ namespace Dota2
             var joinChannel = new ClientGCMsgProtobuf<CMsgDOTAJoinChatChannel>((uint) EDOTAGCMsg.k_EMsgGCJoinChatChannel);
             joinChannel.Body.channel_name = name;
             joinChannel.Body.channel_type = type;
-            Send(joinChannel, 570);
+            Send(joinChannel);
         }
 
         /// <summary>
@@ -419,7 +437,7 @@ namespace Dota2
                 new ClientGCMsgProtobuf<CMsgGCMatchDetailsRequest>((uint) EDOTAGCMsg.k_EMsgGCMatchDetailsRequest);
             requestMatch.Body.match_id = matchId;
 
-            Send(requestMatch, 570);
+            Send(requestMatch);
         }
 
         /// <summary>
@@ -432,7 +450,7 @@ namespace Dota2
             var chatMsg = new ClientGCMsgProtobuf<CMsgDOTAChatMessage>((uint) EDOTAGCMsg.k_EMsgGCChatMessage);
             chatMsg.Body.channel_id = channelid;
             chatMsg.Body.text = message;
-            Send(chatMsg, 570);
+            Send(chatMsg);
         }
 
         /// <summary>
@@ -444,7 +462,7 @@ namespace Dota2
             var leaveChannel =
                 new ClientGCMsgProtobuf<CMsgDOTALeaveChatChannel>((uint) EDOTAGCMsg.k_EMsgGCLeaveChatChannel);
             leaveChannel.Body.channel_id = channelid;
-            Send(leaveChannel, 570);
+            Send(leaveChannel);
         }
 
         /// <summary>
@@ -457,7 +475,7 @@ namespace Dota2
             var list = new ClientGCMsgProtobuf<CMsgPracticeLobbyList>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyList);
             list.Body.pass_key = pass_key;
             list.Body.tournament_games = tournament;
-            Send(list, 570);
+            Send(list);
         }
 
         private static IPacketGCMsg GetPacketGCMsg(uint eMsg, byte[] data)
@@ -481,7 +499,7 @@ namespace Dota2
             if (packetMsg.MsgType == EMsg.ClientFromGC)
             {
                 var msg = new ClientMsgProtobuf<CMsgGCClient>(packetMsg);
-                if (msg.Body.appid == 570)
+                if (msg.Body.appid == (uint)GameID)
                 {
                     IPacketGCMsg gcmsg = GetPacketGCMsg(msg.Body.msgtype, msg.Body.payload);
                     var messageMap = new Dictionary<uint, Action<IPacketGCMsg>>
@@ -524,6 +542,10 @@ namespace Dota2
                     var msg = new ClientMsgProtobuf<CMsgClientUDSInviteToGame>(packetMsg);
                     Invitation = msg.Body;
                     Client.PostCallback(new SteamPartyInvite(Invitation));
+                }else if (packetMsg.MsgType == EMsg.ClientAuthListAck)
+                {
+                    var msg = new ClientMsgProtobuf<CMsgClientAuthListAck>(packetMsg);
+                    Client.PostCallback(new AuthListAck(msg.Body));
                 }
             }
         }
@@ -694,6 +716,8 @@ namespace Dota2
             Client.PostCallback(new ConnectionStatus(resp.Body));
 
             if(resp.Body.status != GCConnectionStatus.GCConnectionStatus_HAVE_SESSION) gcConnectTimer.Start();
+
+            ready = resp.Body.status == GCConnectionStatus.GCConnectionStatus_HAVE_SESSION;
         }
 
         private void HandleProTeamList(IPacketGCMsg msg)
@@ -763,8 +787,10 @@ namespace Dota2
         private void HandleWelcome(IPacketGCMsg msg)
         {
             gcConnectTimer.Stop();
+
+            ready = true;
             
-            // Clear these. They will be updated in the Subscriptions if they exist still.
+            // Clear these. They will be updated in the subscriptions if they exist still.
             Lobby = null;
             Party = null;
             PartyInvite = null;
