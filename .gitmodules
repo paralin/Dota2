@@ -1,0 +1,3 @@
+[submodule "Samples/LobbyDump"]
+	path = Samples/LobbyDump
+	url = https://github.com/paralin/dota2lobbydump
