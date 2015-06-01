@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Dota2.GC.Dota.Internal;
+﻿using Dota2.GC.Dota.Internal;
 
 namespace Dota2.Base.Data
 {

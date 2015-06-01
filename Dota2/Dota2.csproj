@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Data\Games.cs" />
     <Compile Include="Base\Data\LobbyExtraData.cs" />
     <Compile Include="Base\Generated\Datagram\SteamMsgDatagram.cs" />
     <Compile Include="Base\Generated\GC\Dota\MsgGCClient.cs" />
