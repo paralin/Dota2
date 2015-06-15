@@ -11,32 +11,6 @@
 // Generated from: steamdatagram_messages.proto
 namespace Dota2.Datagram.Internal
 {
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramRouterPingRequest")]
-  public partial class CMsgSteamDatagramRouterPingRequest : global::ProtoBuf.IExtensible
-  {
-    public CMsgSteamDatagramRouterPingRequest() {}
-    
-
-    private uint _client_timestamp = default(uint);
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"client_timestamp", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint client_timestamp
-    {
-      get { return _client_timestamp; }
-      set { _client_timestamp = value; }
-    }
-    private readonly global::System.Collections.Generic.List<uint> _request_latency_service_ids = new global::System.Collections.Generic.List<uint>();
-    [global::ProtoBuf.ProtoMember(2, Name=@"request_latency_service_ids", DataFormat = global::ProtoBuf.DataFormat.TwosComplement, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
-    public global::System.Collections.Generic.List<uint> request_latency_service_ids
-    {
-      get { return _request_latency_service_ids; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramRouterPingReply")]
   public partial class CMsgSteamDatagramRouterPingReply : global::ProtoBuf.IExtensible
   {
@@ -313,15 +287,6 @@ namespace Dota2.Datagram.Internal
       set { _client_cookie = value; }
     }
 
-    private uint _legacy_client_cookie = default(uint);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"legacy_client_cookie", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint legacy_client_cookie
-    {
-      get { return _legacy_client_cookie; }
-      set { _legacy_client_cookie = value; }
-    }
-
     private ulong _gameserver_steam_id = default(ulong);
     [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"gameserver_steam_id", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
     [global::System.ComponentModel.DefaultValue(default(ulong))]
@@ -357,24 +322,6 @@ namespace Dota2.Datagram.Internal
     {
       get { return _client_cookie; }
       set { _client_cookie = value; }
-    }
-
-    private uint _legacy_client_cookie_1 = default(uint);
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"legacy_client_cookie_1", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint legacy_client_cookie_1
-    {
-      get { return _legacy_client_cookie_1; }
-      set { _legacy_client_cookie_1 = value; }
-    }
-
-    private uint _legacy_client_cookie_2 = default(uint);
-    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"legacy_client_cookie_2", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint legacy_client_cookie_2
-    {
-      get { return _legacy_client_cookie_2; }
-      set { _legacy_client_cookie_2 = value; }
     }
 
     private uint _your_public_ip = default(uint);
@@ -927,6 +874,88 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramClientPingSampleRequest")]
+  public partial class CMsgSteamDatagramClientPingSampleRequest : global::ProtoBuf.IExtensible
+  {
+    public CMsgSteamDatagramClientPingSampleRequest() {}
+    
+
+    private uint _client_cookie = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"client_cookie", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint client_cookie
+    {
+      get { return _client_cookie; }
+      set { _client_cookie = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramClientPingSampleReply")]
+  public partial class CMsgSteamDatagramClientPingSampleReply : global::ProtoBuf.IExtensible
+  {
+    public CMsgSteamDatagramClientPingSampleReply() {}
+    
+
+    private uint _client_cookie = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"client_cookie", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint client_cookie
+    {
+      get { return _client_cookie; }
+      set { _client_cookie = value; }
+    }
+    private readonly global::System.Collections.Generic.List<CMsgSteamDatagramClientPingSampleReply.RoutingCluster> _routing_clusters = new global::System.Collections.Generic.List<CMsgSteamDatagramClientPingSampleReply.RoutingCluster>();
+    [global::ProtoBuf.ProtoMember(2, Name=@"routing_clusters", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<CMsgSteamDatagramClientPingSampleReply.RoutingCluster> routing_clusters
+    {
+      get { return _routing_clusters; }
+    }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoutingCluster")]
+  public partial class RoutingCluster : global::ProtoBuf.IExtensible
+  {
+    public RoutingCluster() {}
+    
+
+    private uint _id = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"id", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint id
+    {
+      get { return _id; }
+      set { _id = value; }
+    }
+
+    private uint _front_ping_ms = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"front_ping_ms", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint front_ping_ms
+    {
+      get { return _front_ping_ms; }
+      set { _front_ping_ms = value; }
+    }
+
+    private uint _e2e_ping_ms = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"e2e_ping_ms", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint e2e_ping_ms
+    {
+      get { return _e2e_ping_ms; }
+      set { _e2e_ping_ms = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"ESteamDatagramMsgID", EnumPassthru=true)]
     public enum ESteamDatagramMsgID
     {
@@ -968,7 +997,13 @@ namespace Dota2.Datagram.Internal
       k_ESteamDatagramMsg_DataRouterToClient = 12,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_ESteamDatagramMsg_Stats", Value=13)]
-      k_ESteamDatagramMsg_Stats = 13
+      k_ESteamDatagramMsg_Stats = 13,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_ESteamDatagramMsg_ClientPingSampleRequest", Value=14)]
+      k_ESteamDatagramMsg_ClientPingSampleRequest = 14,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_ESteamDatagramMsg_ClientPingSampleReply", Value=15)]
+      k_ESteamDatagramMsg_ClientPingSampleReply = 15
     }
   
 }
