@@ -597,15 +597,15 @@ namespace Dota2
 
         private void HandleSubscribedType(CMsgSOCacheSubscribed.SubscribedType cache)
         {
-            if (cache.type_id == 2004)
+            if (cache.type_id == (int)CSOTypes.LOBBY)
             {
                 HandleLobbySnapshot(cache.object_data[0]);
             }
-            else if (cache.type_id == 2003)
+            else if (cache.type_id == (int)CSOTypes.PARTY)
             {
                 HandlePartySnapshot(cache.object_data[0]);
             }
-            else if (cache.type_id == 2006)
+            else if (cache.type_id == (int)CSOTypes.PARTYINVITE)
             {
                 HandlePartyInviteSnapshot(cache.object_data[0]);
             }
@@ -614,7 +614,7 @@ namespace Dota2
         public void HandleCacheDestroy(IPacketGCMsg obj)
         {
             var dest = new ClientGCMsgProtobuf<CMsgSOSingleObject>(obj);
-            if (PartyInvite != null && dest.Body.type_id == 2006)
+            if (PartyInvite != null && dest.Body.type_id == (int)CSOTypes.PARTY)
             {
                 PartyInvite = null;
                 Client.PostCallback(new PartyInviteLeave(null));
@@ -774,17 +774,17 @@ namespace Dota2
             bool handled = true;
             foreach (CMsgSOMultipleObjects.SingleObject mObj in resp.Body.objects_modified)
             {
-                if (mObj.type_id == 2004)
+                if (mObj.type_id == (int)CSOTypes.LOBBY)
                 {
                     HandleLobbySnapshot(mObj.object_data, true);
                 }
-                else if (mObj.type_id == 2003)
+                else if (mObj.type_id == (int)CSOTypes.PARTY)
                 {
                     HandlePartySnapshot(mObj.object_data, true);
                 }
-                else if (mObj.type_id == 2006)
+                else if (mObj.type_id == (int)CSOTypes.PARTYINVITE)
                 {
-                    //HandlePartyInviteSnapshot(mObj.object_data, true);
+                    HandlePartyInviteSnapshot(mObj.object_data, true);
                 }
                 else
                 {
