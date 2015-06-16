@@ -11,9 +11,14 @@
         public string ConnectInfo { get; set; }
 
         /// <summary>
-        ///     Auth ticket used to connect.
+        ///     Auth ticket used for steam.
         /// </summary>
         public byte[] AuthTicket { get; set; }
+
+        /// <summary>
+        ///     Auth ticeket used for the server
+        /// </summary>
+        public byte[] ServerAuthTicket { get; set; }
 
         /// <summary>
         ///     Auth ticket hash.

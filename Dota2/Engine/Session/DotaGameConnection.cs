@@ -156,6 +156,7 @@ namespace Dota2.Engine.Session
 
         public void Open()
         {
+            if (state != State.Opened) return;
             state = State.Handshaking;
             new Thread(Run).Start();
         }

@@ -572,10 +572,16 @@ namespace Dota2
                     var msg = new ClientMsgProtobuf<CMsgClientUDSInviteToGame>(packetMsg);
                     Invitation = msg.Body;
                     Client.PostCallback(new SteamPartyInvite(Invitation));
-                }else if (packetMsg.MsgType == EMsg.ClientAuthListAck)
+                }
+                else if (packetMsg.MsgType == EMsg.ClientAuthListAck)
                 {
                     var msg = new ClientMsgProtobuf<CMsgClientAuthListAck>(packetMsg);
                     Client.PostCallback(new AuthListAck(msg.Body));
+                }
+                else if (packetMsg.MsgType == EMsg.ClientOGSBeginSessionResponse)
+                {
+                    var msg = new ClientMsg<MsgClientOGSBeginSessionResponse>(packetMsg);
+                    Client.PostCallback(new BeginSessionResponse(msg.Body));
                 }
             }
         }
@@ -712,6 +718,7 @@ namespace Dota2
         private void HandlePingRequest(IPacketGCMsg obj)
         {
             var req = new ClientGCMsgProtobuf<CMsgGCClientPing>(obj);
+            Pong();
             Client.PostCallback(new PingRequest(req.Body));
         }
 

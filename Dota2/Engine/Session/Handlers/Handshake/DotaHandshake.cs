@@ -8,7 +8,6 @@ using System.Text;
 using Dota2.Engine.Data;
 using Dota2.Engine.Game;
 using Dota2.Engine.Session.State.Enums;
-using Dota2.Engine.Session.State.Interfaces;
 using Dota2.GC.Dota.Internal;
 using Dota2.Utils;
 using ProtoBuf;
@@ -18,7 +17,7 @@ namespace Dota2.Engine.Session.Handlers.Handshake
     /// <summary>
     ///     A handler that completes the handshake with the game server.
     /// </summary>
-    internal class DotaHandshake : MessageHandler
+    internal class DotaHandshake : IHandler
     {
         private const char C2S_REQUEST = 'q';
         private const char S2C_CHALLENGE = 'A';
@@ -55,16 +54,32 @@ namespace Dota2.Engine.Session.Handlers.Handshake
 
                 if (type == S2C_CHALLENGE)
                 {
+                    if (stream.ReadUInt32() != SOURCE_PROTOCOL)
+                        throw new ArgumentException("Not SOURCE_PROTOCOL!");
                     server_challenge = stream.ReadUInt32();
+                    if(stream.ReadUInt32() != client_challenge)
+                        throw new ArgumentException("Client challenge does not match!");
+                    if(stream.ReadUInt32() != STEAM_VERSION)
+                        throw new ArgumentException("STEAM_VERSION mismatch!");
                     server_id = stream.ReadUInt64();
+                    var myst = stream.ReadByte(); // mystery byte
+                    Console.WriteLine(string.Format("S2C_CHALLENGE with challenge {0} mystery byte {1}", server_challenge, myst));
                     return Events.HANDSHAKE_CHALLENGE;
                 }
                 if (type == S2C_ACCEPT)
                 {
+                    if(stream.ReadUInt32() != client_challenge)
+                        throw new ArgumentException("Client challenge does not match!");
+                    Console.WriteLine("S2C_ACCEPT received");
                     return Events.HANDSHAKE_COMPLETE;
                 }
                 if (type == S2C_REJECT)
                 {
+                    if(stream.ReadUInt32() != client_challenge)
+                        throw new ArgumentException("Client challenge does not match!");
+
+                    var rejectedReason = stream.ReadString();
+                    Console.WriteLine("S2C_REJECT received, reason "+rejectedReason);
                     return Events.REJECTED;
                 }
                 throw new ArgumentException("Unknown response type " + type);
@@ -94,6 +109,8 @@ namespace Dota2.Engine.Session.Handlers.Handshake
 
                 connection.EnqueueOutOfBand(stream.ToBytes());
             }
+
+            Console.WriteLine("Sent handshake request with challenge "+client_challenge);
         }
 
         public void RespondHandshake()
@@ -109,7 +126,7 @@ namespace Dota2.Engine.Session.Handlers.Handshake
                 stream.Write(Encoding.UTF8.GetBytes(state.CVars["name"]));
                 stream.WriteByte(0);
 
-                stream.Write(Encoding.UTF8.GetBytes(details.PassKey));
+                stream.Write(Encoding.UTF8.GetBytes(details.PassKey.ToString()));
                 stream.WriteByte(0);
 
                 // num players to join, obviously one in this case
@@ -123,8 +140,8 @@ namespace Dota2.Engine.Session.Handlers.Handshake
                 Serializer.SerializeWithLengthPrefix(stream, split, PrefixStyle.Base128);
 
                 // auth ticket
-                var bytes = new byte[details.AuthTicket.Length];
-                details.AuthTicket.CopyTo(bytes, 0);
+                var bytes = new byte[details.ServerAuthTicket.Length];
+                details.ServerAuthTicket.CopyTo(bytes, 0);
 
                 var carry = false;
                 for (var i = 0; i < bytes.Length; ++i)
@@ -137,6 +154,7 @@ namespace Dota2.Engine.Session.Handlers.Handshake
 
                 connection.EnqueueOutOfBand(stream.ToBytes());
             }
+            Console.WriteLine("Sent challenge response.");
         }
     }
 }

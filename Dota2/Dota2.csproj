@@ -94,11 +94,11 @@
     <Compile Include="Engine\Session\Actuators\UserCmdGenerator.cs" />
     <Compile Include="Engine\Session\DotaGameConnection.cs" />
     <Compile Include="Engine\Session\DotaGameSession.cs" />
+    <Compile Include="Engine\Session\Handlers\IHandler.cs" />
     <Compile Include="Engine\Session\State\Enums\Events.cs" />
     <Compile Include="Engine\Session\State\Enums\States.cs" />
     <Compile Include="Engine\Session\Handlers\Game\Game.cs" />
     <Compile Include="Engine\Session\Handlers\Handshake\DotaHandshake.cs" />
-    <Compile Include="Engine\Session\State\Interfaces\MessageHandler.cs" />
     <Compile Include="Engine\Session\Networking\Lzss.cs" />
     <Compile Include="Engine\Session\Networking\Stream.cs" />
     <Compile Include="Engine\Session\Networking\Subchannel.cs" />

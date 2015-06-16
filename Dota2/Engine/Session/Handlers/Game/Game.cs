@@ -1,6 +1,6 @@
 ﻿/*
     This file heavily based off of the nora project.
-    See https://github.com/dschleck/nora/blob/master/lara/GameProcessor.cs
+    See https://github.com/dschleck/nora/blob/master/lara/GameHandleor.cs
 */
 
 using System;
@@ -14,7 +14,10 @@ using ProtoBuf;
 
 namespace Dota2.Engine.Session.Handlers.Game
 {
-    internal class DotaGame
+    /// <summary>
+    /// Handles messages related to game state
+    /// </summary>
+    internal class DotaGame : IHandler
     {
         private readonly DotaGameConnection connection;
         private readonly EntityUpdater entityUpdater;
@@ -74,7 +77,7 @@ namespace Dota2.Engine.Session.Handlers.Game
             connection.SendUnreliably(clientMsgs.ToArray());
         }
 
-        public Events? Process(DotaGameConnection.Message message)
+        public Events? Handle(DotaGameConnection.Message message)
         {
             using (var stream = Bitstream.CreateWith(message.Data))
             {
@@ -84,47 +87,47 @@ namespace Dota2.Engine.Session.Handlers.Game
                 }
                 if (message.Type == (uint) NET_Messages.net_Disconnect)
                 {
-                    return Process(Serializer.Deserialize<CNETMsg_Disconnect>(stream));
+                    return Handle(Serializer.Deserialize<CNETMsg_Disconnect>(stream));
                 }
                 if (message.Type == (uint) NET_Messages.net_StringCmd)
                 {
-                    return Process(Serializer.Deserialize<CNETMsg_StringCmd>(stream));
+                    return Handle(Serializer.Deserialize<CNETMsg_StringCmd>(stream));
                 }
                 if (message.Type == (uint) NET_Messages.net_Tick)
                 {
-                    return Process(Serializer.Deserialize<CNETMsg_Tick>(stream));
+                    return Handle(Serializer.Deserialize<CNETMsg_Tick>(stream));
                 }
                 if (message.Type == (uint) SVC_Messages.svc_PacketEntities)
                 {
-                    return Process(Serializer.Deserialize<CSVCMsg_PacketEntities>(stream));
+                    return Handle(Serializer.Deserialize<CSVCMsg_PacketEntities>(stream));
                 }
                 if (message.Type == (uint) SVC_Messages.svc_UpdateStringTable)
                 {
-                    return Process(Serializer.Deserialize<CSVCMsg_UpdateStringTable>(stream));
+                    return Handle(Serializer.Deserialize<CSVCMsg_UpdateStringTable>(stream));
                 }
                 if (message.Type == (uint) SVC_Messages.svc_UserMessage)
                 {
-                    return Process(Serializer.Deserialize<CSVCMsg_UserMessage>(stream));
+                    return Handle(Serializer.Deserialize<CSVCMsg_UserMessage>(stream));
                 }
                 if (message.Type == (uint) SVC_Messages.svc_GameEvent)
                 {
-                    return Process(Serializer.Deserialize<CSVCMsg_GameEvent>(stream));
+                    return Handle(Serializer.Deserialize<CSVCMsg_GameEvent>(stream));
                 }
                 return null;
             }
         }
 
-        private Events? Process(CNETMsg_Disconnect message)
+        private Events? Handle(CNETMsg_Disconnect message)
         {
             return Events.DISCONNECTED;
         }
 
-        private Events? Process(CNETMsg_StringCmd message)
+        private Events? Handle(CNETMsg_StringCmd message)
         {
             return null;
         }
 
-        private Events? Process(CNETMsg_Tick message)
+        private Events? Handle(CNETMsg_Tick message)
         {
             if (message.tick > state.ClientTick)
             {
@@ -136,7 +139,7 @@ namespace Dota2.Engine.Session.Handlers.Game
             return null;
         }
 
-        private Events? Process(CSVCMsg_PacketEntities message)
+        private Events? Handle(CSVCMsg_PacketEntities message)
         {
             using (var stream = Bitstream.CreateWith(message.entity_data))
             {
@@ -164,7 +167,7 @@ namespace Dota2.Engine.Session.Handlers.Game
             return null;
         }
 
-        private Events? Process(CSVCMsg_UpdateStringTable message)
+        private Events? Handle(CSVCMsg_UpdateStringTable message)
         {
             var table = state.Strings[message.table_id];
 
@@ -172,41 +175,41 @@ namespace Dota2.Engine.Session.Handlers.Game
             return null;
         }
 
-        private Events? Process(CSVCMsg_UserMessage message)
+        private Events? Handle(CSVCMsg_UserMessage message)
         {
             if (message.msg_type == (int) EBaseUserMessages.UM_SayText2)
             {
                 using (var stream = Bitstream.CreateWith(message.msg_data))
                 {
-                    return Process(Serializer.Deserialize<CUserMsg_SayText2>(stream));
+                    return Handle(Serializer.Deserialize<CUserMsg_SayText2>(stream));
                 }
             }
             if (message.msg_type == (int) EDotaUserMessages.DOTA_UM_ChatEvent)
             {
                 using (var stream = Bitstream.CreateWith(message.msg_data))
                 {
-                    return Process(Serializer.Deserialize<CDOTAUserMsg_ChatEvent>(stream));
+                    return Handle(Serializer.Deserialize<CDOTAUserMsg_ChatEvent>(stream));
                 }
             }
             return null;
         }
 
-        private Events? Process(CUserMsg_SayText2 message)
+        private Events? Handle(CUserMsg_SayText2 message)
         {
             return null;
         }
 
-        private Events? Process(CDOTAUserMsg_ChatEvent message)
+        private Events? Handle(CDOTAUserMsg_ChatEvent message)
         {
             return null;
         }
 
-        private Events? Process(CSVCMsg_GameEvent message)
+        private Events? Handle(CSVCMsg_GameEvent message)
         {
             return null;
         }
 
-        public Events? Process(byte[] message)
+        public Events? Handle(byte[] message)
         {
             throw new NotImplementedException();
         }

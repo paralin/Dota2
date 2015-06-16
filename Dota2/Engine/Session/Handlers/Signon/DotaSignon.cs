@@ -8,7 +8,6 @@ using Dota2.Engine.Data;
 using Dota2.Engine.Game;
 using Dota2.Engine.Game.Data;
 using Dota2.Engine.Session.State.Enums;
-using Dota2.Engine.Session.State.Interfaces;
 using Dota2.Engine.Session.Unpackers;
 using Dota2.GC.Dota.Internal;
 using Dota2.Utils;
@@ -19,7 +18,7 @@ namespace Dota2.Engine.Session.Handlers.Signon
     /// <summary>
     ///     Handles the Signon messages from the server.
     /// </summary>
-    internal class DotaSignon : MessageHandler
+    internal class DotaSignon : IHandler
     {
         private readonly DotaGameConnection connection;
         private readonly DOTAConnectDetails details;

@@ -42,6 +42,16 @@ namespace Dota2.Engine
         private uint _connectAttempt;
 
         /// <summary>
+        /// Is there a pending connect request
+        /// </summary>
+        private bool _waitingForAuthTicket;
+
+        /// <summary>
+        /// Connect lobby
+        /// </summary>
+        private CSODOTALobby _connectLobby = null;
+
+        /// <summary>
         ///     Connect details.
         /// </summary>
         private DOTAConnectDetails _connectDetails;
@@ -66,15 +76,17 @@ namespace Dota2.Engine
         /// </summary>
         /// <param name="gc">existing GC handler</param>
         /// <param name="cb">callback manager</param>
-        public DotaGameClient(DotaGCHandler gc, CallbackManager cb)
+        /// <param name="publicIp">optionally help out by specifying the public ip address</param>
+        public DotaGameClient(DotaGCHandler gc, CallbackManager cb, IPAddress publicIp = null)
         {
             Callbacks = cb;
             _registeredCallbacks = new List<CallbackBase>();
             _gameConnectTokens = new Queue<byte[]>(11);
             DotaGc = gc;
             RegisterCallbacks();
-            if (DotaGc.Ready) FetchAppTicket();
-            if (DotaGc.SteamClient.IsConnected) CheckPublicIP();
+            if (DotaGc.SteamClient.IsConnected) FetchAppTicket();
+            if (publicIp != null) publicIP = publicIp;
+            else if (DotaGc.SteamClient.IsConnected) CheckPublicIP();
         }
 
         /// <summary>
@@ -85,7 +97,7 @@ namespace Dota2.Engine
         /// <summary>
         ///     Dispose of the game client.
         /// </summary>
-        void IDisposable.Dispose()
+        public void Dispose()
         {
             foreach (var cb in _registeredCallbacks)
                 Callbacks.Unregister(cb);
@@ -102,14 +114,18 @@ namespace Dota2.Engine
         /// </summary>
         private void RegisterCallbacks()
         {
-            var gc = DotaGc;
             var cbs = _registeredCallbacks;
             cbs.Add(
                 new Callback<SteamApps.AppOwnershipTicketCallback>(cb =>
                 {
                     if (cb.AppID != (uint) DotaGc.GameID || cb.Result != EResult.OK || cb.Ticket == null) return;
-                    Log("Received app ownership ticket with " + _appOwnershipTicket.Length + " length.");
                     _appOwnershipTicket = cb.Ticket;
+                    Log("Received app ownership ticket with " + _appOwnershipTicket.Length + " length.");
+                    if (_waitingForAuthTicket)
+                    {
+                        _waitingForAuthTicket = false;
+                        Connect(_connectLobby);
+                    }
                 }, Callbacks)
                 );
             cbs.Add(
@@ -158,6 +174,7 @@ namespace Dota2.Engine
 
                     if (_connectDetails == null)
                     {
+                        Log("Received a session create response with no connectDetails, disconnecting...");
                         Disconnect();
                         return;
                     }
@@ -187,6 +204,15 @@ namespace Dota2.Engine
                 return;
             }
 
+            _connectLobby = lobb;
+            if (_appOwnershipTicket == null)
+            {
+                Log("Waiting for ownership ticket...");
+                _waitingForAuthTicket = true;
+                FetchAppTicket();
+                return;
+            }
+
             _authTicket = AuthTicket.CreateAuthTicket(_gameConnectTokens.Dequeue(), publicIP);
 
             var ver = new CMsgAuthTicket
@@ -202,6 +228,7 @@ namespace Dota2.Engine
             _connectDetails = new DOTAConnectDetails
             {
                 AuthTicket = _authTicket,
+                ServerAuthTicket = AuthTicket.CreateServerTicket(DotaGc.SteamClient.SteamID, _authTicket, _appOwnershipTicket),
                 ConnectInfo = lobb.connect,
                 ConnectID = _connectAttempt++,
                 AuthTicketCRC = ver.ticket_crc,
@@ -261,11 +288,14 @@ namespace Dota2.Engine
         {
             Log(
                 "GameClient init while steam client already connected. Checking public IP ourselves. This is unreliable.");
-            var req = WebRequest.Create("http://bot.whatismyipaddress.com/");
-            var resp = req.GetResponse();
-            var sr = new StreamReader(resp.GetResponseStream());
-            publicIP = IPAddress.Parse(sr.ReadToEnd().Trim());
-            Log("Public IP address resolved to " + publicIP + ".");
+            using (WebClient req = new WebClient())
+            {
+                req.Headers["User-Agent"] =
+                    "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
+                var addrstr = req.DownloadString("http://bot.whatismyipaddress.com/").Replace("\n", "").Trim();
+                publicIP = IPAddress.Parse(addrstr);
+                Log("Public IP address resolved to " + publicIP + ".");
+            }
         }
 
         /// <summary>

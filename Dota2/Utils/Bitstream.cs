@@ -14,6 +14,7 @@ namespace Dota2.Utils
 {
     public class Bitstream : Stream
     {
+
         public static Bitstream Create()
         {
             return new Bitstream(new uint[32], 0);
@@ -26,6 +27,7 @@ namespace Dota2.Utils
 
         public static Bitstream CreateWith(byte[] bytes, int length)
         {
+            // Pad the back with some zeroes
             byte[] copied = new byte[length + 3];
             Array.Copy(bytes, copied, length);
 
