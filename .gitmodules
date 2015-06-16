@@ -1,9 +1,9 @@
 [submodule "Samples/LobbyDump"]
 	path = Samples/LobbyDump
-	url = https://github.com/paralin/dota2lobbydump.git
+	url = https://github.com/paralin/dota2lobbydump
 [submodule "Samples/GameConnect"]
 	path = Samples/GameConnect
-	url = https://github.com/paralin/DotaGameConnect.git
+	url = https://github.com/paralin/DotaGameConnect
 [submodule "Resources/Snappy"]
 	path = Resources/Snappy
-	url = https://github.com/jeffesp/Snappy.Sharp.git
+	url = https://github.com/jeffesp/Snappy.Sharp
