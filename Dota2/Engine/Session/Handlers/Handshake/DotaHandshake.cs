@@ -35,6 +35,8 @@ namespace Dota2.Engine.Session.Handlers.Handshake
         private uint server_challenge;
         private ulong server_id;
 
+        internal string rejected_reason;
+
         public DotaHandshake(
             DOTAConnectDetails details,
             DotaGameState state,
@@ -62,15 +64,13 @@ namespace Dota2.Engine.Session.Handlers.Handshake
                     if(stream.ReadUInt32() != STEAM_VERSION)
                         throw new ArgumentException("STEAM_VERSION mismatch!");
                     server_id = stream.ReadUInt64();
-                    var myst = stream.ReadByte(); // mystery byte
-                    Console.WriteLine(string.Format("S2C_CHALLENGE with challenge {0} mystery byte {1}", server_challenge, myst));
+                    stream.ReadByte(); // mystery byte
                     return Events.HANDSHAKE_CHALLENGE;
                 }
                 if (type == S2C_ACCEPT)
                 {
                     if(stream.ReadUInt32() != client_challenge)
                         throw new ArgumentException("Client challenge does not match!");
-                    Console.WriteLine("S2C_ACCEPT received");
                     return Events.HANDSHAKE_COMPLETE;
                 }
                 if (type == S2C_REJECT)
@@ -78,8 +78,7 @@ namespace Dota2.Engine.Session.Handlers.Handshake
                     if(stream.ReadUInt32() != client_challenge)
                         throw new ArgumentException("Client challenge does not match!");
 
-                    var rejectedReason = stream.ReadString();
-                    Console.WriteLine("S2C_REJECT received, reason "+rejectedReason);
+                    rejected_reason = stream.ReadString();
                     return Events.REJECTED;
                 }
                 throw new ArgumentException("Unknown response type " + type);
@@ -109,8 +108,6 @@ namespace Dota2.Engine.Session.Handlers.Handshake
 
                 connection.EnqueueOutOfBand(stream.ToBytes());
             }
-
-            Console.WriteLine("Sent handshake request with challenge "+client_challenge);
         }
 
         public void RespondHandshake()
@@ -154,7 +151,6 @@ namespace Dota2.Engine.Session.Handlers.Handshake
 
                 connection.EnqueueOutOfBand(stream.ToBytes());
             }
-            Console.WriteLine("Sent challenge response.");
         }
     }
 }

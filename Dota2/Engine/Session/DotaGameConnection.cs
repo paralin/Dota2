@@ -55,7 +55,8 @@ namespace Dota2.Engine.Session
         private byte reliableStateOut;
         private uint sequenceIn; // seen
         private uint sequenceOut; // sent
-        private State state;
+        internal State state;
+        private uint socketErrCount;
 
         private DotaGameConnection()
         {
@@ -91,12 +92,14 @@ namespace Dota2.Engine.Session
 
         public void Dispose()
         {
+            if (state == State.Closed) return;
             if (state == State.Connected)
             {
                 // TODO: Disconnect();
             }
 
             socket.Dispose();
+            state = State.Closed;
         }
 
         public static DotaGameConnection CreateWith(DOTAConnectDetails details)
@@ -257,17 +260,29 @@ namespace Dota2.Engine.Session
 
             while (state != State.Closed)
             {
-                if (socket.Poll(1000, SelectMode.SelectRead))
+                try
                 {
-                    var got = socket.Receive(bytes);
-                    ReceivePacket(bytes, got);
+                    if (socket.Poll(1000, SelectMode.SelectRead))
+                    {
+                        var got = socket.Receive(bytes);
+                        ReceivePacket(bytes, got);
+                    }
+
+                    SendQueued();
+
+                    if (ShouldSendAcks && lastAckSent + ACK_EVERY < receivedTotal)
+                    {
+                        SendAck();
+                    }
+                    socketErrCount = 0;
                 }
-
-                SendQueued();
-
-                if (ShouldSendAcks && lastAckSent + ACK_EVERY < receivedTotal)
+                catch (Exception ex)
                 {
-                    SendAck();
+                    socketErrCount++;
+                }
+                finally
+                {
+                    if(socketErrCount > 5) Dispose();
                 }
             }
         }
@@ -483,8 +498,16 @@ namespace Dota2.Engine.Session
 
         private void SendQueued()
         {
-            SendMessagesOutOfBand();
-            SendMessagesInBand();
+            try
+            {
+                SendMessagesOutOfBand();
+                SendMessagesInBand();
+            }
+            catch (Exception ex)
+            {
+                // Just give up
+                Dispose();
+            }
         }
 
         private void SendMessagesOutOfBand()
@@ -673,7 +696,7 @@ namespace Dota2.Engine.Session
             public bool[] Present { get; set; }
         }
 
-        private enum State
+        internal enum State
         {
             Closed,
             Opened,

@@ -14,7 +14,7 @@ namespace Dota2.Engine
     /// <summary>
     ///     A client capable of connecting to Source 1 servers.
     /// </summary>
-    public class DotaGameClient : IDisposable
+    public partial class DotaGameClient : IDisposable
     {
         /// <summary>
         ///     A queue of available game connect tokens.
@@ -105,11 +105,6 @@ namespace Dota2.Engine
         }
 
         /// <summary>
-        ///     Subscribe to get text debug logging.
-        /// </summary>
-        public event EventHandler<LogEventArgs> OnLog;
-
-        /// <summary>
         ///     Registers all internal handlers.
         /// </summary>
         private void RegisterCallbacks()
@@ -184,6 +179,8 @@ namespace Dota2.Engine
                     Log("Session start received with ID " + _connectDetails.SteamworksSessionId +
                         ", starting game session...");
                     Session = new DotaGameSession(_connectDetails);
+                    Session.Callback += (sender, args) => DotaGc.SteamClient.PostCallback(args.msg);
+                    Session.Closed += (s, a) => Disconnect();
                     Session.Start();
                 }, Callbacks)
                 );
@@ -277,8 +274,9 @@ namespace Dota2.Engine
         {
             if (_connectDetails == null) return;
             _connectDetails = null;
-            if (Session != null) Session.Stop();
+            Session?.Stop();
             Session = null;
+            _waitingForAuthTicket = false;
         }
 
         /// <summary>
@@ -304,7 +302,7 @@ namespace Dota2.Engine
         /// <param name="message"></param>
         internal void Log(string message)
         {
-            if (OnLog != null) OnLog(this, new LogEventArgs(message));
+            DotaGc?.SteamClient?.PostCallback(new LogMessage(message));
         }
 
         /// <summary>
@@ -319,23 +317,6 @@ namespace Dota2.Engine
                     Body = {app_id = (uint) DotaGc.GameID}
                 });
             Log("Requested app ownership ticket.");
-        }
-
-        /// <summary>
-        ///     Used for the OnLog event.
-        /// </summary>
-        public class LogEventArgs : EventArgs
-        {
-            /// <summary>
-            ///     Creates a new log event
-            /// </summary>
-            /// <param name="msg"></param>
-            internal LogEventArgs(string msg)
-            {
-                Message = msg;
-            }
-
-            public string Message { get; internal set; }
         }
     }
 }

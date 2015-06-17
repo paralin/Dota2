@@ -10,6 +10,7 @@ using Dota2.Engine.Session.Handlers.Handshake;
 using Dota2.Engine.Session.Handlers.Signon;
 using Dota2.Engine.Session.State.Enums;
 using Stateless;
+using SteamKit2;
 
 namespace Dota2.Engine.Session
 {
@@ -27,6 +28,16 @@ namespace Dota2.Engine.Session
         ///     Client thread
         /// </summary>
         private Thread _clientThread;
+
+        /// <summary>
+        /// Called when closed
+        /// </summary>
+        internal event EventHandler Closed;
+
+        /// <summary>
+        /// Called when the session needs to fire a callback
+        /// </summary>
+        internal event EventHandler<CallbackEventArgs> Callback;
 
         /// <summary>
         ///     Init a new game connect session.
@@ -65,9 +76,16 @@ namespace Dota2.Engine.Session
             Running = false;
             _clientThread = null;
             _gameState.Reset();
+            _connection?.Dispose();
             _connection = null;
+            _commandGenerator?.Reset();
+            _commandGenerator = null;
+            _game = null;
+            _handshake = null;
+            _signon = null;
             _stateMachine?.Fire(Events.DISCONNECTED);
             _stateMachine = null;
+            Closed?.Invoke(this, null);
         }
 
         /// <summary>
@@ -82,7 +100,10 @@ namespace Dota2.Engine.Session
             _signon = new DotaSignon(_gameState, _connection, _details);
             _game = new DotaGame(_gameState, _connection);
             _commandGenerator = new UserCmdGenerator(_gameState, _connection);
-            
+
+            long handshake_requested = 0;
+            long handshake_giveup = new TimeSpan(0, 0, 0, 10).Ticks;
+
             // Map states in the StateMachine to handlers
             var metastates = new Dictionary<States, Metastates>() {
                 { States.HANDSHAKE_REQUEST, Metastates.HANDSHAKE },
@@ -106,18 +127,36 @@ namespace Dota2.Engine.Session
             _stateMachine.OnTransitioned(transition =>
             {
                 if (transition.Source == transition.Destination) return;
-                
-                Console.WriteLine("Transitioned from "+transition.Source.ToString("G")+" to "+transition.Destination.ToString("G"));
+                Callback?.Invoke(this, new CallbackEventArgs(new DotaGameClient.SessionStateTransition(transition.Source, transition.Destination)));
             });
+
             _stateMachine.OnUnhandledTrigger((states, events) =>
             {
-                Console.WriteLine("Unhandled trigger: "+events.ToString("G"));
+                Console.WriteLine("Unhandled trigger: " + events.ToString("G"));
+
+            });
+
+            var disconnected = new Action(() =>
+            {
+                if (_connection == null) return;
+                Running = true;
+                Stop();
             });
 
             _stateMachine.Configure(States.DISCONNECTED)
                 .Ignore(Events.TICK)
+                .Ignore(Events.DISCONNECTED)
+                .OnEntry(disconnected)
                 .Permit(Events.REQUEST_CONNECT, States.HANDSHAKE_REQUEST);
+            _stateMachine.Configure(States.HANDSHAKE_REJECTED)
+                .Permit(Events.DISCONNECTED, States.DISCONNECTED)
+                .OnEntry(() =>
+                {
+                    Callback?.Invoke(this, new CallbackEventArgs(new DotaGameClient.HandshakeRejected(_handshake.rejected_reason)));
+                    _stateMachine.Fire(Events.DISCONNECTED);
+                });
             _stateMachine.Configure(States.HANDSHAKE_REQUEST)
+                .OnEntry(() => handshake_requested = DateTime.Now.Ticks)
                 .OnEntry(_handshake.RequestHandshake)
                 .Ignore(Events.TICK)
                 .Permit(Events.HANDSHAKE_CHALLENGE, States.HANDSHAKE_CONNECT)
@@ -172,55 +211,76 @@ namespace Dota2.Engine.Session
             long next_tick = DateTime.Now.Ticks;
             while (Running && _stateMachine.State != States.DISCONNECTED && _stateMachine.State != States.HANDSHAKE_REJECTED)
             {
-                if (next_tick > DateTime.Now.Ticks)
+                try
                 {
-                    Thread.Sleep(1);
-                    continue;
-                }
 
-                List<byte[]> outBand = _connection.GetOutOfBand();
-                List<DotaGameConnection.Message> inBand = _connection.GetInBand();
-
-                foreach (byte[] message in outBand)
-                {
-                    Nullable<Events> e = processors[metastates[_stateMachine.State]].Handle(message);
-                    if (e.HasValue)
+                    if (next_tick > DateTime.Now.Ticks)
                     {
-                        _stateMachine.Fire(e.Value);
+                        Thread.Sleep(1);
+                        continue;
+                    }
+
+                    if (_stateMachine.State == States.HANDSHAKE_REQUEST &&
+                        (DateTime.Now.Ticks - handshake_requested) > handshake_giveup)
+                    {
+                        _stateMachine.Fire(Events.DISCONNECTED);
+                        continue;
+                    }
+
+                    if (_connection.state == DotaGameConnection.State.Closed)
+                    {
+                        _stateMachine.Fire(Events.DISCONNECTED);
+                        continue;
+                    }
+
+                    List<byte[]> outBand = _connection.GetOutOfBand();
+                    List<DotaGameConnection.Message> inBand = _connection.GetInBand();
+
+                    foreach (byte[] message in outBand)
+                    {
+                        Nullable<Events> e = processors[metastates[_stateMachine.State]].Handle(message);
+                        if (e.HasValue)
+                        {
+                            _stateMachine.Fire(e.Value);
+                        }
+                    }
+
+                    foreach (DotaGameConnection.Message message in inBand)
+                    {
+                        Nullable<Events> e = processors[metastates[_stateMachine.State]].Handle(message);
+                        if (e.HasValue)
+                        {
+                            _stateMachine.Fire(e.Value);
+                        }
+                    }
+
+                    _stateMachine.Fire(Events.TICK);
+
+                    if (_gameState.TickInterval > 0)
+                    {
+                        next_tick += (uint)(_gameState.TickInterval * 1000 * 10000 /* ticks per ms */);
+                    }
+                    else
+                    {
+                        next_tick += 50 * 1000;
+                    }
+                    int remain = (int)(next_tick - DateTime.Now.Ticks) / 10000;
+                    if (remain > 0)
+                    {
+                        Thread.Sleep(1);
+                    }
+                    else if (remain < 0)
+                    {
+                        next_tick = DateTime.Now.Ticks;
                     }
                 }
-
-                foreach (DotaGameConnection.Message message in inBand)
+                catch (Exception ex)
                 {
-                    Nullable<Events> e = processors[metastates[_stateMachine.State]].Handle(message);
-                    if (e.HasValue)
-                    {
-                        _stateMachine.Fire(e.Value);
-                    }
-                }
-
-                _stateMachine.Fire(Events.TICK);
-
-                if (_gameState.TickInterval > 0)
-                {
-                    next_tick += (uint)(_gameState.TickInterval * 1000 * 10000 /* ticks per ms */);
-                }
-                else
-                {
-                    next_tick += 50 * 1000;
-                }
-                int remain = (int)(next_tick - DateTime.Now.Ticks) / 10000;
-                if (remain > 0)
-                {
-                    Thread.Sleep(1);
-                }
-                else if (remain < 0)
-                {
-                    next_tick = DateTime.Now.Ticks;
+                    Callback?.Invoke(this, new CallbackEventArgs(new DotaGameClient.LogMessage("Ignored error in session loop, " + ex.Message)));
                 }
             }
 
-            if(Running) Stop();
+            if (Running) Stop();
         }
 
         #region Controllers
@@ -275,5 +335,25 @@ namespace Dota2.Engine.Session
         }
 
         #endregion
+
+        internal class StringEventArgs : EventArgs
+        {
+            public readonly string str;
+
+            internal StringEventArgs(string str)
+            {
+                this.str = str;
+            }
+        }
+
+        internal class CallbackEventArgs : EventArgs
+        {
+            public readonly CallbackMsg msg;
+
+            internal CallbackEventArgs(CallbackMsg msg)
+            {
+                this.msg = msg;
+            }
+        }
     }
 }
