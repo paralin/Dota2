@@ -13,7 +13,7 @@ before_install:
   - sudo apt-get install -y mono-devel
   # update root certs for nuget
   - mozroots --import --sync
-  - mkdir -p ./packages/ && cd ./packages/ && mono ../.nuget/NuGet.exe install ../Dota2/packages.config && mono ../.nuget/NuGet.exe install ../Samples/LobbyDump/Dota2LobbyDump/packages.config && cd ..
+  - mkdir -p ./packages/ && cd ./packages/ && mono ../.nuget/NuGet.exe install ../Dota2/packages.config && mono ../.nuget/NuGet.exe install ../Samples/GameConnect/Dota2GameConnect/packages.config && mono ../.nuget/NuGet.exe install ../Samples/LobbyDump/Dota2LobbyDump/packages.config && cd ..
 
 script:
   - .ci/build.sh

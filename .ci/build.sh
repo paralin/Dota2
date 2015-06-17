@@ -6,5 +6,5 @@ function ExitIfNonZero {
 	fi
 }
 
-xbuild Dota2.sln /p:Configuration=Release
+xbuild ./Dota2/Dota2.csproj /p:Configuration=Release
 ExitIfNonZero $?
