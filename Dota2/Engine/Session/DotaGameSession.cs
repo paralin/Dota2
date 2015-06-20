@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Dota2.Engine.Control;
 using Dota2.Engine.Data;
 using Dota2.Engine.Game;
+using Dota2.Engine.Game.Entities;
 using Dota2.Engine.Session.Actuators;
 using Dota2.Engine.Session.Handlers;
 using Dota2.Engine.Session.Handlers.Game;
@@ -40,15 +42,24 @@ namespace Dota2.Engine.Session
         internal event EventHandler<CallbackEventArgs> Callback;
 
         /// <summary>
+        /// Game controllers
+        /// </summary>
+        internal IDotaGameController[] Controllers;
+
+        /// <summary>
         ///     Init a new game connect session.
         /// </summary>
         /// <param name="deets"></param>
-        internal DotaGameSession(DOTAConnectDetails deets)
+        /// <param name="toArray"></param>
+        /// <param name="poolBuilder">Pool builder</param>
+        internal DotaGameSession(DOTAConnectDetails deets, IDotaGameController[] controllers, DotaEntityPool.Builder poolBuilder)
         {
             _details = deets;
             Running = false;
             _gameState = new DotaGameState(deets);
+            _gameState.EntityPool = poolBuilder.Build(_gameState);
             _connection = null;
+            Controllers = controllers;
         }
 
         /// <summary>
@@ -100,6 +111,9 @@ namespace Dota2.Engine.Session
             _signon = new DotaSignon(_gameState, _connection, _details);
             _game = new DotaGame(_gameState, _connection);
             _commandGenerator = new UserCmdGenerator(_gameState, _connection);
+
+            foreach (var cont in Controllers)
+                cont.Initialize(_details.SteamId, _gameState, _commandGenerator);
 
             long handshake_requested = 0;
             long handshake_giveup = new TimeSpan(0, 0, 0, 10).Ticks;
@@ -198,7 +212,8 @@ namespace Dota2.Engine.Session
                 })
                 .OnEntryFrom(Events.TICK, () =>
                 {
-                    //_controller.Tick();
+                    _gameState.Update();
+                    foreach(var cont in Controllers) cont.Tick();
                     _commandGenerator.Tick();
                     _gameState.Created.Clear();
                     _gameState.Deleted.Clear();
@@ -213,7 +228,6 @@ namespace Dota2.Engine.Session
             {
                 try
                 {
-
                     if (next_tick > DateTime.Now.Ticks)
                     {
                         Thread.Sleep(1);

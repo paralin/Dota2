@@ -2,6 +2,7 @@
 using System.Linq;
 using Dota2.Engine.Data;
 using Dota2.Engine.Game.Data;
+using Dota2.Engine.Game.Entities;
 using Dota2.GC.Dota.Internal;
 
 /*
@@ -14,7 +15,7 @@ namespace Dota2.Engine.Game
     /// <summary>
     ///     Simulates the data stored in a DOTA 2 client.
     /// </summary>
-    internal class DotaGameState
+    public class DotaGameState
     {
         /// <summary>
         ///     Connect details
@@ -24,7 +25,8 @@ namespace Dota2.Engine.Game
         /// <summary>
         ///     Instantiates a new game state.
         /// </summary>
-        /// <param name="details"></param>
+        /// <param name="details">Details</param>
+        /// <param name="pool">Entity pool</param>
         internal DotaGameState(DOTAConnectDetails details)
         {
             _details = details;
@@ -59,6 +61,12 @@ namespace Dota2.Engine.Game
         public List<FlatTable> FlatTables { get; }
         public Dictionary<PropertyHandle, Property> Properties { get; }
         public Dictionary<uint, Slot> Slots { get; }
+
+        /// <summary>
+        /// Parsed and updated entities. Will be null until connected.
+        /// </summary>
+        public DotaEntityPool EntityPool { get; internal set; }
+
         public List<uint> Created { get; }
         public List<uint> Deleted { get; }
 
@@ -113,7 +121,15 @@ namespace Dota2.Engine.Game
             Deleted.Clear();
         }
 
-        public CMsg_CVars ExposeCVars()
+        /// <summary>
+        /// Called every tick.
+        /// </summary>
+        internal void Update()
+        {
+            EntityPool.Update();
+        }
+
+        internal CMsg_CVars ExposeCVars()
         {
             var exposed = new CMsg_CVars();
 
@@ -128,7 +144,7 @@ namespace Dota2.Engine.Game
             return exposed;
         }
 
-        internal struct PropertyHandle
+        public struct PropertyHandle
         {
             public uint Entity { get; set; }
             public string Table { get; set; }
@@ -156,7 +172,7 @@ namespace Dota2.Engine.Game
             }
         }
 
-        internal class Slot
+        public class Slot
         {
             public Slot(Entity entity)
             {

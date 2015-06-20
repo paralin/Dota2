@@ -270,6 +270,7 @@ namespace Dota2.Engine.Session.Handlers.Signon
 
         private Events? Handle(CSVCMsg_ClassInfo message)
         {
+            // Every single class is added here, CDOTA_Hero_... etc
             foreach (var clazz in message.classes)
             {
                 var created = EntityClass.CreateWith(clazz);

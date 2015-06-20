@@ -194,11 +194,21 @@ namespace Dota2.Engine.Session.Handlers.Game
             return null;
         }
 
+        /// <summary>
+        /// Handle a text chat event
+        /// </summary>
+        /// <param name="message">packet</param>
+        /// <returns></returns>
         private Events? Handle(CUserMsg_SayText2 message)
         {
             return null;
         }
 
+        /// <summary>
+        /// Handle a chat event, e.g. "Connected"
+        /// </summary>
+        /// <param name="message">packet</param>
+        /// <returns></returns>
         private Events? Handle(CDOTAUserMsg_ChatEvent message)
         {
             return null;

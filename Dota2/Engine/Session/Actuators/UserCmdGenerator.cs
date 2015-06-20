@@ -4,6 +4,7 @@
 */
 
 using System.Collections.Generic;
+using Dota2.Engine.Control;
 using Dota2.Engine.Game;
 using Dota2.Engine.Game.Data;
 using Dota2.GC.Dota.Internal;
@@ -14,7 +15,7 @@ namespace Dota2.Engine.Session.Actuators
     /// <summary>
     ///     Generates user commands.
     /// </summary>
-    internal class UserCmdGenerator
+    internal class UserCmdGenerator : IDotaGameCommander
     {
         private readonly List<UserCmd> backup;
         private readonly DotaGameConnection connection;
@@ -60,6 +61,13 @@ namespace Dota2.Engine.Session.Actuators
         {
             ++orderNumber;
             latestOrder = order;
+        }
+
+        public void Submit(string consoleCommand)
+        {
+            var cmd = new CNETMsg_StringCmd();
+            cmd.command = consoleCommand;
+            connection.SendReliably(DotaGameConnection.ConvertProtoToMessage((uint) NET_Messages.net_StringCmd, cmd));
         }
 
         private UserCmd MakeUserCmd()

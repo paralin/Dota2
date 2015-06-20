@@ -181,6 +181,7 @@ namespace Dota2.Engine.Session.Unpackers
                 };
                 state.Properties[handle] = prop;
             }
+
         }
 
         private void ReadAndUnpackFields(Entity entity, Bitstream stream)

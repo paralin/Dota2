@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using Dota2.Engine.Control;
 using Dota2.Engine.Data;
+using Dota2.Engine.Game;
+using Dota2.Engine.Game.Data;
+using Dota2.Engine.Game.Entities;
 using Dota2.Engine.Session;
 using Dota2.GC.Dota.Internal;
 using Dota2.Utils;
@@ -72,6 +76,16 @@ namespace Dota2.Engine
         private IPAddress publicIP;
 
         /// <summary>
+        /// Controllers supplied by the user
+        /// </summary>
+        private List<IDotaGameController> Controllers;
+
+        /// <summary>
+        /// Entity builder.
+        /// </summary>
+        private DotaEntityPool.Builder EntityBuilder;
+
+        /// <summary>
         ///     Create a game client attached to an existing DOTA gc handler.
         /// </summary>
         /// <param name="gc">existing GC handler</param>
@@ -87,6 +101,8 @@ namespace Dota2.Engine
             if (DotaGc.SteamClient.IsConnected) FetchAppTicket();
             if (publicIp != null) publicIP = publicIp;
             else if (DotaGc.SteamClient.IsConnected) CheckPublicIP();
+            EntityBuilder = DotaEntitySet.Associate(new DotaEntityPool.Builder());
+            Controllers = new List<IDotaGameController>(1);
         }
 
         /// <summary>
@@ -178,7 +194,7 @@ namespace Dota2.Engine
 
                     Log("Session start received with ID " + _connectDetails.SteamworksSessionId +
                         ", starting game session...");
-                    Session = new DotaGameSession(_connectDetails);
+                    Session = new DotaGameSession(_connectDetails, Controllers.ToArray(), EntityBuilder);
                     Session.Callback += (sender, args) => DotaGc.SteamClient.PostCallback(args.msg);
                     Session.Closed += (s, a) => Disconnect();
                     Session.Start();
@@ -278,6 +294,29 @@ namespace Dota2.Engine
             Session = null;
             _waitingForAuthTicket = false;
         }
+
+        /// <summary>
+        /// Adds a controller to the client.
+        /// </summary>
+        /// <param name="cont"></param>
+        public void RegisterController(IDotaGameController cont)
+        {
+            if(Session != null) throw new InvalidOperationException("Controllers must be added before the client connects.");
+            if(!Controllers.Contains(cont)) Controllers.Add(cont);
+        }
+
+        /// <summary>
+        /// Register an entity mapping class in the system.
+        /// </summary>
+        /// <typeparam name="T">Entity mapping class.</typeparam>
+        /// <param name="cname">Table name.</param>
+        /// <param name="factory">Factory to build the class.</param>
+        public void RegisterEntityMapping<T>(string cname, Func<uint, DotaGameState, MappedEntityClass> factory)
+        {
+            if(Session != null) throw new InvalidOperationException("Entity mappings must be added before the client connects.");
+            EntityBuilder.Associate<T>(cname, factory);
+        }
+
 
         /// <summary>
         ///     Check the public IP address.
