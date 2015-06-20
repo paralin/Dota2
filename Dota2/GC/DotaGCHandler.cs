@@ -288,8 +288,7 @@ namespace Dota2
         /// <param name="id">the cache soid</param>
         public void RequestSubscriptionRefresh(uint type, ulong id)
         {
-            var refresh =
-                new ClientGCMsgProtobuf<CMsgSOCacheSubscriptionRefresh>((uint) ESOMsg.k_ESOMsg_CacheSubscriptionRefresh);
+            var refresh = new ClientGCMsgProtobuf<CMsgSOCacheSubscriptionRefresh>((uint) ESOMsg.k_ESOMsg_CacheSubscriptionRefresh);
             refresh.Body.owner_soid = new CMsgSOIDOwner
             {
                 id = id,
