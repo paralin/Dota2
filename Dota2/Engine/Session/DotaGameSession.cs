@@ -234,6 +234,8 @@ namespace Dota2.Engine.Session
                         continue;
                     }
 
+                    if (_stateMachine == null) break;
+
                     if (_stateMachine.State == States.HANDSHAKE_REQUEST &&
                         (DateTime.Now.Ticks - handshake_requested) > handshake_giveup)
                     {
@@ -246,6 +248,8 @@ namespace Dota2.Engine.Session
                         _stateMachine.Fire(Events.DISCONNECTED);
                         continue;
                     }
+
+                    if (_connection == null) break;
 
                     List<byte[]> outBand = _connection.GetOutOfBand();
                     List<DotaGameConnection.Message> inBand = _connection.GetInBand();

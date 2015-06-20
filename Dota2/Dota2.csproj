@@ -101,6 +101,7 @@
     <Compile Include="Engine\Game\Entities\Dota\Ability.cs" />
     <Compile Include="Engine\Game\Entities\Dota\GameRules.cs" />
     <Compile Include="Engine\Game\Entities\Dota\Player.cs" />
+    <Compile Include="Engine\Game\Entities\Dota\PlayerResource.cs" />
     <Compile Include="Engine\Session\Actuators\UserCmdGenerator.cs" />
     <Compile Include="Engine\Session\DotaGameConnection.cs" />
     <Compile Include="Engine\Session\DotaGameSession.cs" />

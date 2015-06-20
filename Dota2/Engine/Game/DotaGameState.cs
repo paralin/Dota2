@@ -44,6 +44,10 @@ namespace Dota2.Engine.Game
             Created = new List<uint>();
             Deleted = new List<uint>();
 
+            ChatMessages = new List<CUserMsg_SayText2>();
+            GameEvents = new List<CSVCMsg_GameEvent>();
+            ChatEvents = new List<CDOTAUserMsg_ChatEvent>();
+
             Reset();
         }
 
@@ -61,6 +65,10 @@ namespace Dota2.Engine.Game
         public List<FlatTable> FlatTables { get; }
         public Dictionary<PropertyHandle, Property> Properties { get; }
         public Dictionary<uint, Slot> Slots { get; }
+
+        public List<CUserMsg_SayText2> ChatMessages { get; } 
+        public List<CDOTAUserMsg_ChatEvent> ChatEvents { get; } 
+        public List<CSVCMsg_GameEvent> GameEvents { get; } 
 
         /// <summary>
         /// Parsed and updated entities. Will be null until connected.

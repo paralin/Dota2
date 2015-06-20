@@ -435,6 +435,7 @@ namespace Dota2.Engine.Session
                 {
                     var remain = (byte) stream.Remain;
                     var expect = (1 << remain) - 1;
+                    var expectedTru = stream.ReadBits(remain) == expect; // if false then probably something wrong
                 }
 
                 lastAckRecv = ack;
@@ -465,6 +466,7 @@ namespace Dota2.Engine.Session
                 {
                     var remain = (byte) stream.Remain;
                     var expect = (1 << remain) - 1;
+                    var expectTru = stream.ReadBits(remain) == expect;
                 }
             }
         }

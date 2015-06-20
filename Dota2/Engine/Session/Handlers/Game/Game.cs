@@ -201,6 +201,7 @@ namespace Dota2.Engine.Session.Handlers.Game
         /// <returns></returns>
         private Events? Handle(CUserMsg_SayText2 message)
         {
+            state.ChatMessages.Add(message);
             return null;
         }
 
@@ -211,11 +212,13 @@ namespace Dota2.Engine.Session.Handlers.Game
         /// <returns></returns>
         private Events? Handle(CDOTAUserMsg_ChatEvent message)
         {
+            state.ChatEvents.Add(message);
             return null;
         }
 
         private Events? Handle(CSVCMsg_GameEvent message)
         {
+            state.GameEvents.Add(message);
             return null;
         }
 

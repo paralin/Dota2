@@ -20,6 +20,7 @@ namespace Dota2.Engine.Game.Entities
             b.Associate<Ability>(Ability.TableName, (i, c) => new Ability(i, c));
             b.Associate<GameRules>(GameRules.TableName, (i, c) => new GameRules(i, c));
             b.Associate<Player>(Player.TableName, (i, c) => new Player(i, c));
+            b.Associate<PlayerResource>(PlayerResource.TableName, (i, c) => new PlayerResource(i, c));
             return b;
         }
     }
