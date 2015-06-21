@@ -115,6 +115,7 @@ namespace Dota2.Engine
         /// </summary>
         public void Dispose()
         {
+            Disconnect();
             foreach (var cb in _registeredCallbacks)
                 Callbacks.Unregister(cb);
             _registeredCallbacks.Clear();

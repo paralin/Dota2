@@ -225,23 +225,21 @@ namespace Dota2
         }
 
         /// <summary>
-        ///     Leave a lobby
+        ///     Attempt to leave a lobby
         /// </summary>
         public void LeaveLobby()
         {
             var leaveLobby =
                 new ClientGCMsgProtobuf<CMsgPracticeLobbyLeave>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyLeave);
-            Lobby = null;
             Send(leaveLobby);
         }
 
         /// <summary>
-        ///     Leave a party.
+        ///     Attempt to leave a party.
         /// </summary>
         public void LeaveParty()
         {
             var leaveParty = new ClientGCMsgProtobuf<CMsgLeaveParty>((uint) EGCBaseMsg.k_EMsgGCLeaveParty);
-            Party = null;
             Send(leaveParty);
         }
 
@@ -619,10 +617,20 @@ namespace Dota2
         public void HandleCacheDestroy(IPacketGCMsg obj)
         {
             var dest = new ClientGCMsgProtobuf<CMsgSOSingleObject>(obj);
-            if (PartyInvite != null && dest.Body.type_id == (int)CSOTypes.PARTY)
+            if (PartyInvite != null && dest.Body.type_id == (int)CSOTypes.PARTYINVITE)
             {
                 PartyInvite = null;
                 Client.PostCallback(new PartyInviteLeave(null));
+            }
+            else if (Lobby != null && dest.Body.type_id == (int) CSOTypes.LOBBY)
+            {
+                Lobby = null;
+                Client.PostCallback(new PracticeLobbyLeave(null));
+            }
+            else if (Party != null && dest.Body.type_id == (int) CSOTypes.PARTY)
+            {
+                Party = null;
+                Client.PostCallback(new PartyLeave(null));
             }
         }
 
