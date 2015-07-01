@@ -4,6 +4,3 @@
 [submodule "Samples/GameConnect"]
 	path = Samples/GameConnect
 	url = https://github.com/paralin/DotaGameConnect
-[submodule "Resources/Snappy"]
-	path = Resources/Snappy
-	url = https://github.com/jeffesp/Snappy.Sharp

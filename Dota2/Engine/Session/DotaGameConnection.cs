@@ -11,7 +11,7 @@ using Dota2.Engine.Session.Networking;
 using Dota2.GC.Dota.Internal;
 using Dota2.Utils;
 using ProtoBuf;
-using Snappy.Sharp;
+using Snappy;
 using Stream = Dota2.Engine.Session.Networking.Stream;
 
 /*
@@ -43,7 +43,6 @@ namespace Dota2.Engine.Session
         private readonly Queue<byte[]> messagesUnreliable;
         private readonly ConcurrentQueue<Message> receivedInBand;
         private readonly ConcurrentQueue<byte[]> receivedOutOfBand;
-        private readonly SnappyDecompressor snappyDecompressor;
         private readonly Socket socket;
         private readonly Dictionary<uint, SplitPacket> splitPackets;
         private readonly Stream[] streams;
@@ -61,8 +60,6 @@ namespace Dota2.Engine.Session
         private DotaGameConnection()
         {
             ShouldSendAcks = false;
-
-            snappyDecompressor = new SnappyDecompressor();
 
             state = State.Closed;
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
@@ -452,7 +449,7 @@ namespace Dota2.Engine.Session
             }
             else
             {
-                data = snappyDecompressor.Decompress(message.Data, 0, message.Data.Length);
+                data = SnappyCodec.Uncompress(message.Data);
             }
 
             using (var stream = Bitstream.CreateWith(data))

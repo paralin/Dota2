@@ -112,3 +112,4 @@ UpgradeLog*.XML
 # misc
 Thumbs.db
 .DS_Store
+*.swp

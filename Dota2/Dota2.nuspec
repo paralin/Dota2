@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Dota2</id>
-        <version>0.2.2</version>
+        <version>0.2.3</version>
         <title>Dota2</title>
         <authors>paralin</authors>
         <licenseUrl>https://github.com/paralin/Dota2/blob/master/Dota2/license.txt</licenseUrl>
@@ -11,12 +11,15 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>A plugin for SteamKit that interacts with the DOTA 2 game coordinator and game servers.</description>
         <summary />
-        <releaseNotes>Release notes are available at https://github.com/paralin/Dota2/releases/tag/Dota2_0.2.0</releaseNotes>
+        <releaseNotes>Release notes are available at https://github.com/paralin/Dota2/releases/tag/Dota2_0.2.3</releaseNotes>
         <copyright />
         <tags>steam networking steamkit dota dota2</tags>
         <dependencies>
             <dependency id="protobuf-net" version="[2.0.0.668]" />
-			<dependency id="SteamKit2" version="[1.6.2, 2.0.0)" />
+            <dependency id="Newtonsoft.Json" version="[7.0.0, 8.0.0)" />
+            <dependency id="Stateless" version="[2.5.0, 2.6.0)" />
+            <dependency id="Snappy.NET" version="[1.1.1.8, 1.2.0.0)" />
+	    <dependency id="SteamKit2" version="[1.6.2, 2.0.0)" />
         </dependencies>
     </metadata>
     <files>
