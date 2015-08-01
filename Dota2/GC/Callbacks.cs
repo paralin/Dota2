@@ -402,5 +402,18 @@ namespace Dota2
                 info = msg;
             }
         }
+
+        /// <summary>
+        ///     Profile response to a RequestProfile call
+        /// </summary>
+        public sealed class ProfileResponse : CallbackMsg
+        {
+            public CMsgDOTAProfileResponse result;
+
+            internal ProfileResponse(CMsgDOTAProfileResponse msg)
+            {
+                result = msg;
+            }
+        }
     }
 }

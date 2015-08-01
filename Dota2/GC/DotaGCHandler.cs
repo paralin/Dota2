@@ -505,6 +505,34 @@ namespace Dota2
             Send(list);
         }
 
+        /// <summary>
+        ///     Shuffle the current lobby
+        /// </summary>
+        public void PracticeLobbyShuffle()
+        {
+            var shuffle = new ClientGCMsgProtobuf<CMsgBalancedShuffleLobby>((uint)EDOTAGCMsg.k_EMsgGCBalancedShuffleLobby);
+            Send(shuffle);
+        }
+
+        /// <summary>
+        ///     Flip the teams in the current lobby
+        /// </summary>
+        public void PracticeLobbyFlip()
+        {
+            var flip = new ClientGCMsgProtobuf<CMsgFlipLobbyTeams>((uint)EDOTAGCMsg.k_EMsgGCFlipLobbyTeams);
+            Send(flip);
+        }
+
+        /// <summary>
+        ///     Request a player's Dota 2 game profile
+        /// </summary>
+        public void RequestPlayerProfile(SteamID id)
+        {
+            var request = new ClientGCMsgProtobuf<CMsgDOTAProfileRequest>((uint)EDOTAGCMsg.k_EMsgGCProfileRequest);
+            request.Body.account_id = id.AccountID;
+            Send(request);
+        }
+
         private static IPacketGCMsg GetPacketGCMsg(uint eMsg, byte[] data)
         {
             // strip off the protobuf flag
@@ -550,7 +578,8 @@ namespace Dota2
                         {(uint) EGCBaseClientMsg.k_EMsgGCClientConnectionStatus, HandleConnectionStatus},
                         {(uint) EDOTAGCMsg.k_EMsgGCProTeamListResponse, HandleProTeamList},
                         {(uint) EDOTAGCMsg.k_EMsgGCFantasyLeagueInfo, HandleFantasyLeagueInfo},
-                        {(uint) EDOTAGCMsg.k_EMsgGCPlayerInfo, HandlePlayerInfo}
+                        {(uint) EDOTAGCMsg.k_EMsgGCPlayerInfo, HandlePlayerInfo},
+                        {(uint) EDOTAGCMsg.k_EMsgGCProfileResponse, HandleProfileResponse }
                     };
                     Action<IPacketGCMsg> func;
                     if (!messageMap.TryGetValue(gcmsg.MsgType, out func))
@@ -847,5 +876,12 @@ namespace Dota2
                 foreach (CMsgSOCacheSubscribed.SubscribedType obj in cache.objects)
                     HandleSubscribedType(obj);
         }
+
+        private void HandleProfileResponse(IPacketGCMsg obj)
+        {
+            var resp = new ClientGCMsgProtobuf<CMsgDOTAProfileResponse>(obj);
+            Client.PostCallback(new ProfileResponse(resp.Body));
+        }
+
     }
 }
