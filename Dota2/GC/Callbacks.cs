@@ -415,5 +415,61 @@ namespace Dota2
                 result = msg;
             }
         }
+
+
+        /// <summary>
+        ///     Response to setting someones guild role
+        /// </summary>
+        public sealed class GuildSetRoleResponse : CallbackMsg
+        {
+            public CMsgDOTAGuildSetAccountRoleResponse result;
+
+            internal GuildSetRoleResponse(CMsgDOTAGuildSetAccountRoleResponse msg)
+            {
+                result = msg;
+            }
+        }
+
+
+        /// <summary>
+        ///     Response to inviting someone to a guild
+        /// </summary>
+        public sealed class GuildInviteResponse : CallbackMsg
+        {
+            public CMsgDOTAGuildInviteAccountResponse result;
+
+            internal GuildInviteResponse(CMsgDOTAGuildInviteAccountResponse msg)
+            {
+                result = msg;
+            }
+        }
+
+
+        /// <summary>
+        ///     Response to cancelling a guild invite
+        /// </summary>
+        public sealed class GuildCancelInviteResponse : CallbackMsg
+        {
+            public CMsgDOTAGuildCancelInviteResponse result;
+
+            internal GuildCancelInviteResponse(CMsgDOTAGuildCancelInviteResponse msg)
+            {
+                result = msg;
+            }
+        }
+
+        /// <summary>
+        ///     Response to a RequestGuildData call
+        ///     Called once per guild after a RequestGuildData call was made
+        /// </summary>
+        public sealed class GuildDataResponse : CallbackMsg
+        {
+            public CMsgDOTAGuildSDO result;
+
+            internal GuildDataResponse(CMsgDOTAGuildSDO msg)
+            {
+                result = msg;
+            }
+        }
     }
 }

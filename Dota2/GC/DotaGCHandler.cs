@@ -533,6 +533,51 @@ namespace Dota2
             Send(request);
         }
 
+        /// <summary>
+        ///     Set someones role in a guild.
+        ///     Roles are: 0 (Kick), 1 (Guild Leader), 2 (Guild Officer), 3 (Regular Member)
+        /// </summary>
+        public void SetAccountGuildRole(uint guild_id, uint account_id, uint target_role)
+        {
+            var request = new ClientGCMsgProtobuf<CMsgDOTAGuildSetAccountRoleRequest>((uint) EDOTAGCMsg.k_EMsgGCGuildSetAccountRoleRequest);
+            request.Body.guild_id = guild_id;
+            request.Body.target_account_id = account_id;
+            request.Body.target_role = target_role;
+            Send(request);
+        }
+
+        /// <summary>
+        ///     Invites account_id to a guild.
+        /// </summary>
+        public void InviteToGuild(uint guild_id, uint account_id)
+        {
+            var request = new ClientGCMsgProtobuf<CMsgDOTAGuildInviteAccountRequest>((uint) EDOTAGCMsg.k_EMsgGCGuildInviteAccountRequest);
+            request.Body.guild_id = guild_id;
+            request.Body.target_account_id = account_id;
+            Send(request);
+        }
+
+        /// <summary>
+        ///     Cancels a pending guild invite
+        /// </summary>
+        public void CancelGuildInvite(uint guild_id, uint account_id)
+        {
+            var request = new ClientGCMsgProtobuf<CMsgDOTAGuildCancelInviteRequest>((uint) EDOTAGCMsg.k_EMsgGCGuildCancelInviteRequest);
+            request.Body.guild_id = guild_id;
+            request.Body.target_account_id = account_id;
+            Send(request);
+        }
+
+        /// <summary>
+        ///     Requests information about all current guilds the client is in
+        /// </summary>
+        public void RequestGuildData()
+        {
+            var request = new ClientGCMsgProtobuf<CMsgDOTARequestGuildData>((uint) EDOTAGCMsg.k_EMsgGCRequestGuildData);
+            Send(request);
+        }
+
+
         private static IPacketGCMsg GetPacketGCMsg(uint eMsg, byte[] data)
         {
             // strip off the protobuf flag
@@ -579,7 +624,11 @@ namespace Dota2
                         {(uint) EDOTAGCMsg.k_EMsgGCProTeamListResponse, HandleProTeamList},
                         {(uint) EDOTAGCMsg.k_EMsgGCFantasyLeagueInfo, HandleFantasyLeagueInfo},
                         {(uint) EDOTAGCMsg.k_EMsgGCPlayerInfo, HandlePlayerInfo},
-                        {(uint) EDOTAGCMsg.k_EMsgGCProfileResponse, HandleProfileResponse }
+                        {(uint) EDOTAGCMsg.k_EMsgGCProfileResponse, HandleProfileResponse },
+                        {(uint) EDOTAGCMsg.k_EMsgGCGuildSetAccountRoleResponse , HandleGuildAccountRoleResponse },
+                        {(uint) EDOTAGCMsg.k_EMsgGCGuildInviteAccountResponse, HandleGuildInviteAccountResponse },
+                        {(uint) EDOTAGCMsg.k_EMsgGCGuildCancelInviteResponse, HandleGuildCancelInviteResponse },
+                        {(uint) EDOTAGCMsg.k_EMsgGCGuildData, HandleGuildData },
                     };
                     Action<IPacketGCMsg> func;
                     if (!messageMap.TryGetValue(gcmsg.MsgType, out func))
@@ -862,7 +911,7 @@ namespace Dota2
             gcConnectTimer.Stop();
 
             ready = true;
-            
+
             // Clear these. They will be updated in the subscriptions if they exist still.
             Lobby = null;
             Party = null;
@@ -883,5 +932,30 @@ namespace Dota2
             Client.PostCallback(new ProfileResponse(resp.Body));
         }
 
+        private void HandleGuildAccountRoleResponse(IPacketGCMsg obj)
+        {
+            var resp = new ClientGCMsgProtobuf<CMsgDOTAGuildSetAccountRoleResponse>(obj);
+            Client.PostCallback(new GuildSetRoleResponse(resp.Body));
+        }
+
+        private void HandleGuildInviteAccountResponse(IPacketGCMsg obj)
+        {
+            var resp = new ClientGCMsgProtobuf<CMsgDOTAGuildInviteAccountResponse>(obj);
+            Client.PostCallback(new GuildInviteResponse(resp.Body));
+        }
+
+        private void HandleGuildCancelInviteResponse(IPacketGCMsg obj)
+        {
+            var resp = new ClientGCMsgProtobuf<CMsgDOTAGuildCancelInviteResponse>(obj);
+            Client.PostCallback(new GuildCancelInviteResponse(resp.Body));
+        }
+
+        private void HandleGuildData(IPacketGCMsg obj)
+        {
+            var resp = new ClientGCMsgProtobuf<CMsgDOTAGuildSDO>(obj);
+            Client.PostCallback(new GuildDataResponse(resp.Body));
+        }
+
     }
+
 }
