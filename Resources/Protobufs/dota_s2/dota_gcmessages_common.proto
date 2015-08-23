@@ -436,6 +436,8 @@ enum EDOTAGCMsg {
 	k_EMsgGCPracticeLobbyToggleBroadcastChannelCameramanStatus = 7505;
 	k_EMsgGCToGCCreateWeekendTourneyRequest = 7506;
 	k_EMsgGCToGCCreateWeekendTourneyResponse = 7507;
+	k_EMsgGCHeroPickStatsRequest = 7508;
+	k_EMsgGCHeroPickStatsResponse = 7509;
 	k_EMsgGCToGCCreateGenericTeamsRequest = 7510;
 	k_EMsgGCToGCCreateGenericTeamsResponse = 7511;
 	k_EMsgSQLLaunchOneWeekendTourney = 7512;
@@ -523,13 +525,7 @@ enum EDOTAGCMsg {
 	k_EMsgServerToGCHoldEventPoints = 7596;
 	k_EMsgSignOutReleaseEventPointHolds = 7597;
 	k_EMsgGCToGCChatNewUserSession = 7598;
-	k_EMsgClientToGCGetLeagueSeries = 7599;
-	k_EMsgClientToGCGetLeagueSeriesResponse = 7600;
-	k_EMsgSQLGCToGCSignoutUpdateLeagueSchedule = 7601;
 	k_EMsgGCToServerUpdateBroadcastCheers = 7602;
-	k_EMsgClientToGCApplyGemCombiner = 7603;
-	k_EMsgClientToGCCreateStaticRecipe = 7604;
-	k_EMsgClientToGCCreateStaticRecipeResponse = 7605;
 	k_EMsgGCDev_GrantWarKill = 8001;
 	k_EMsgClientToGCCreateTeamShowcase = 8002;
 	k_EMsgGCToClientTeamShowcaseCreateResult = 8003;
@@ -622,7 +618,8 @@ enum DOTA_GameState {
 	DOTA_GAMERULES_STATE_POST_GAME = 6;
 	DOTA_GAMERULES_STATE_DISCONNECT = 7;
 	DOTA_GAMERULES_STATE_TEAM_SHOWCASE = 8;
-	DOTA_GAMERULES_STATE_LAST = 9;
+	DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP = 9;
+	DOTA_GAMERULES_STATE_LAST = 10;
 }
 
 enum DOTA_GC_TEAM {
@@ -913,7 +910,6 @@ message CSODOTAGameAccountClient {
 	optional uint32 casual_1v1_games_played = 65;
 	optional uint32 competitive_team_games_played = 66;
 	optional uint32 curr_all_hero_challenge_id = 67;
-	optional uint32 play_time_points = 68;
 }
 
 message CSODOTAPartyMember {
@@ -1086,7 +1082,6 @@ message CLobbyTeamDetails {
 	optional uint64 guild_banner_logo = 14;
 	optional uint32 rank = 15;
 	optional sint32 rank_change = 16;
-	optional bool is_home_team = 17;
 }
 
 message CLobbyTimedRewardDetails {
@@ -1197,8 +1192,6 @@ message CSODOTALobby {
 	optional .DOTALobbyVisibility visibility = 75 [default = DOTALobbyVisibility_Public];
 	optional fixed64 custom_game_crc = 76;
 	optional bool custom_game_auto_created_lobby = 77;
-	optional uint32 league_series_id = 78;
-	optional uint32 league_game_id = 79;
 	optional fixed32 custom_game_timestamp = 80;
 }
 
@@ -1326,7 +1319,6 @@ message CProtoItemSocket_Autograph {
 	optional .CProtoItemSocket socket = 1;
 	optional string autograph = 2;
 	optional uint32 autograph_id = 3;
-	optional uint32 autograph_score = 4;
 }
 
 message CProtoItemSocket_StaticVisuals {
@@ -1632,8 +1624,6 @@ message CMsgDOTARealtimeGameStats {
 		optional uint32 id = 1;
 		optional string name = 2;
 		optional uint32 level = 3;
-		optional float cooldown = 4;
-		optional float cooldown_max = 5;
 	}
 
 	message HeroToHeroStats {

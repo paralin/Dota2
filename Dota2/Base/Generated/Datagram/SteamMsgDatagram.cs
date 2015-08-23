@@ -221,6 +221,77 @@ namespace Dota2.Datagram.Internal
       get { return _signature; }
       set { _signature = value; }
     }
+
+    private uint _app_id = default(uint);
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"app_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint app_id
+    {
+      get { return _app_id; }
+      set { _app_id = value; }
+    }
+    private readonly global::System.Collections.Generic.List<CMsgSteamDatagramGameServerAuthTicket.ExtraField> _extra_fields = new global::System.Collections.Generic.List<CMsgSteamDatagramGameServerAuthTicket.ExtraField>();
+    [global::ProtoBuf.ProtoMember(8, Name=@"extra_fields", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<CMsgSteamDatagramGameServerAuthTicket.ExtraField> extra_fields
+    {
+      get { return _extra_fields; }
+    }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ExtraField")]
+  public partial class ExtraField : global::ProtoBuf.IExtensible
+  {
+    public ExtraField() {}
+    
+
+    private string _name = "";
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string name
+    {
+      get { return _name; }
+      set { _name = value; }
+    }
+
+    private string _string_value = "";
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"string_value", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string string_value
+    {
+      get { return _string_value; }
+      set { _string_value = value; }
+    }
+
+    private int _int32_value = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"int32_value", DataFormat = global::ProtoBuf.DataFormat.ZigZag)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int int32_value
+    {
+      get { return _int32_value; }
+      set { _int32_value = value; }
+    }
+
+    private uint _fixed32_value = default(uint);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"fixed32_value", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint fixed32_value
+    {
+      get { return _fixed32_value; }
+      set { _fixed32_value = value; }
+    }
+
+    private ulong _fixed64_value = default(ulong);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"fixed64_value", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong fixed64_value
+    {
+      get { return _fixed64_value; }
+      set { _fixed64_value = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -956,6 +1027,170 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramClientSwitchedPrimary")]
+  public partial class CMsgSteamDatagramClientSwitchedPrimary : global::ProtoBuf.IExtensible
+  {
+    public CMsgSteamDatagramClientSwitchedPrimary() {}
+    
+
+    private uint _client_cookie = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"client_cookie", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint client_cookie
+    {
+      get { return _client_cookie; }
+      set { _client_cookie = value; }
+    }
+
+    private uint _from_ip = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"from_ip", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint from_ip
+    {
+      get { return _from_ip; }
+      set { _from_ip = value; }
+    }
+
+    private uint _from_port = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"from_port", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint from_port
+    {
+      get { return _from_port; }
+      set { _from_port = value; }
+    }
+
+    private uint _from_router_cluster = default(uint);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"from_router_cluster", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint from_router_cluster
+    {
+      get { return _from_router_cluster; }
+      set { _from_router_cluster = value; }
+    }
+
+    private uint _from_active_time = default(uint);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"from_active_time", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint from_active_time
+    {
+      get { return _from_active_time; }
+      set { _from_active_time = value; }
+    }
+
+    private uint _from_active_packets_recv = default(uint);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"from_active_packets_recv", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint from_active_packets_recv
+    {
+      get { return _from_active_packets_recv; }
+      set { _from_active_packets_recv = value; }
+    }
+
+    private string _from_dropped_reason = "";
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"from_dropped_reason", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string from_dropped_reason
+    {
+      get { return _from_dropped_reason; }
+      set { _from_dropped_reason = value; }
+    }
+
+    private uint _gap_ms = default(uint);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"gap_ms", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint gap_ms
+    {
+      get { return _gap_ms; }
+      set { _gap_ms = value; }
+    }
+
+    private CMsgSteamDatagramClientSwitchedPrimary.RouterQuality _from_quality_now = null;
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"from_quality_now", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgSteamDatagramClientSwitchedPrimary.RouterQuality from_quality_now
+    {
+      get { return _from_quality_now; }
+      set { _from_quality_now = value; }
+    }
+
+    private CMsgSteamDatagramClientSwitchedPrimary.RouterQuality _to_quality_now = null;
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"to_quality_now", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgSteamDatagramClientSwitchedPrimary.RouterQuality to_quality_now
+    {
+      get { return _to_quality_now; }
+      set { _to_quality_now = value; }
+    }
+
+    private CMsgSteamDatagramClientSwitchedPrimary.RouterQuality _from_quality_then = null;
+    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"from_quality_then", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgSteamDatagramClientSwitchedPrimary.RouterQuality from_quality_then
+    {
+      get { return _from_quality_then; }
+      set { _from_quality_then = value; }
+    }
+
+    private CMsgSteamDatagramClientSwitchedPrimary.RouterQuality _to_quality_then = null;
+    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"to_quality_then", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgSteamDatagramClientSwitchedPrimary.RouterQuality to_quality_then
+    {
+      get { return _to_quality_then; }
+      set { _to_quality_then = value; }
+    }
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RouterQuality")]
+  public partial class RouterQuality : global::ProtoBuf.IExtensible
+  {
+    public RouterQuality() {}
+    
+
+    private uint _score = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"score", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint score
+    {
+      get { return _score; }
+      set { _score = value; }
+    }
+
+    private uint _front_ping = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"front_ping", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint front_ping
+    {
+      get { return _front_ping; }
+      set { _front_ping = value; }
+    }
+
+    private uint _back_ping = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"back_ping", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint back_ping
+    {
+      get { return _back_ping; }
+      set { _back_ping = value; }
+    }
+
+    private uint _seconds_until_down = default(uint);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"seconds_until_down", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint seconds_until_down
+    {
+      get { return _seconds_until_down; }
+      set { _seconds_until_down = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"ESteamDatagramMsgID", EnumPassthru=true)]
     public enum ESteamDatagramMsgID
     {
@@ -1003,7 +1238,10 @@ namespace Dota2.Datagram.Internal
       k_ESteamDatagramMsg_ClientPingSampleRequest = 14,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_ESteamDatagramMsg_ClientPingSampleReply", Value=15)]
-      k_ESteamDatagramMsg_ClientPingSampleReply = 15
+      k_ESteamDatagramMsg_ClientPingSampleReply = 15,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_ESteamDatagramMsg_ClientToRouterSwitchedPrimary", Value=16)]
+      k_ESteamDatagramMsg_ClientToRouterSwitchedPrimary = 16
     }
   
 }

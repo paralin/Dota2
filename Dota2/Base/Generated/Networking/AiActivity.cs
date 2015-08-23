@@ -1881,7 +1881,22 @@ namespace Dota2.GC.Dota.Internal
       ACT_DOTA_PET_WARD_SENTRY = 621,
             
       [global::ProtoBuf.ProtoEnum(Name=@"ACT_DOTA_PET_LEVEL", Value=622)]
-      ACT_DOTA_PET_LEVEL = 622
+      ACT_DOTA_PET_LEVEL = 622,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ACT_DOTA_CAST_BURROW_END", Value=623)]
+      ACT_DOTA_CAST_BURROW_END = 623,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ACT_DOTA_LIFESTEALER_ASSIMILATE", Value=624)]
+      ACT_DOTA_LIFESTEALER_ASSIMILATE = 624,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ACT_DOTA_LIFESTEALER_EJECT", Value=625)]
+      ACT_DOTA_LIFESTEALER_EJECT = 625,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ACT_DOTA_ATTACK_EVENT_BASH", Value=626)]
+      ACT_DOTA_ATTACK_EVENT_BASH = 626,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ACT_DOTA_CAPTURE_RARE", Value=627)]
+      ACT_DOTA_CAPTURE_RARE = 627
     }
   
 }

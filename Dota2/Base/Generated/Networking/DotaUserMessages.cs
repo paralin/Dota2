@@ -148,6 +148,24 @@ namespace Dota2.GC.Dota.Internal
       get { return _playerid_6; }
       set { _playerid_6 = value; }
     }
+
+    private uint _value2 = default(uint);
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"value2", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint value2
+    {
+      get { return _value2; }
+      set { _value2 = value; }
+    }
+
+    private uint _value3 = default(uint);
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"value3", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint value3
+    {
+      get { return _value3; }
+      set { _value3 = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -4147,6 +4165,161 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CDOTAUserMsg_CompendiumStatePlayer")]
+  public partial class CDOTAUserMsg_CompendiumStatePlayer : global::ProtoBuf.IExtensible
+  {
+    public CDOTAUserMsg_CompendiumStatePlayer() {}
+    
+
+    private uint _player_id = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"player_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint player_id
+    {
+      get { return _player_id; }
+      set { _player_id = value; }
+    }
+
+    private uint _level = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"level", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint level
+    {
+      get { return _level; }
+      set { _level = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CDOTAUserMsg_CompendiumState")]
+  public partial class CDOTAUserMsg_CompendiumState : global::ProtoBuf.IExtensible
+  {
+    public CDOTAUserMsg_CompendiumState() {}
+    
+    private readonly global::System.Collections.Generic.List<CDOTAUserMsg_CompendiumStatePlayer> _compendium_players = new global::System.Collections.Generic.List<CDOTAUserMsg_CompendiumStatePlayer>();
+    [global::ProtoBuf.ProtoMember(1, Name=@"compendium_players", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<CDOTAUserMsg_CompendiumStatePlayer> compendium_players
+    {
+      get { return _compendium_players; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CDOTAUserMsg_ProjectionAbility")]
+  public partial class CDOTAUserMsg_ProjectionAbility : global::ProtoBuf.IExtensible
+  {
+    public CDOTAUserMsg_ProjectionAbility() {}
+    
+
+    private uint _ability_id = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"ability_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint ability_id
+    {
+      get { return _ability_id; }
+      set { _ability_id = value; }
+    }
+
+    private int _caster_ent_index = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"caster_ent_index", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int caster_ent_index
+    {
+      get { return _caster_ent_index; }
+      set { _caster_ent_index = value; }
+    }
+
+    private int _caster_team = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"caster_team", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int caster_team
+    {
+      get { return _caster_team; }
+      set { _caster_team = value; }
+    }
+
+    private bool _channel_end = default(bool);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"channel_end", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool channel_end
+    {
+      get { return _channel_end; }
+      set { _channel_end = value; }
+    }
+
+    private CMsgVector _origin = null;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"origin", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgVector origin
+    {
+      get { return _origin; }
+      set { _origin = value; }
+    }
+
+    private bool _track_caster_only = default(bool);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"track_caster_only", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool track_caster_only
+    {
+      get { return _track_caster_only; }
+      set { _track_caster_only = value; }
+    }
+
+    private float _end_time = default(float);
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"end_time", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float end_time
+    {
+      get { return _end_time; }
+      set { _end_time = value; }
+    }
+
+    private int _victim_ent_index = default(int);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"victim_ent_index", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int victim_ent_index
+    {
+      get { return _victim_ent_index; }
+      set { _victim_ent_index = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CDOTAUserMsg_ProjectionEvent")]
+  public partial class CDOTAUserMsg_ProjectionEvent : global::ProtoBuf.IExtensible
+  {
+    public CDOTAUserMsg_ProjectionEvent() {}
+    
+
+    private EProjectionEvent _event_id = EProjectionEvent.ePE_FirstBlood;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"event_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(EProjectionEvent.ePE_FirstBlood)]
+    public EProjectionEvent event_id
+    {
+      get { return _event_id; }
+      set { _event_id = value; }
+    }
+
+    private uint _team = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"team", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint team
+    {
+      get { return _team; }
+      set { _team = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"EDotaUserMessages", EnumPassthru=true)]
     public enum EDotaUserMessages
     {
@@ -4377,7 +4550,16 @@ namespace Dota2.GC.Dota.Internal
       DOTA_UM_BeastChat = 139,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_SpectatorPlayerUnitOrders", Value=140)]
-      DOTA_UM_SpectatorPlayerUnitOrders = 140
+      DOTA_UM_SpectatorPlayerUnitOrders = 140,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_CompendiumState", Value=141)]
+      DOTA_UM_CompendiumState = 141,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_ProjectionAbility", Value=142)]
+      DOTA_UM_ProjectionAbility = 142,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_ProjectionEvent", Value=143)]
+      DOTA_UM_ProjectionEvent = 143
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_CHAT_MESSAGE", EnumPassthru=true)]
@@ -4968,6 +5150,73 @@ namespace Dota2.GC.Dota.Internal
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EHeroStatType_CullingBladeHeroBuffAverage", Value=2020)]
       k_EHeroStatType_CullingBladeHeroBuffAverage = 2020
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"EPlayerVoiceListenState", EnumPassthru=true)]
+    public enum EPlayerVoiceListenState
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_None", Value=0)]
+      kPVLS_None = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_DeniedChatBanned", Value=1)]
+      kPVLS_DeniedChatBanned = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_DeniedPartner", Value=2)]
+      kPVLS_DeniedPartner = 2,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_DeniedHLTVTalkerNotSpectator", Value=3)]
+      kPVLS_DeniedHLTVTalkerNotSpectator = 3,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_DeniedHLTVNoTalkerPlayerID", Value=4)]
+      kPVLS_DeniedHLTVNoTalkerPlayerID = 4,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_DeniedHLTVTalkerNotBroadcaster", Value=5)]
+      kPVLS_DeniedHLTVTalkerNotBroadcaster = 5,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_DeniedTeamSpectator", Value=6)]
+      kPVLS_DeniedTeamSpectator = 6,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_DeniedStudent", Value=8)]
+      kPVLS_DeniedStudent = 8,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_Denied", Value=64)]
+      kPVLS_Denied = 64,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_AllowHLTVTalkerIsBroadcaster", Value=65)]
+      kPVLS_AllowHLTVTalkerIsBroadcaster = 65,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_AllowCoBroadcaster", Value=66)]
+      kPVLS_AllowCoBroadcaster = 66,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_AllowAllChat", Value=67)]
+      kPVLS_AllowAllChat = 67,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_AllowStudentToCoach", Value=68)]
+      kPVLS_AllowStudentToCoach = 68,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_AllowFellowStudent", Value=69)]
+      kPVLS_AllowFellowStudent = 69,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_AllowTalkerIsCoach", Value=70)]
+      kPVLS_AllowTalkerIsCoach = 70,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_AllowCoachHearTeam", Value=71)]
+      kPVLS_AllowCoachHearTeam = 71,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_AllowSameTeam", Value=72)]
+      kPVLS_AllowSameTeam = 72,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"kPVLS_AllowShowcase", Value=73)]
+      kPVLS_AllowShowcase = 73
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"EProjectionEvent", EnumPassthru=true)]
+    public enum EProjectionEvent
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ePE_FirstBlood", Value=0)]
+      ePE_FirstBlood = 0
     }
   
 }
