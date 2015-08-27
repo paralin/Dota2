@@ -24,7 +24,7 @@ namespace Dota2
     {
         private Timer gcConnectTimer;
         private bool running = false;
-        internal SteamClient SteamClient;
+        public SteamClient SteamClient;
         private bool ready = false;
         private Games gameId = Games.DOTA2;
 

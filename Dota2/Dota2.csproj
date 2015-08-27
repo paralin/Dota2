@@ -49,13 +49,6 @@
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Snappy.NET, Version=1.1.1.8, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Snappy.NET.1.1.1.8\lib\net20\Snappy.NET.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Stateless">
-      <HintPath>..\packages\Stateless.2.5.18.0\lib\portable-net40+sl50+win+wp80\Stateless.dll</HintPath>
-    </Reference>
     <Reference Include="SteamKit2">
       <HintPath>..\packages\SteamKit2.1.6.3\lib\net40\SteamKit2.dll</HintPath>
     </Reference>
@@ -89,54 +82,10 @@
     <Compile Include="Base\Generated\Networking\UserMessages.cs" />
     <Compile Include="CDN\DotaCDN.cs" />
     <Compile Include="Datagram\Config\Model\NetworkConfig.cs" />
-    <Compile Include="Engine\Callbacks.cs" />
-    <Compile Include="Engine\Control\IDotaGameCommander.cs" />
-    <Compile Include="Engine\Control\IDotaGameController.cs" />
-    <Compile Include="Engine\Data\AuthTicket.cs" />
-    <Compile Include="Engine\Data\ConnectDetails.cs" />
-    <Compile Include="Engine\DotaGameClient.cs" />
-    <Compile Include="Engine\Game\Data\Entity.cs" />
-    <Compile Include="Engine\Game\Data\EntityClass.cs" />
-    <Compile Include="Engine\Game\Data\FlatTable.cs" />
-    <Compile Include="Engine\Game\Data\Order.cs" />
-    <Compile Include="Engine\Game\Data\Property.cs" />
-    <Compile Include="Engine\Game\Data\PropertyClass.cs" />
-    <Compile Include="Engine\Game\Data\PropertyInfo.cs" />
-    <Compile Include="Engine\Game\Data\SendTable.cs" />
-    <Compile Include="Engine\Game\Data\StringTable.cs" />
-    <Compile Include="Engine\Game\Data\UserCmd.cs" />
-    <Compile Include="Engine\Game\Data\Value.cs" />
-    <Compile Include="Engine\Game\Data\Vector.cs" />
-    <Compile Include="Engine\Game\DotaGameState.cs" />
-    <Compile Include="Engine\Game\Entities\DotaEntityPool.cs" />
-    <Compile Include="Engine\Game\Entities\DotaEntitySet.cs" />
-    <Compile Include="Engine\Game\Entities\Dota\Ability.cs" />
-    <Compile Include="Engine\Game\Entities\Dota\GameRules.cs" />
-    <Compile Include="Engine\Game\Entities\Dota\Player.cs" />
-    <Compile Include="Engine\Game\Entities\Dota\PlayerResource.cs" />
-    <Compile Include="Engine\Session\Actuators\UserCmdGenerator.cs" />
-    <Compile Include="Engine\Session\DotaGameConnection.cs" />
-    <Compile Include="Engine\Session\DotaGameSession.cs" />
-    <Compile Include="Engine\Session\Handlers\IHandler.cs" />
-    <Compile Include="Engine\Session\State\Enums\Events.cs" />
-    <Compile Include="Engine\Session\State\Enums\States.cs" />
-    <Compile Include="Engine\Session\Handlers\Game\Game.cs" />
-    <Compile Include="Engine\Session\Handlers\Handshake\DotaHandshake.cs" />
-    <Compile Include="Engine\Session\Networking\Lzss.cs" />
-    <Compile Include="Engine\Session\Networking\Stream.cs" />
-    <Compile Include="Engine\Session\Networking\Subchannel.cs" />
-    <Compile Include="Engine\Session\Handlers\Signon\DotaSignon.cs" />
-    <Compile Include="Engine\Session\Unpackers\EntityUpdater.cs" />
-    <Compile Include="Engine\Session\Unpackers\PropertyValueUnpacker.cs" />
-    <Compile Include="Engine\Session\Unpackers\SendTableFlattener.cs" />
-    <Compile Include="Engine\Session\Unpackers\StringTableUpdater.cs" />
     <Compile Include="GC\Callbacks.cs" />
     <Compile Include="GC\DotaExtensions.cs" />
     <Compile Include="GC\DotaGCHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\Bitstream.cs" />
-    <Compile Include="Utils\CrcUtils.cs" />
-    <Compile Include="Utils\MiscMath.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

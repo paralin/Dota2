@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dota2GameConnect", "Samples
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LobbyDump", "Samples\LobbyDump\Dota2LobbyDump\LobbyDump.csproj", "{0E3E15EE-37FE-4DB9-8534-9F3BDAF4BFE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dota2.GameClient", "Dota2.GameClient\Dota2.GameClient.csproj", "{0C79CA20-80E5-42D1-B6D0-D3D319D0DD39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,14 @@ Global
 		{0E3E15EE-37FE-4DB9-8534-9F3BDAF4BFE9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E3E15EE-37FE-4DB9-8534-9F3BDAF4BFE9}.Release|x86.ActiveCfg = Release|Any CPU
 		{0E3E15EE-37FE-4DB9-8534-9F3BDAF4BFE9}.Release|x86.Build.0 = Release|Any CPU
+		{0C79CA20-80E5-42D1-B6D0-D3D319D0DD39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C79CA20-80E5-42D1-B6D0-D3D319D0DD39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C79CA20-80E5-42D1-B6D0-D3D319D0DD39}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C79CA20-80E5-42D1-B6D0-D3D319D0DD39}.Debug|x86.Build.0 = Debug|Any CPU
+		{0C79CA20-80E5-42D1-B6D0-D3D319D0DD39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C79CA20-80E5-42D1-B6D0-D3D319D0DD39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C79CA20-80E5-42D1-B6D0-D3D319D0DD39}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C79CA20-80E5-42D1-B6D0-D3D319D0DD39}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
