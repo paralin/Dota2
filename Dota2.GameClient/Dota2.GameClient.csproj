@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0C79CA20-80E5-42D1-B6D0-D3D319D0DD39}</ProjectGuid>
+    <ProjectGuid>{3BF9DF42-BCD0-4CF6-9D95-1FB9F1D35BBE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dota2</RootNamespace>
@@ -29,11 +29,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Dota2.GameClient.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Crc32C.NET, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Crc32C.NET.1.0.5.0\lib\net20\Crc32C.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
@@ -110,9 +113,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dota2\Dota2.csproj">
-      <Project>{7825d5e3-9b75-4cb4-a77e-a886ccbcc094}</Project>
+      <Project>{d51354a5-eefd-4584-b79b-16889f10ecfd}</Project>
       <Name>Dota2</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Engine\Game\Entities\Data\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
