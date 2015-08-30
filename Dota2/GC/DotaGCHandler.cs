@@ -15,7 +15,7 @@ using SteamKit2;
 using SteamKit2.GC;
 using SteamKit2.Internal;
 
-namespace Dota2
+namespace Dota2.GC
 {
     /// <summary>
     ///     This handler handles all Dota 2 GC lobbies interaction.

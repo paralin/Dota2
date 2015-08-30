@@ -8,6 +8,7 @@ using Dota2.Engine.Game;
 using Dota2.Engine.Game.Data;
 using Dota2.Engine.Game.Entities;
 using Dota2.Engine.Session;
+using Dota2.GC;
 using Dota2.GC.Dota.Internal;
 using Dota2.Utils;
 using SteamKit2;

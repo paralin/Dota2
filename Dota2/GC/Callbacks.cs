@@ -5,14 +5,13 @@
 
 
 using System.Collections.Generic;
-using System.Linq;
 using Dota2.GC.Dota.Internal;
 using Dota2.GC.Internal;
 using SteamKit2;
 using SteamKit2.GC;
 using SteamKit2.Internal;
 
-namespace Dota2
+namespace Dota2.GC
 {
     public partial class DotaGCHandler
     {

@@ -11,7 +11,7 @@ using Dota2.Engine.Session.Networking;
 using Dota2.GC.Dota.Internal;
 using Dota2.Utils;
 using ProtoBuf;
-using Snappy;
+using Snappy.Sharp;
 using Stream = Dota2.Engine.Session.Networking.Stream;
 
 /*
@@ -442,15 +442,7 @@ namespace Dota2.Engine.Session
 
         private void ProcessMessage(Stream.Message message)
         {
-            byte[] data;
-            if (!message.IsCompressed)
-            {
-                data = message.Data;
-            }
-            else
-            {
-                data = SnappyCodec.Uncompress(message.Data);
-            }
+            var data = !message.IsCompressed ? message.Data : new SnappyDecompressor().Decompress(message.Data, 0, message.Data.Length);
 
             using (var stream = Bitstream.CreateWith(data))
             {

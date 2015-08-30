@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using Dota2.Utils;
-using Snappy;
+using Snappy.Sharp;
 
 /*
     This file heavily based off of the nora project.
@@ -143,7 +143,7 @@ namespace Dota2.Engine.Session.Networking
                 return new Message
                 {
                     IsCompressed = false,
-                    Data = SnappyCodec.Uncompress(data)
+                    Data = new SnappyDecompressor().Decompress(data, 0, data.Length)
                 };
             }
             else
