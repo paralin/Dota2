@@ -40,12 +40,6 @@ namespace Dota2.GC
         public ESourceEngine Engine => engine;
 
         /// <summary>
-        /// Current dota client version, see hello
-        /// todo: dynamically grab this
-        /// </summary>
-        public static uint DOTA_CLIENT_VERSION = 1500;
-
-        /// <summary>
         /// Is the GC ready?
         /// </summary>
         public bool Ready
@@ -160,10 +154,9 @@ namespace Dota2.GC
             if (!running) return;
             var clientHello = new ClientGCMsgProtobuf<CMsgClientHello>((uint)EGCBaseClientMsg.k_EMsgGCClientHello);
             //todo: allow to specify reborn
-            clientHello.Body.engine = ESourceEngine.k_ESE_Source1;
+            clientHello.Body.engine = engine;
             clientHello.Body.secret_key = "";
             clientHello.Body.client_session_need = 104;
-            clientHello.Body.version = DOTA_CLIENT_VERSION;
             Send(clientHello);
         }
 
@@ -377,8 +370,6 @@ namespace Dota2.GC
             create.Body.lobby_details = details;
             create.Body.lobby_details.pass_key = pass_key;
             create.Body.lobby_details.visibility = DOTALobbyVisibility.DOTALobbyVisibility_Public;
-            create.Body.client_version = DOTA_CLIENT_VERSION;
-            //todo: maybe reborn title?
             create.Body.search_key = "";
             Send(create);
         }
