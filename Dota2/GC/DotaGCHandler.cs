@@ -27,11 +27,17 @@ namespace Dota2.GC
         public SteamClient SteamClient;
         private bool ready = false;
         private Games gameId = Games.DOTA2;
+        private ESourceEngine engine;
 
         /// <summary>
         /// The Game ID the handler will use.
         /// </summary>
         public Games GameID => gameId;
+
+        /// <summary>
+        /// The engine to use.
+        /// </summary>
+        public ESourceEngine Engine => engine;
 
         /// <summary>
         /// Current dota client version, see hello
@@ -47,9 +53,10 @@ namespace Dota2.GC
             get { return ready; }
         }
 
-        internal DotaGCHandler(SteamClient client, Games appId)
+        internal DotaGCHandler(SteamClient client, Games appId, ESourceEngine _engine)
         {
             gameId = appId;
+            engine = _engine;
             SteamClient = client;
             gcConnectTimer = new Timer(5000);
             gcConnectTimer.Elapsed += (sender, args) =>
@@ -68,9 +75,10 @@ namespace Dota2.GC
         /// </summary>
         /// <param name="client"></param>
         /// <param name="appId">Optional, specify the GC to communicate with.</param>
-        public static void Bootstrap(SteamClient client, Games appId = Games.DOTA2)
+        /// <param name="engine">Optional, engine to connect to. Default source1.</param>
+        public static void Bootstrap(SteamClient client, Games appId = Games.DOTA2, ESourceEngine engine = ESourceEngine.k_ESE_Source1)
         {
-            client.AddHandler(new DotaGCHandler(client, appId));
+            client.AddHandler(new DotaGCHandler(client, appId, engine));
         }
 
         /// <summary>

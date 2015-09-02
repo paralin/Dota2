@@ -1,3 +1,6 @@
 [submodule "Dependencies/SnappySharp"]
 	path = Dependencies/SnappySharp
 	url = https://github.com/paralin/Snappy.Sharp.git
+[submodule "Samples/LobbyDump"]
+	path = Samples/LobbyDump
+	url = https://github.com/paralin/Dota2LobbyDump.git
