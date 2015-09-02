@@ -4,7 +4,7 @@ solution: Dota2.sln
 
 install:
     - nuget restore Dota2.sln
-    - cd Samples/LobbyDump/ && nuget restore Dota2LobbyDump.sln
+    - cd Samples/LobbyDump/ && nuget restore Dota2LobbyDump.sln && cd -
 
 script:
     - xbuild /p:NoWarn=1584 Dota2.sln
