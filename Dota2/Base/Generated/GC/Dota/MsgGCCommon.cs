@@ -416,6 +416,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _play_time_points; }
       set { _play_time_points = value; }
     }
+
+    private uint _account_flags = default(uint);
+    [global::ProtoBuf.ProtoMember(69, IsRequired = false, Name=@"account_flags", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint account_flags
+    {
+      get { return _account_flags; }
+      set { _account_flags = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -4401,6 +4410,24 @@ namespace Dota2.GC.Dota.Internal
       get { return _slots; }
     }
   
+
+    private uint _badge_points = default(uint);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"badge_points", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint badge_points
+    {
+      get { return _badge_points; }
+      set { _badge_points = value; }
+    }
+
+    private uint _event_points = default(uint);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"event_points", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint event_points
+    {
+      get { return _event_points; }
+      set { _event_points = value; }
+    }
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Slot")]
   public partial class Slot : global::ProtoBuf.IExtensible
   {
@@ -4529,6 +4556,15 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _serialized_item; }
       set { _serialized_item = value; }
+    }
+
+    private ulong _item_id = default(ulong);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"item_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong item_id
+    {
+      get { return _item_id; }
+      set { _item_id = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -8050,6 +8086,15 @@ namespace Dota2.GC.Dota.Internal
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCCreateStaticRecipeResponse", Value=7605)]
       k_EMsgClientToGCCreateStaticRecipeResponse = 7605,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCGetAllHeroOrder", Value=7606)]
+      k_EMsgClientToGCGetAllHeroOrder = 7606,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCGetAllHeroOrderResponse", Value=7607)]
+      k_EMsgClientToGCGetAllHeroOrderResponse = 7607,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgSQLGCToGCGrantBadgePoints", Value=7608)]
+      k_EMsgSQLGCToGCGrantBadgePoints = 7608,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCDev_GrantWarKill", Value=8001)]
       k_EMsgGCDev_GrantWarKill = 8001,
             
@@ -8164,9 +8209,6 @@ namespace Dota2.GC.Dota.Internal
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToClientTopMatchesResponse", Value=8038)]
       k_EMsgGCToClientTopMatchesResponse = 8038,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCTopPubMatchesRequest", Value=8039)]
-      k_EMsgClientToGCTopPubMatchesRequest = 8039,
-            
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToClientProfileCardStatsUpdated", Value=8040)]
       k_EMsgGCToClientProfileCardStatsUpdated = 8040,
             
@@ -8210,7 +8252,16 @@ namespace Dota2.GC.Dota.Internal
       k_EMsgGCStartFindingMatchResponse = 8055,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgSQLGCToGCUpdateHeroMMR", Value=8056)]
-      k_EMsgSQLGCToGCUpdateHeroMMR = 8056
+      k_EMsgSQLGCToGCUpdateHeroMMR = 8056,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgSQLGCToGCGrantAccountFlag", Value=8057)]
+      k_EMsgSQLGCToGCGrantAccountFlag = 8057,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToGCGetAccountFlags", Value=8058)]
+      k_EMsgGCToGCGetAccountFlags = 8058,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToGCGetAccountFlagsResponse", Value=8059)]
+      k_EMsgGCToGCGetAccountFlagsResponse = 8059
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_GameMode", EnumPassthru=true)]
@@ -8318,8 +8369,11 @@ namespace Dota2.GC.Dota.Internal
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_GAMERULES_STATE_TEAM_SHOWCASE", Value=8)]
       DOTA_GAMERULES_STATE_TEAM_SHOWCASE = 8,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_GAMERULES_STATE_LAST", Value=9)]
-      DOTA_GAMERULES_STATE_LAST = 9
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP", Value=9)]
+      DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP = 9,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_GAMERULES_STATE_LAST", Value=10)]
+      DOTA_GAMERULES_STATE_LAST = 10
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_GC_TEAM", EnumPassthru=true)]
@@ -8694,7 +8748,10 @@ namespace Dota2.GC.Dota.Internal
       k_EIngameEvent_CNY2015_PreBeast = 2,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EIngameEvent_TI5", Value=3)]
-      k_EIngameEvent_TI5 = 3
+      k_EIngameEvent_TI5 = 3,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EIngameEvent_FM2015", Value=4)]
+      k_EIngameEvent_FM2015 = 4
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"LobbyDotaTVDelay", EnumPassthru=true)]

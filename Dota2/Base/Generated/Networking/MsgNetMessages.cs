@@ -73,13 +73,6 @@ namespace Dota2.GC.Dota.Internal
       get { return _friends_name; }
       set { _friends_name = value; }
     }
-    private readonly global::System.Collections.Generic.List<uint> _custom_files = new global::System.Collections.Generic.List<uint>();
-    [global::ProtoBuf.ProtoMember(7, Name=@"custom_files", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
-    public global::System.Collections.Generic.List<uint> custom_files
-    {
-      get { return _custom_files; }
-    }
-  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -122,19 +115,83 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgVoiceAudio")]
+  public partial class CMsgVoiceAudio : global::ProtoBuf.IExtensible
+  {
+    public CMsgVoiceAudio() {}
+    
+
+    private VoiceDataFormat_t _format = VoiceDataFormat_t.VOICEDATA_FORMAT_STEAM;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"format", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(VoiceDataFormat_t.VOICEDATA_FORMAT_STEAM)]
+    public VoiceDataFormat_t format
+    {
+      get { return _format; }
+      set { _format = value; }
+    }
+
+    private byte[] _voice_data = null;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"voice_data", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public byte[] voice_data
+    {
+      get { return _voice_data; }
+      set { _voice_data = value; }
+    }
+
+    private int _sequence_bytes = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"sequence_bytes", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int sequence_bytes
+    {
+      get { return _sequence_bytes; }
+      set { _sequence_bytes = value; }
+    }
+
+    private uint _section_number = default(uint);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"section_number", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint section_number
+    {
+      get { return _section_number; }
+      set { _section_number = value; }
+    }
+
+    private uint _sample_rate = default(uint);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"sample_rate", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint sample_rate
+    {
+      get { return _sample_rate; }
+      set { _sample_rate = value; }
+    }
+
+    private uint _uncompressed_sample_offset = default(uint);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"uncompressed_sample_offset", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint uncompressed_sample_offset
+    {
+      get { return _uncompressed_sample_offset; }
+      set { _uncompressed_sample_offset = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CCLCMsg_VoiceData")]
   public partial class CCLCMsg_VoiceData : global::ProtoBuf.IExtensible
   {
     public CCLCMsg_VoiceData() {}
     
 
-    private byte[] _data = null;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"data", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    private CMsgVoiceAudio _audio = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"audio", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
-    public byte[] data
+    public CMsgVoiceAudio audio
     {
-      get { return _data; }
-      set { _data = value; }
+      get { return _audio; }
+      set { _audio = value; }
     }
 
     private ulong _xuid = default(ulong);
@@ -146,44 +203,8 @@ namespace Dota2.GC.Dota.Internal
       set { _xuid = value; }
     }
 
-    private VoiceDataFormat_t _format = VoiceDataFormat_t.VOICEDATA_FORMAT_STEAM;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"format", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(VoiceDataFormat_t.VOICEDATA_FORMAT_STEAM)]
-    public VoiceDataFormat_t format
-    {
-      get { return _format; }
-      set { _format = value; }
-    }
-
-    private int _sequence_bytes = default(int);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"sequence_bytes", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int sequence_bytes
-    {
-      get { return _sequence_bytes; }
-      set { _sequence_bytes = value; }
-    }
-
-    private uint _section_number = default(uint);
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"section_number", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint section_number
-    {
-      get { return _section_number; }
-      set { _section_number = value; }
-    }
-
-    private uint _uncompressed_sample_offset = default(uint);
-    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"uncompressed_sample_offset", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint uncompressed_sample_offset
-    {
-      get { return _uncompressed_sample_offset; }
-      set { _uncompressed_sample_offset = value; }
-    }
-
     private uint _tick = default(uint);
-    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"tick", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"tick", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(uint))]
     public uint tick
     {
@@ -366,13 +387,13 @@ namespace Dota2.GC.Dota.Internal
     public CCLCMsg_SplitPlayerConnect() {}
     
 
-    private CMsg_CVars _convars = null;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"convars", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public CMsg_CVars convars
+    private string _playername = "";
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"playername", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string playername
     {
-      get { return _convars; }
-      set { _convars = value; }
+      get { return _playername; }
+      set { _playername = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -396,6 +417,101 @@ namespace Dota2.GC.Dota.Internal
 
     private byte[] _data = null;
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"data", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public byte[] data
+    {
+      get { return _data; }
+      set { _data = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CCLCMsg_SplitPlayerDisconnect")]
+  public partial class CCLCMsg_SplitPlayerDisconnect : global::ProtoBuf.IExtensible
+  {
+    public CCLCMsg_SplitPlayerDisconnect() {}
+    
+
+    private int _slot = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"slot", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int slot
+    {
+      get { return _slot; }
+      set { _slot = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CCLCMsg_ServerStatus")]
+  public partial class CCLCMsg_ServerStatus : global::ProtoBuf.IExtensible
+  {
+    public CCLCMsg_ServerStatus() {}
+    
+
+    private bool _simplified = default(bool);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"simplified", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool simplified
+    {
+      get { return _simplified; }
+      set { _simplified = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CCLCMsg_ServerPing")]
+  public partial class CCLCMsg_ServerPing : global::ProtoBuf.IExtensible
+  {
+    public CCLCMsg_ServerPing() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CCLCMsg_RequestPause")]
+  public partial class CCLCMsg_RequestPause : global::ProtoBuf.IExtensible
+  {
+    public CCLCMsg_RequestPause() {}
+    
+
+    private RequestPause_t _pause_type = RequestPause_t.RP_PAUSE;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"pause_type", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(RequestPause_t.RP_PAUSE)]
+    public RequestPause_t pause_type
+    {
+      get { return _pause_type; }
+      set { _pause_type = value; }
+    }
+
+    private int _pause_group = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"pause_group", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int pause_group
+    {
+      get { return _pause_group; }
+      set { _pause_group = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CCLCMsg_CmdKeyValues")]
+  public partial class CCLCMsg_CmdKeyValues : global::ProtoBuf.IExtensible
+  {
+    public CCLCMsg_CmdKeyValues() {}
+    
+
+    private byte[] _data = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"data", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
     public byte[] data
     {
@@ -573,6 +689,24 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _addon_name; }
       set { _addon_name = value; }
+    }
+
+    private CSVCMsg_GameSessionConfiguration _game_session_config = null;
+    [global::ProtoBuf.ProtoMember(19, IsRequired = false, Name=@"game_session_config", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CSVCMsg_GameSessionConfiguration game_session_config
+    {
+      get { return _game_session_config; }
+      set { _game_session_config = value; }
+    }
+
+    private byte[] _game_session_manifest = null;
+    [global::ProtoBuf.ProtoMember(20, IsRequired = false, Name=@"game_session_manifest", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public byte[] game_session_manifest
+    {
+      get { return _game_session_manifest; }
+      set { _game_session_manifest = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -896,6 +1030,24 @@ namespace Dota2.GC.Dota.Internal
       get { return _is_ambient; }
       set { _is_ambient = value; }
     }
+
+    private uint _guid = default(uint);
+    [global::ProtoBuf.ProtoMember(18, IsRequired = false, Name=@"guid", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint guid
+    {
+      get { return _guid; }
+      set { _guid = value; }
+    }
+
+    private ulong _sound_resource_id = default(ulong);
+    [global::ProtoBuf.ProtoMember(19, IsRequired = false, Name=@"sound_resource_id", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong sound_resource_id
+    {
+      get { return _sound_resource_id; }
+      set { _sound_resource_id = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -920,6 +1072,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _sound_index; }
       set { _sound_index = value; }
     }
+
+    private PrefetchType _resource_type = PrefetchType.PFT_SOUND;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"resource_type", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(PrefetchType.PFT_SOUND)]
+    public PrefetchType resource_type
+    {
+      get { return _resource_type; }
+      set { _resource_type = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -938,6 +1099,15 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _entity_index; }
       set { _entity_index = value; }
+    }
+
+    private int _slot = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"slot", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int slot
+    {
+      get { return _slot; }
+      set { _slot = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -1431,6 +1601,24 @@ namespace Dota2.GC.Dota.Internal
       get { return _pending_full_frame; }
       set { _pending_full_frame = value; }
     }
+
+    private uint _active_spawngroup_handle = default(uint);
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"active_spawngroup_handle", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint active_spawngroup_handle
+    {
+      get { return _active_spawngroup_handle; }
+      set { _active_spawngroup_handle = value; }
+    }
+
+    private uint _max_spawngroup_creationsequence = default(uint);
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"max_spawngroup_creationsequence", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint max_spawngroup_creationsequence
+    {
+      get { return _max_spawngroup_creationsequence; }
+      set { _max_spawngroup_creationsequence = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -1488,17 +1676,8 @@ namespace Dota2.GC.Dota.Internal
       set { _name = value; }
     }
 
-    private int _max_entries = default(int);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"max_entries", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int max_entries
-    {
-      get { return _max_entries; }
-      set { _max_entries = value; }
-    }
-
     private int _num_entries = default(int);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"num_entries", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"num_entries", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int num_entries
     {
@@ -1507,7 +1686,7 @@ namespace Dota2.GC.Dota.Internal
     }
 
     private bool _user_data_fixed_size = default(bool);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"user_data_fixed_size", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"user_data_fixed_size", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(default(bool))]
     public bool user_data_fixed_size
     {
@@ -1516,7 +1695,7 @@ namespace Dota2.GC.Dota.Internal
     }
 
     private int _user_data_size = default(int);
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"user_data_size", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"user_data_size", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int user_data_size
     {
@@ -1525,7 +1704,7 @@ namespace Dota2.GC.Dota.Internal
     }
 
     private int _user_data_size_bits = default(int);
-    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"user_data_size_bits", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"user_data_size_bits", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int user_data_size_bits
     {
@@ -1534,7 +1713,7 @@ namespace Dota2.GC.Dota.Internal
     }
 
     private int _flags = default(int);
-    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"flags", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"flags", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int flags
     {
@@ -1543,12 +1722,30 @@ namespace Dota2.GC.Dota.Internal
     }
 
     private byte[] _string_data = null;
-    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"string_data", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"string_data", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
     public byte[] string_data
     {
       get { return _string_data; }
       set { _string_data = value; }
+    }
+
+    private int _uncompressed_size = default(int);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"uncompressed_size", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int uncompressed_size
+    {
+      get { return _uncompressed_size; }
+      set { _uncompressed_size = value; }
+    }
+
+    private bool _data_compressed = default(bool);
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"data_compressed", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool data_compressed
+    {
+      get { return _data_compressed; }
+      set { _data_compressed = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -1598,8 +1795,17 @@ namespace Dota2.GC.Dota.Internal
     public CSVCMsg_VoiceData() {}
     
 
+    private CMsgVoiceAudio _audio = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"audio", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgVoiceAudio audio
+    {
+      get { return _audio; }
+      set { _audio = value; }
+    }
+
     private int _client = default(int);
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"client", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"client", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int client
     {
@@ -1608,7 +1814,7 @@ namespace Dota2.GC.Dota.Internal
     }
 
     private bool _proximity = default(bool);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"proximity", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"proximity", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(default(bool))]
     public bool proximity
     {
@@ -1617,7 +1823,7 @@ namespace Dota2.GC.Dota.Internal
     }
 
     private ulong _xuid = default(ulong);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"xuid", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"xuid", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
     [global::System.ComponentModel.DefaultValue(default(ulong))]
     public ulong xuid
     {
@@ -1626,7 +1832,7 @@ namespace Dota2.GC.Dota.Internal
     }
 
     private int _audible_mask = default(int);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"audible_mask", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"audible_mask", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int audible_mask
     {
@@ -1634,53 +1840,8 @@ namespace Dota2.GC.Dota.Internal
       set { _audible_mask = value; }
     }
 
-    private byte[] _voice_data = null;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"voice_data", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public byte[] voice_data
-    {
-      get { return _voice_data; }
-      set { _voice_data = value; }
-    }
-
-    private VoiceDataFormat_t _format = VoiceDataFormat_t.VOICEDATA_FORMAT_STEAM;
-    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"format", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(VoiceDataFormat_t.VOICEDATA_FORMAT_STEAM)]
-    public VoiceDataFormat_t format
-    {
-      get { return _format; }
-      set { _format = value; }
-    }
-
-    private int _sequence_bytes = default(int);
-    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"sequence_bytes", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int sequence_bytes
-    {
-      get { return _sequence_bytes; }
-      set { _sequence_bytes = value; }
-    }
-
-    private uint _section_number = default(uint);
-    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"section_number", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint section_number
-    {
-      get { return _section_number; }
-      set { _section_number = value; }
-    }
-
-    private uint _uncompressed_sample_offset = default(uint);
-    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"uncompressed_sample_offset", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint uncompressed_sample_offset
-    {
-      get { return _uncompressed_sample_offset; }
-      set { _uncompressed_sample_offset = value; }
-    }
-
     private uint _tick = default(uint);
-    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"tick", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"tick", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(uint))]
     public uint tick
     {
@@ -1714,6 +1875,15 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _messagessize; }
       set { _messagessize = value; }
+    }
+
+    private bool _state = default(bool);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"state", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool state
+    {
+      get { return _state; }
+      set { _state = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -1766,122 +1936,723 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CSVCMsg_CmdKeyValues")]
+  public partial class CSVCMsg_CmdKeyValues : global::ProtoBuf.IExtensible
+  {
+    public CSVCMsg_CmdKeyValues() {}
+    
+
+    private byte[] _data = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"data", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public byte[] data
+    {
+      get { return _data; }
+      set { _data = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgIPCAddress")]
+  public partial class CMsgIPCAddress : global::ProtoBuf.IExtensible
+  {
+    public CMsgIPCAddress() {}
+    
+
+    private ulong _computer_guid = default(ulong);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"computer_guid", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong computer_guid
+    {
+      get { return _computer_guid; }
+      set { _computer_guid = value; }
+    }
+
+    private uint _process_id = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"process_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint process_id
+    {
+      get { return _process_id; }
+      set { _process_id = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgServerPeer")]
+  public partial class CMsgServerPeer : global::ProtoBuf.IExtensible
+  {
+    public CMsgServerPeer() {}
+    
+
+    private int _player_slot = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"player_slot", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int player_slot
+    {
+      get { return _player_slot; }
+      set { _player_slot = value; }
+    }
+
+    private ulong _steamid = default(ulong);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"steamid", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong steamid
+    {
+      get { return _steamid; }
+      set { _steamid = value; }
+    }
+
+    private CMsgIPCAddress _ipc = null;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"ipc", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgIPCAddress ipc
+    {
+      get { return _ipc; }
+      set { _ipc = value; }
+    }
+
+    private bool _they_hear_you = default(bool);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"they_hear_you", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool they_hear_you
+    {
+      get { return _they_hear_you; }
+      set { _they_hear_you = value; }
+    }
+
+    private bool _you_hear_them = default(bool);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"you_hear_them", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool you_hear_them
+    {
+      get { return _you_hear_them; }
+      set { _you_hear_them = value; }
+    }
+
+    private bool _is_listenserver_host = default(bool);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"is_listenserver_host", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool is_listenserver_host
+    {
+      get { return _is_listenserver_host; }
+      set { _is_listenserver_host = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CSVCMsg_PeerList")]
+  public partial class CSVCMsg_PeerList : global::ProtoBuf.IExtensible
+  {
+    public CSVCMsg_PeerList() {}
+    
+    private readonly global::System.Collections.Generic.List<CMsgServerPeer> _peer = new global::System.Collections.Generic.List<CMsgServerPeer>();
+    [global::ProtoBuf.ProtoMember(1, Name=@"peer", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<CMsgServerPeer> peer
+    {
+      get { return _peer; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CSVCMsg_ClearAllStringTables")]
+  public partial class CSVCMsg_ClearAllStringTables : global::ProtoBuf.IExtensible
+  {
+    public CSVCMsg_ClearAllStringTables() {}
+    
+
+    private string _mapname = "";
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"mapname", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string mapname
+    {
+      get { return _mapname; }
+      set { _mapname = value; }
+    }
+
+    private uint _map_crc = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"map_crc", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint map_crc
+    {
+      get { return _map_crc; }
+      set { _map_crc = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ProtoFlattenedSerializerField_t")]
+  public partial class ProtoFlattenedSerializerField_t : global::ProtoBuf.IExtensible
+  {
+    public ProtoFlattenedSerializerField_t() {}
+    
+
+    private int _var_type_sym = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"var_type_sym", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int var_type_sym
+    {
+      get { return _var_type_sym; }
+      set { _var_type_sym = value; }
+    }
+
+    private int _var_name_sym = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"var_name_sym", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int var_name_sym
+    {
+      get { return _var_name_sym; }
+      set { _var_name_sym = value; }
+    }
+
+    private int _bit_count = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"bit_count", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int bit_count
+    {
+      get { return _bit_count; }
+      set { _bit_count = value; }
+    }
+
+    private float _low_value = default(float);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"low_value", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float low_value
+    {
+      get { return _low_value; }
+      set { _low_value = value; }
+    }
+
+    private float _high_value = default(float);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"high_value", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float high_value
+    {
+      get { return _high_value; }
+      set { _high_value = value; }
+    }
+
+    private int _encode_flags = default(int);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"encode_flags", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int encode_flags
+    {
+      get { return _encode_flags; }
+      set { _encode_flags = value; }
+    }
+
+    private int _field_serializer_name_sym = default(int);
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"field_serializer_name_sym", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int field_serializer_name_sym
+    {
+      get { return _field_serializer_name_sym; }
+      set { _field_serializer_name_sym = value; }
+    }
+
+    private int _field_serializer_version = default(int);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"field_serializer_version", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int field_serializer_version
+    {
+      get { return _field_serializer_version; }
+      set { _field_serializer_version = value; }
+    }
+
+    private int _send_node_sym = default(int);
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"send_node_sym", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int send_node_sym
+    {
+      get { return _send_node_sym; }
+      set { _send_node_sym = value; }
+    }
+
+    private int _var_encoder_sym = default(int);
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"var_encoder_sym", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int var_encoder_sym
+    {
+      get { return _var_encoder_sym; }
+      set { _var_encoder_sym = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ProtoFlattenedSerializer_t")]
+  public partial class ProtoFlattenedSerializer_t : global::ProtoBuf.IExtensible
+  {
+    public ProtoFlattenedSerializer_t() {}
+    
+
+    private int _serializer_name_sym = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"serializer_name_sym", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int serializer_name_sym
+    {
+      get { return _serializer_name_sym; }
+      set { _serializer_name_sym = value; }
+    }
+
+    private int _serializer_version = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"serializer_version", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int serializer_version
+    {
+      get { return _serializer_version; }
+      set { _serializer_version = value; }
+    }
+    private readonly global::System.Collections.Generic.List<int> _fields_index = new global::System.Collections.Generic.List<int>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"fields_index", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<int> fields_index
+    {
+      get { return _fields_index; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CSVCMsg_FlattenedSerializer")]
+  public partial class CSVCMsg_FlattenedSerializer : global::ProtoBuf.IExtensible
+  {
+    public CSVCMsg_FlattenedSerializer() {}
+    
+    private readonly global::System.Collections.Generic.List<ProtoFlattenedSerializer_t> _serializers = new global::System.Collections.Generic.List<ProtoFlattenedSerializer_t>();
+    [global::ProtoBuf.ProtoMember(1, Name=@"serializers", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoFlattenedSerializer_t> serializers
+    {
+      get { return _serializers; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<string> _symbols = new global::System.Collections.Generic.List<string>();
+    [global::ProtoBuf.ProtoMember(2, Name=@"symbols", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<string> symbols
+    {
+      get { return _symbols; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<ProtoFlattenedSerializerField_t> _fields = new global::System.Collections.Generic.List<ProtoFlattenedSerializerField_t>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"fields", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoFlattenedSerializerField_t> fields
+    {
+      get { return _fields; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CSVCMsg_StopSound")]
+  public partial class CSVCMsg_StopSound : global::ProtoBuf.IExtensible
+  {
+    public CSVCMsg_StopSound() {}
+    
+
+    private uint _guid = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"guid", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint guid
+    {
+      get { return _guid; }
+      set { _guid = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CBidirMsg_RebroadcastGameEvent")]
+  public partial class CBidirMsg_RebroadcastGameEvent : global::ProtoBuf.IExtensible
+  {
+    public CBidirMsg_RebroadcastGameEvent() {}
+    
+
+    private bool _posttoserver = default(bool);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"posttoserver", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool posttoserver
+    {
+      get { return _posttoserver; }
+      set { _posttoserver = value; }
+    }
+
+    private int _buftype = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"buftype", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int buftype
+    {
+      get { return _buftype; }
+      set { _buftype = value; }
+    }
+
+    private uint _clientbitcount = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"clientbitcount", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint clientbitcount
+    {
+      get { return _clientbitcount; }
+      set { _clientbitcount = value; }
+    }
+
+    private ulong _receivingclients = default(ulong);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"receivingclients", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong receivingclients
+    {
+      get { return _receivingclients; }
+      set { _receivingclients = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CBidirMsg_RebroadcastSource")]
+  public partial class CBidirMsg_RebroadcastSource : global::ProtoBuf.IExtensible
+  {
+    public CBidirMsg_RebroadcastSource() {}
+    
+
+    private int _eventsource = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"eventsource", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int eventsource
+    {
+      get { return _eventsource; }
+      set { _eventsource = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SerializedNetAddress_t")]
+  public partial class SerializedNetAddress_t : global::ProtoBuf.IExtensible
+  {
+    public SerializedNetAddress_t() {}
+    
+    private byte[] _serializedAddress;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"serializedAddress", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public byte[] serializedAddress
+    {
+      get { return _serializedAddress; }
+      set { _serializedAddress = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CBidirMsg_RelayInfo")]
+  public partial class CBidirMsg_RelayInfo : global::ProtoBuf.IExtensible
+  {
+    public CBidirMsg_RelayInfo() {}
+    
+    private CBidirMsg_RelayInfo.Operation_t _operation;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"operation", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public CBidirMsg_RelayInfo.Operation_t operation
+    {
+      get { return _operation; }
+      set { _operation = value; }
+    }
+
+    private SerializedNetAddress_t _serializedTargetAddress = null;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"serializedTargetAddress", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public SerializedNetAddress_t serializedTargetAddress
+    {
+      get { return _serializedTargetAddress; }
+      set { _serializedTargetAddress = value; }
+    }
+
+    private uint _additionalHops = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"additionalHops", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint additionalHops
+    {
+      get { return _additionalHops; }
+      set { _additionalHops = value; }
+    }
+    [global::ProtoBuf.ProtoContract(Name=@"Operation_t", EnumPassthru=true)]
+    public enum Operation_t
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RIO_REQUEST_RELAY", Value=0)]
+      RIO_REQUEST_RELAY = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RIO_WILL_RELAY", Value=1)]
+      RIO_WILL_RELAY = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RIO_NO_ROUTE", Value=2)]
+      RIO_NO_ROUTE = 2,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RIO_REJECT_RELAY", Value=3)]
+      RIO_REJECT_RELAY = 3,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RIO_ESTABLISH_CONNECTION", Value=4)]
+      RIO_ESTABLISH_CONNECTION = 4
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SignedPayload_t")]
+  public partial class SignedPayload_t : global::ProtoBuf.IExtensible
+  {
+    public SignedPayload_t() {}
+    
+    private byte[] _payloadData;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"payloadData", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public byte[] payloadData
+    {
+      get { return _payloadData; }
+      set { _payloadData = value; }
+    }
+    private uint _signature;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"signature", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public uint signature
+    {
+      get { return _signature; }
+      set { _signature = value; }
+    }
+    private bool _bPayloadEncrypted;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"bPayloadEncrypted", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public bool bPayloadEncrypted
+    {
+      get { return _bPayloadEncrypted; }
+      set { _bPayloadEncrypted = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CBidirMsg_RelayPacket")]
+  public partial class CBidirMsg_RelayPacket : global::ProtoBuf.IExtensible
+  {
+    public CBidirMsg_RelayPacket() {}
+    
+    private uint _prevhopcount;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"prevhopcount", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public uint prevhopcount
+    {
+      get { return _prevhopcount; }
+      set { _prevhopcount = value; }
+    }
+    private SerializedNetAddress_t _originalSender;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"originalSender", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public SerializedNetAddress_t originalSender
+    {
+      get { return _originalSender; }
+      set { _originalSender = value; }
+    }
+    private SignedPayload_t _signedPayload;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"signedPayload", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public SignedPayload_t signedPayload
+    {
+      get { return _signedPayload; }
+      set { _signedPayload = value; }
+    }
+    private readonly global::System.Collections.Generic.List<CBidirMsg_RelayPacket.SignedDestinationAddress_t> _recipientList = new global::System.Collections.Generic.List<CBidirMsg_RelayPacket.SignedDestinationAddress_t>();
+    [global::ProtoBuf.ProtoMember(4, Name=@"recipientList", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<CBidirMsg_RelayPacket.SignedDestinationAddress_t> recipientList
+    {
+      get { return _recipientList; }
+    }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SignedDestinationAddress_t")]
+  public partial class SignedDestinationAddress_t : global::ProtoBuf.IExtensible
+  {
+    public SignedDestinationAddress_t() {}
+    
+    private SerializedNetAddress_t _serializedAddr;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"serializedAddr", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public SerializedNetAddress_t serializedAddr
+    {
+      get { return _serializedAddr; }
+      set { _serializedAddr = value; }
+    }
+    private uint _signature;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"signature", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public uint signature
+    {
+      get { return _signature; }
+      set { _signature = value; }
+    }
+
+    private byte[] _encryptedPayloadKey = null;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"encryptedPayloadKey", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public byte[] encryptedPayloadKey
+    {
+      get { return _encryptedPayloadKey; }
+      set { _encryptedPayloadKey = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"CLC_Messages", EnumPassthru=true)]
     public enum CLC_Messages
     {
             
-      [global::ProtoBuf.ProtoEnum(Name=@"clc_ClientInfo", Value=8)]
-      clc_ClientInfo = 8,
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_ClientInfo", Value=20)]
+      clc_ClientInfo = 20,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"clc_Move", Value=9)]
-      clc_Move = 9,
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_Move", Value=21)]
+      clc_Move = 21,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"clc_VoiceData", Value=10)]
-      clc_VoiceData = 10,
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_VoiceData", Value=22)]
+      clc_VoiceData = 22,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"clc_BaselineAck", Value=11)]
-      clc_BaselineAck = 11,
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_BaselineAck", Value=23)]
+      clc_BaselineAck = 23,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"clc_ListenEvents", Value=12)]
-      clc_ListenEvents = 12,
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_ListenEvents", Value=24)]
+      clc_ListenEvents = 24,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"clc_RespondCvarValue", Value=13)]
-      clc_RespondCvarValue = 13,
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_RespondCvarValue", Value=25)]
+      clc_RespondCvarValue = 25,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"clc_FileCRCCheck", Value=14)]
-      clc_FileCRCCheck = 14,
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_FileCRCCheck", Value=26)]
+      clc_FileCRCCheck = 26,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"clc_LoadingProgress", Value=15)]
-      clc_LoadingProgress = 15,
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_LoadingProgress", Value=27)]
+      clc_LoadingProgress = 27,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"clc_SplitPlayerConnect", Value=16)]
-      clc_SplitPlayerConnect = 16,
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_SplitPlayerConnect", Value=28)]
+      clc_SplitPlayerConnect = 28,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"clc_ClientMessage", Value=17)]
-      clc_ClientMessage = 17
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_ClientMessage", Value=29)]
+      clc_ClientMessage = 29,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_SplitPlayerDisconnect", Value=30)]
+      clc_SplitPlayerDisconnect = 30,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_ServerStatus", Value=31)]
+      clc_ServerStatus = 31,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_ServerPing", Value=32)]
+      clc_ServerPing = 32,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_RequestPause", Value=33)]
+      clc_RequestPause = 33,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"clc_CmdKeyValues", Value=34)]
+      clc_CmdKeyValues = 34
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"SVC_Messages", EnumPassthru=true)]
     public enum SVC_Messages
     {
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_ServerInfo", Value=8)]
-      svc_ServerInfo = 8,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_ServerInfo", Value=40)]
+      svc_ServerInfo = 40,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_SendTable", Value=9)]
-      svc_SendTable = 9,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_FlattenedSerializer", Value=41)]
+      svc_FlattenedSerializer = 41,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_ClassInfo", Value=10)]
-      svc_ClassInfo = 10,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_ClassInfo", Value=42)]
+      svc_ClassInfo = 42,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_SetPause", Value=11)]
-      svc_SetPause = 11,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_SetPause", Value=43)]
+      svc_SetPause = 43,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_CreateStringTable", Value=12)]
-      svc_CreateStringTable = 12,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_CreateStringTable", Value=44)]
+      svc_CreateStringTable = 44,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_UpdateStringTable", Value=13)]
-      svc_UpdateStringTable = 13,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_UpdateStringTable", Value=45)]
+      svc_UpdateStringTable = 45,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_VoiceInit", Value=14)]
-      svc_VoiceInit = 14,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_VoiceInit", Value=46)]
+      svc_VoiceInit = 46,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_VoiceData", Value=15)]
-      svc_VoiceData = 15,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_VoiceData", Value=47)]
+      svc_VoiceData = 47,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_Print", Value=16)]
-      svc_Print = 16,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_Print", Value=48)]
+      svc_Print = 48,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_Sounds", Value=17)]
-      svc_Sounds = 17,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_Sounds", Value=49)]
+      svc_Sounds = 49,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_SetView", Value=18)]
-      svc_SetView = 18,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_SetView", Value=50)]
+      svc_SetView = 50,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_FixAngle", Value=19)]
-      svc_FixAngle = 19,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_ClearAllStringTables", Value=51)]
+      svc_ClearAllStringTables = 51,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_CrosshairAngle", Value=20)]
-      svc_CrosshairAngle = 20,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_CmdKeyValues", Value=52)]
+      svc_CmdKeyValues = 52,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_BSPDecal", Value=21)]
-      svc_BSPDecal = 21,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_BSPDecal", Value=53)]
+      svc_BSPDecal = 53,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_SplitScreen", Value=22)]
-      svc_SplitScreen = 22,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_SplitScreen", Value=54)]
+      svc_SplitScreen = 54,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_UserMessage", Value=23)]
-      svc_UserMessage = 23,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_PacketEntities", Value=55)]
+      svc_PacketEntities = 55,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_EntityMessage", Value=24)]
-      svc_EntityMessage = 24,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_Prefetch", Value=56)]
+      svc_Prefetch = 56,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_GameEvent", Value=25)]
-      svc_GameEvent = 25,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_Menu", Value=57)]
+      svc_Menu = 57,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_PacketEntities", Value=26)]
-      svc_PacketEntities = 26,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_GetCvarValue", Value=58)]
+      svc_GetCvarValue = 58,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_TempEntities", Value=27)]
-      svc_TempEntities = 27,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_StopSound", Value=59)]
+      svc_StopSound = 59,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_Prefetch", Value=28)]
-      svc_Prefetch = 28,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_PeerList", Value=60)]
+      svc_PeerList = 60,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_Menu", Value=29)]
-      svc_Menu = 29,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_PacketReliable", Value=61)]
+      svc_PacketReliable = 61,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_GameEventList", Value=30)]
-      svc_GameEventList = 30,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_UserMessage", Value=62)]
+      svc_UserMessage = 62,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_GetCvarValue", Value=31)]
-      svc_GetCvarValue = 31,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_SendTable", Value=63)]
+      svc_SendTable = 63,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_PacketReliable", Value=32)]
-      svc_PacketReliable = 32,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_GameEvent", Value=67)]
+      svc_GameEvent = 67,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_FullFrameSplit", Value=33)]
-      svc_FullFrameSplit = 33
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_TempEntities", Value=68)]
+      svc_TempEntities = 68,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_GameEventList", Value=69)]
+      svc_GameEventList = 69,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_FullFrameSplit", Value=70)]
+      svc_FullFrameSplit = 70
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"VoiceDataFormat_t", EnumPassthru=true)]
@@ -1895,6 +2666,28 @@ namespace Dota2.GC.Dota.Internal
       VOICEDATA_FORMAT_ENGINE = 1
     }
   
+    [global::ProtoBuf.ProtoContract(Name=@"RequestPause_t", EnumPassthru=true)]
+    public enum RequestPause_t
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RP_PAUSE", Value=0)]
+      RP_PAUSE = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RP_UNPAUSE", Value=1)]
+      RP_UNPAUSE = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RP_TOGGLEPAUSE", Value=2)]
+      RP_TOGGLEPAUSE = 2
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"PrefetchType", EnumPassthru=true)]
+    public enum PrefetchType
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"PFT_SOUND", Value=0)]
+      PFT_SOUND = 0
+    }
+  
     [global::ProtoBuf.ProtoContract(Name=@"ESplitScreenMessageType", EnumPassthru=true)]
     public enum ESplitScreenMessageType
     {
@@ -1904,6 +2697,76 @@ namespace Dota2.GC.Dota.Internal
             
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_SPLITSCREEN_REMOVEUSER", Value=1)]
       MSG_SPLITSCREEN_REMOVEUSER = 1
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"EQueryCvarValueStatus", EnumPassthru=true)]
+    public enum EQueryCvarValueStatus
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"eQueryCvarValueStatus_ValueIntact", Value=0)]
+      eQueryCvarValueStatus_ValueIntact = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"eQueryCvarValueStatus_CvarNotFound", Value=1)]
+      eQueryCvarValueStatus_CvarNotFound = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"eQueryCvarValueStatus_NotACvar", Value=2)]
+      eQueryCvarValueStatus_NotACvar = 2,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"eQueryCvarValueStatus_CvarProtected", Value=3)]
+      eQueryCvarValueStatus_CvarProtected = 3
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"DIALOG_TYPE", EnumPassthru=true)]
+    public enum DIALOG_TYPE
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DIALOG_MSG", Value=0)]
+      DIALOG_MSG = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DIALOG_MENU", Value=1)]
+      DIALOG_MENU = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DIALOG_TEXT", Value=2)]
+      DIALOG_TEXT = 2,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DIALOG_ENTRY", Value=3)]
+      DIALOG_ENTRY = 3,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DIALOG_ASKCONNECT", Value=4)]
+      DIALOG_ASKCONNECT = 4
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"SVC_Messages_LowFrequency", EnumPassthru=true)]
+    public enum SVC_Messages_LowFrequency
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_dummy", Value=600)]
+      svc_dummy = 600
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"Bidirectional_Messages", EnumPassthru=true)]
+    public enum Bidirectional_Messages
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"bi_RebroadcastGameEvent", Value=16)]
+      bi_RebroadcastGameEvent = 16,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"bi_RebroadcastSource", Value=17)]
+      bi_RebroadcastSource = 17,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"bi_GameEvent", Value=18)]
+      bi_GameEvent = 18
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"Bidirectional_Messages_LowFrequency", EnumPassthru=true)]
+    public enum Bidirectional_Messages_LowFrequency
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"bi_RelayInfo", Value=700)]
+      bi_RelayInfo = 700,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"bi_RelayPacket", Value=701)]
+      bi_RelayPacket = 701
     }
   
 }

@@ -530,6 +530,9 @@ enum EDOTAGCMsg {
 	k_EMsgClientToGCApplyGemCombiner = 7603;
 	k_EMsgClientToGCCreateStaticRecipe = 7604;
 	k_EMsgClientToGCCreateStaticRecipeResponse = 7605;
+	k_EMsgClientToGCGetAllHeroOrder = 7606;
+	k_EMsgClientToGCGetAllHeroOrderResponse = 7607;
+	k_EMsgSQLGCToGCGrantBadgePoints = 7608;
 	k_EMsgGCDev_GrantWarKill = 8001;
 	k_EMsgClientToGCCreateTeamShowcase = 8002;
 	k_EMsgGCToClientTeamShowcaseCreateResult = 8003;
@@ -568,7 +571,6 @@ enum EDOTAGCMsg {
 	k_EMsgClientToGCTopLeagueMatchesRequest = 8036;
 	k_EMsgClientToGCTopFriendMatchesRequest = 8037;
 	k_EMsgGCToClientTopMatchesResponse = 8038;
-	k_EMsgClientToGCTopPubMatchesRequest = 8039;
 	k_EMsgGCToClientProfileCardStatsUpdated = 8040;
 	k_EMsgServerToGCRealtimeStats = 8041;
 	k_EMsgGCToServerRealtimeStatsStartStop = 8042;
@@ -584,6 +586,9 @@ enum EDOTAGCMsg {
 	k_EMsgGCPracticeLobbyCloseBroadcastChannel = 8054;
 	k_EMsgGCStartFindingMatchResponse = 8055;
 	k_EMsgSQLGCToGCUpdateHeroMMR = 8056;
+	k_EMsgSQLGCToGCGrantAccountFlag = 8057;
+	k_EMsgGCToGCGetAccountFlags = 8058;
+	k_EMsgGCToGCGetAccountFlagsResponse = 8059;
 }
 
 enum DOTA_GameMode {
@@ -622,7 +627,8 @@ enum DOTA_GameState {
 	DOTA_GAMERULES_STATE_POST_GAME = 6;
 	DOTA_GAMERULES_STATE_DISCONNECT = 7;
 	DOTA_GAMERULES_STATE_TEAM_SHOWCASE = 8;
-	DOTA_GAMERULES_STATE_LAST = 9;
+	DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP = 9;
+	DOTA_GAMERULES_STATE_LAST = 10;
 }
 
 enum DOTA_GC_TEAM {
@@ -772,6 +778,7 @@ enum EIngameEvent {
 	k_EIngameEvent_CNY2015 = 1;
 	k_EIngameEvent_CNY2015_PreBeast = 2;
 	k_EIngameEvent_TI5 = 3;
+	k_EIngameEvent_FM2015 = 4;
 }
 
 enum LobbyDotaTVDelay {
@@ -914,6 +921,7 @@ message CSODOTAGameAccountClient {
 	optional uint32 competitive_team_games_played = 66;
 	optional uint32 curr_all_hero_challenge_id = 67;
 	optional uint32 play_time_points = 68;
+	optional uint32 account_flags = 69;
 }
 
 message CSODOTAPartyMember {
@@ -1527,6 +1535,7 @@ message CMsgDOTAProfileCard {
 
 		message Item {
 			optional bytes serialized_item = 1;
+			optional uint64 item_id = 2;
 		}
 
 		message Hero {
@@ -1559,6 +1568,8 @@ message CMsgDOTAProfileCard {
 	optional uint32 account_id = 1;
 	optional uint32 background_def_index = 2;
 	repeated .CMsgDOTAProfileCard.Slot slots = 3;
+	optional uint32 badge_points = 4;
+	optional uint32 event_points = 5;
 }
 
 message CMsgGCToClientNewBloomTimingUpdated {
