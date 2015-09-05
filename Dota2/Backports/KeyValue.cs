@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Dota2.Utils;
 using SteamKit2;
 
 namespace Dota2.Backports
