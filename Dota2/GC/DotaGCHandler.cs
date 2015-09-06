@@ -137,12 +137,25 @@ namespace Dota2.GC
         public void Start()
         {
             running = true;
-            var playGame = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
 
+            var launchEvent = new ClientMsg<MsgClientAppUsageEvent>();
+            launchEvent.Body.AppUsageEvent = EAppUsageEvent.GameLaunch;
+            launchEvent.Body.GameID = new GameID {AppID = (uint) GameID, AppType = SteamKit2.GameID.GameType.App};
+            Client.Send(launchEvent);
+
+            UploadRichPresence(RPType.Init);
+
+            var playGame = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayedWithDataBlob);
             playGame.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed
             {
-                game_id = (ulong)GameID
+                game_id = (ulong)GameID,
+                game_extra_info = "Dota 2",
+                game_data_blob = null,
+                streaming_provider_id = 0,
+                game_flags = (uint)Engine,
+                owner_id = Client.SteamID.AccountID
             });
+            playGame.Body.client_os_type = 16;
 
             Client.Send(playGame);
 
