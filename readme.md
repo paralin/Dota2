@@ -42,6 +42,12 @@ dota.Start();
 
 You can register callbacks like any other Steam network functionality from Steamkit.
 
+**Reborn is now supported.** Specify the Source2 engine like so:
+
+```
+DotaGCHandler.Bootstrap(client, Games.DOTA2, ESourceEngine.k_ESE_Source2);
+```
+
 ## License
 
 SteamKit2 and Dota2 (this package) are released under the [LGPL-2.1 license](http://www.tldrlegal.com/license/gnu-lesser-general-public-license-v2.1-%28lgpl-2.1%29).
