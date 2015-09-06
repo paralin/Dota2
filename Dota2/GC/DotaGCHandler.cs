@@ -27,7 +27,6 @@ namespace Dota2.GC
     {
         private Timer gcConnectTimer;
         private bool running = false;
-        public SteamClient SteamClient;
         private Games gameId = Games.DOTA2;
         private ESourceEngine engine;
 
@@ -71,6 +70,11 @@ namespace Dota2.GC
         ///     Last invitation to the game.
         /// </summary>
         public CMsgClientUDSInviteToGame Invitation { get; private set; }
+
+        /// <summary>
+        /// The underlying SteamClient.
+        /// </summary>
+        public SteamClient SteamClient;
 
         /// <summary>
         /// Internally create an instance of the GC handler.
