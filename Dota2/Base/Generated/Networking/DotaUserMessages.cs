@@ -5396,7 +5396,10 @@ namespace Dota2.GC.Dota.Internal
       CHAT_MESSAGE_YEAR_BEAST_KILLED = 93,
             
       [global::ProtoBuf.ProtoEnum(Name=@"CHAT_MESSAGE_PAUSE_COUNTDOWN", Value=94)]
-      CHAT_MESSAGE_PAUSE_COUNTDOWN = 94
+      CHAT_MESSAGE_PAUSE_COUNTDOWN = 94,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CHAT_MESSAGE_COINS_WAGERED", Value=95)]
+      CHAT_MESSAGE_COINS_WAGERED = 95
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_NO_BATTLE_POINTS_REASONS", EnumPassthru=true)]

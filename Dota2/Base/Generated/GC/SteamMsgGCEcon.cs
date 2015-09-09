@@ -1928,6 +1928,25 @@ namespace Dota2.GC.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgGCRemoveItemAttributeMsg")]
+  public partial class CMsgGCRemoveItemAttributeMsg : global::ProtoBuf.IExtensible
+  {
+    public CMsgGCRemoveItemAttributeMsg() {}
+    
+
+    private ulong _item_id = default(ulong);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"item_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong item_id
+    {
+      get { return _item_id; }
+      set { _item_id = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"EGCItemMsg", EnumPassthru=true)]
     public enum EGCItemMsg
     {
@@ -2189,6 +2208,15 @@ namespace Dota2.GC.Internal
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCRemoveItemGifterAccountIdResponse", Value=1108)]
       k_EMsgGCRemoveItemGifterAccountIdResponse = 1108,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCRemoveItemGifterAttributes", Value=1109)]
+      k_EMsgClientToGCRemoveItemGifterAttributes = 1109,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCRemoveItemName", Value=1110)]
+      k_EMsgClientToGCRemoveItemName = 1110,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCRemoveItemDescription", Value=1111)]
+      k_EMsgClientToGCRemoveItemDescription = 1111,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCTradingBase", Value=1500)]
       k_EMsgGCTradingBase = 1500,

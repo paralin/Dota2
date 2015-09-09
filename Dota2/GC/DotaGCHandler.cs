@@ -104,8 +104,8 @@ namespace Dota2.GC
         /// </summary>
         /// <param name="client"></param>
         /// <param name="appId">Optional, specify the GC to communicate with.</param>
-        /// <param name="engine">Optional, engine to connect to. Default source1.</param>
-        public static void Bootstrap(SteamClient client, Games appId = Games.DOTA2, ESourceEngine engine = ESourceEngine.k_ESE_Source1)
+        /// <param name="engine">Optional, engine to connect to. Default source2.</param>
+        public static void Bootstrap(SteamClient client, Games appId = Games.DOTA2, ESourceEngine engine = ESourceEngine.k_ESE_Source2)
         {
             client.AddHandler(new DotaGCHandler(client, appId, engine));
         }

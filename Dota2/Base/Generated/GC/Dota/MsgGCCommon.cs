@@ -425,6 +425,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _account_flags; }
       set { _account_flags = value; }
     }
+
+    private uint _play_time_level = default(uint);
+    [global::ProtoBuf.ProtoMember(70, IsRequired = false, Name=@"play_time_level", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint play_time_level
+    {
+      get { return _play_time_level; }
+      set { _play_time_level = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -682,9 +691,9 @@ namespace Dota2.GC.Dota.Internal
       get { return _max_level; }
       set { _max_level = value; }
     }
-    private readonly global::System.Collections.Generic.List<EIngameEvent> _active_ingame_events = new global::System.Collections.Generic.List<EIngameEvent>();
+    private readonly global::System.Collections.Generic.List<EEvent> _active_ingame_events = new global::System.Collections.Generic.List<EEvent>();
     [global::ProtoBuf.ProtoMember(39, Name=@"active_ingame_events", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public global::System.Collections.Generic.List<EIngameEvent> active_ingame_events
+    public global::System.Collections.Generic.List<EEvent> active_ingame_events
     {
       get { return _active_ingame_events; }
     }
@@ -712,6 +721,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _recv_invites; }
     }
   
+
+    private uint _account_flags = default(uint);
+    [global::ProtoBuf.ProtoMember(43, IsRequired = false, Name=@"account_flags", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint account_flags
+    {
+      get { return _account_flags; }
+      set { _account_flags = value; }
+    }
     [global::ProtoBuf.ProtoContract(Name=@"State", EnumPassthru=true)]
     public enum State
     {
@@ -2247,9 +2265,9 @@ namespace Dota2.GC.Dota.Internal
       get { return _custom_game_id; }
       set { _custom_game_id = value; }
     }
-    private readonly global::System.Collections.Generic.List<EIngameEvent> _active_ingame_events = new global::System.Collections.Generic.List<EIngameEvent>();
+    private readonly global::System.Collections.Generic.List<EEvent> _active_ingame_events = new global::System.Collections.Generic.List<EEvent>();
     [global::ProtoBuf.ProtoMember(69, Name=@"active_ingame_events", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public global::System.Collections.Generic.List<EIngameEvent> active_ingame_events
+    public global::System.Collections.Generic.List<EEvent> active_ingame_events
     {
       get { return _active_ingame_events; }
     }
@@ -4375,6 +4393,33 @@ namespace Dota2.GC.Dota.Internal
       get { return _hidden_modifier; }
       set { _hidden_modifier = value; }
     }
+
+    private bool _is_target_building = default(bool);
+    [global::ProtoBuf.ProtoMember(37, IsRequired = false, Name=@"is_target_building", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool is_target_building
+    {
+      get { return _is_target_building; }
+      set { _is_target_building = value; }
+    }
+
+    private uint _neutral_camp_type = default(uint);
+    [global::ProtoBuf.ProtoMember(38, IsRequired = false, Name=@"neutral_camp_type", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint neutral_camp_type
+    {
+      get { return _neutral_camp_type; }
+      set { _neutral_camp_type = value; }
+    }
+
+    private uint _rune_type = default(uint);
+    [global::ProtoBuf.ProtoMember(39, IsRequired = false, Name=@"rune_type", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint rune_type
+    {
+      get { return _rune_type; }
+      set { _rune_type = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -4427,6 +4472,15 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _event_points; }
       set { _event_points = value; }
+    }
+
+    private uint _event_id = default(uint);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"event_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint event_id
+    {
+      get { return _event_id; }
+      set { _event_id = value; }
     }
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Slot")]
   public partial class Slot : global::ProtoBuf.IExtensible
@@ -8261,7 +8315,10 @@ namespace Dota2.GC.Dota.Internal
       k_EMsgGCToGCGetAccountFlags = 8058,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToGCGetAccountFlagsResponse", Value=8059)]
-      k_EMsgGCToGCGetAccountFlagsResponse = 8059
+      k_EMsgGCToGCGetAccountFlagsResponse = 8059,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgSignOutWagerStats", Value=8060)]
+      k_EMsgSignOutWagerStats = 8060
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_GameMode", EnumPassthru=true)]
@@ -8734,24 +8791,48 @@ namespace Dota2.GC.Dota.Internal
       k_ETournamentType_WeeklyDivision = 1
     }
   
-    [global::ProtoBuf.ProtoContract(Name=@"EIngameEvent", EnumPassthru=true)]
-    public enum EIngameEvent
+    [global::ProtoBuf.ProtoContract(Name=@"EEvent", EnumPassthru=true)]
+    public enum EEvent
     {
             
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EIngameEvent_OraclePA", Value=0)]
-      k_EIngameEvent_OraclePA = 0,
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_NONE", Value=0)]
+      EVENT_ID_NONE = 0,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EIngameEvent_CNY2015", Value=1)]
-      k_EIngameEvent_CNY2015 = 1,
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_DIRETIDE", Value=1)]
+      EVENT_ID_DIRETIDE = 1,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EIngameEvent_CNY2015_PreBeast", Value=2)]
-      k_EIngameEvent_CNY2015_PreBeast = 2,
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_SPRING_FESTIVAL", Value=2)]
+      EVENT_ID_SPRING_FESTIVAL = 2,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EIngameEvent_TI5", Value=3)]
-      k_EIngameEvent_TI5 = 3,
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_FROSTIVUS_2013", Value=3)]
+      EVENT_ID_FROSTIVUS_2013 = 3,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EIngameEvent_FM2015", Value=4)]
-      k_EIngameEvent_FM2015 = 4
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_COMPENDIUM_2014", Value=4)]
+      EVENT_ID_COMPENDIUM_2014 = 4,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_NEXON_PC_BANG", Value=5)]
+      EVENT_ID_NEXON_PC_BANG = 5,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_PWRD_DAC_2015", Value=6)]
+      EVENT_ID_PWRD_DAC_2015 = 6,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_NEW_BLOOM_2015", Value=7)]
+      EVENT_ID_NEW_BLOOM_2015 = 7,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_INTERNATIONAL_2015", Value=8)]
+      EVENT_ID_INTERNATIONAL_2015 = 8,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_FALL_MAJOR_2015", Value=9)]
+      EVENT_ID_FALL_MAJOR_2015 = 9,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_ORACLE_PA", Value=10)]
+      EVENT_ID_ORACLE_PA = 10,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_NEW_BLOOM_2015_PREBEAST", Value=11)]
+      EVENT_ID_NEW_BLOOM_2015_PREBEAST = 11,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"EVENT_ID_FROSTIVUS", Value=12)]
+      EVENT_ID_FROSTIVUS = 12
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"LobbyDotaTVDelay", EnumPassthru=true)]
@@ -9004,7 +9085,13 @@ namespace Dota2.GC.Dota.Internal
       DOTA_COMBATLOG_FIRST_BLOOD = 18,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_COMBATLOG_MODIFIER_REFRESH", Value=19)]
-      DOTA_COMBATLOG_MODIFIER_REFRESH = 19
+      DOTA_COMBATLOG_MODIFIER_REFRESH = 19,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_COMBATLOG_NEUTRAL_CAMP_STACK", Value=20)]
+      DOTA_COMBATLOG_NEUTRAL_CAMP_STACK = 20,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_COMBATLOG_PICKUP_RUNE", Value=21)]
+      DOTA_COMBATLOG_PICKUP_RUNE = 21
     }
   
 }

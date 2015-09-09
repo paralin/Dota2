@@ -8867,9 +8867,9 @@ namespace Dota2.GC.Dota.Internal
       get { return _is_perfect_world_test_account; }
       set { _is_perfect_world_test_account = value; }
     }
-    private readonly global::System.Collections.Generic.List<EIngameEvent> _active_events = new global::System.Collections.Generic.List<EIngameEvent>();
+    private readonly global::System.Collections.Generic.List<EEvent> _active_events = new global::System.Collections.Generic.List<EEvent>();
     [global::ProtoBuf.ProtoMember(25, Name=@"active_events", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public global::System.Collections.Generic.List<EIngameEvent> active_events
+    public global::System.Collections.Generic.List<EEvent> active_events
     {
       get { return _active_events; }
     }
@@ -9163,6 +9163,61 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _content_version; }
       set { _content_version = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgClientLeagueInfo")]
+  public partial class CMsgClientLeagueInfo : global::ProtoBuf.IExtensible
+  {
+    public CMsgClientLeagueInfo() {}
+    
+
+    private CLeague _league = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"league", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CLeague league
+    {
+      get { return _league; }
+      set { _league = value; }
+    }
+
+    private bool _is_major = default(bool);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"is_major", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool is_major
+    {
+      get { return _is_major; }
+      set { _is_major = value; }
+    }
+
+    private bool _is_owned = default(bool);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"is_owned", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool is_owned
+    {
+      get { return _is_owned; }
+      set { _is_owned = value; }
+    }
+
+    private uint _sort_order = default(uint);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"sort_order", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint sort_order
+    {
+      get { return _sort_order; }
+      set { _sort_order = value; }
+    }
+
+    private uint _amateur_region = default(uint);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"amateur_region", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint amateur_region
+    {
+      get { return _amateur_region; }
+      set { _amateur_region = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -13230,9 +13285,9 @@ namespace Dota2.GC.Dota.Internal
   {
     public CMsgGCToClientEventStatusChanged() {}
     
-    private readonly global::System.Collections.Generic.List<EIngameEvent> _active_events = new global::System.Collections.Generic.List<EIngameEvent>();
+    private readonly global::System.Collections.Generic.List<EEvent> _active_events = new global::System.Collections.Generic.List<EEvent>();
     [global::ProtoBuf.ProtoMember(1, Name=@"active_events", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public global::System.Collections.Generic.List<EIngameEvent> active_events
+    public global::System.Collections.Generic.List<EEvent> active_events
     {
       get { return _active_events; }
     }
