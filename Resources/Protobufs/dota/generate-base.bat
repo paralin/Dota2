@@ -18,8 +18,8 @@ echo Building Dota messages...
 :: dota messages reference some types from the gc base, so we need to import the reference for it
 ..\..\Protogen\protogen -s:..\ -i:"dota_gcmessages_common.proto" -o:"..\..\..\Dota2\Base\Generated\GC\Dota\MsgGCCommon.cs" -t:csharp -ns:"Dota2.GC.Dota.Internal" -p:import="SteamKit2.GC.Internal"
 ..\..\Protogen\protogen -s:..\ -i:"dota_gcmessages_client.proto" -o:"..\..\..\Dota2\Base\Generated\GC\Dota\MsgGCClient.cs" -t:csharp -ns:"Dota2.GC.Dota.Internal" -p:import="SteamKit2.GC.Internal"
-..\..\Protogen\protogen -s:..\ -i:"dota_gcmessages_client_fantasy.proto" -o:"..\..\..\Dota2\Base\Generated\GC\Dota\MsgGCClientFantasy.cs" -t:csharp -ns:"Dota2.GC.Dota.Internal" -p:import="SteamKit2.GC.Internal"
 ..\..\Protogen\protogen -s:..\ -i:"dota_gcmessages_server.proto" -o:"..\..\..\Dota2\Base\Generated\GC\Dota\MsgGCServer.cs" -t:csharp -ns:"Dota2.GC.Dota.Internal" -p:import="SteamKit2.GC.Internal"
+..\..\Protogen\protogen -s:..\ -i:"dota_gcmessages_client_fantasy.proto" -o:"..\..\..\Dota2\Base\Generated\GC\Dota\MsgGCClientFantasy.cs" -t:csharp -ns:"Dota2.GC.Dota.Internal" -p:import="SteamKit2.GC.Internal"
 ..\..\Protogen\protogen -s:..\ -i:"networkbasetypes.proto" -o:"..\..\..\Dota2\Base\Generated\Networking\MsgNetworkTypes.cs" -t:csharp -ns:"Dota2.GC.Dota.Internal" -p:import="SteamKit2.GC.Internal"
 ..\..\Protogen\protogen -s:..\ -i:"netmessages.proto" -o:"..\..\..\Dota2\Base\Generated\Networking\MsgNetMessages.cs" -t:csharp -ns:"Dota2.GC.Dota.Internal" -p:import="SteamKit2.GC.Internal"
 ..\..\Protogen\protogen -s:..\ -i:"ai_activity.proto" -o:"..\..\..\Dota2\Base\Generated\Networking\AiActivity.cs" -t:csharp -ns:"Dota2.GC.Dota.Internal" -p:import="SteamKit2.GC.Internal"
