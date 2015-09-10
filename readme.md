@@ -42,11 +42,7 @@ dota.Start();
 
 You can register callbacks like any other Steam network functionality from Steamkit.
 
-**Reborn is now supported.** Specify the Source2 engine like so:
-
-```
-DotaGCHandler.Bootstrap(client, Games.DOTA2, ESourceEngine.k_ESE_Source2);
-```
+**Reborn is completely supported and is now the default.** The ability to specify which Source engine to use has been removed as the GC rejects any connection other than Source2.
 
 ## License
 
