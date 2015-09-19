@@ -179,7 +179,7 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        ///     When the party invite is cleared this is sent ou
+        ///     When the party invite is cleared this is sent out.
         /// </summary>
         public sealed class PartyInviteLeave : CallbackMsg
         {
@@ -192,27 +192,42 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        ///     When receiving a party invite a snapshot is sent out.
+        ///     When the lobby invite is cleared this is sent ou
         /// </summary>
-        public sealed class PartyInviteSnapshot : CallbackMsg
+        public sealed class LobbyInviteLeave : CallbackMsg
         {
-            public CSODOTAPartyInvite invite;
+            public CMsgSOCacheUnsubscribed result;
 
-            internal PartyInviteSnapshot(CSODOTAPartyInvite msg)
+            internal LobbyInviteLeave(CMsgSOCacheUnsubscribed msg)
             {
-                invite = msg;
+                result = msg;
             }
         }
 
         /// <summary>
-        ///     Party invite was updated
+        ///     Party invite was updated/snapshotted
         /// </summary>
-        public sealed class PartyInviteUpdate : CallbackMsg
+        public sealed class PartyInviteSnapshot : CallbackMsg
         {
             public CSODOTAPartyInvite invite;
             public CSODOTAPartyInvite oldInvite;
 
-            internal PartyInviteUpdate(CSODOTAPartyInvite msg, CSODOTAPartyInvite oldLob)
+            internal PartyInviteSnapshot(CSODOTAPartyInvite msg, CSODOTAPartyInvite oldLob)
+            {
+                invite = msg;
+                oldInvite = oldLob;
+            }
+        }
+
+        /// <summary>
+        ///     Lobby invite was updated/snapshotted
+        /// </summary>
+        public sealed class LobbyInviteSnapshot : CallbackMsg
+        {
+            public CSODOTALobbyInvite invite;
+            public CSODOTALobbyInvite oldInvite;
+
+            internal LobbyInviteSnapshot(CSODOTALobbyInvite msg, CSODOTALobbyInvite oldLob)
             {
                 invite = msg;
                 oldInvite = oldLob;
@@ -233,27 +248,14 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        ///     When joining a party a snapshot is sent out.
+        ///     Party was updated/snapshotted.
         /// </summary>
         public sealed class PartySnapshot : CallbackMsg
-        {
-            public CSODOTAParty party;
-
-            internal PartySnapshot(CSODOTAParty msg)
-            {
-                party = msg;
-            }
-        }
-
-        /// <summary>
-        ///     Party was updated
-        /// </summary>
-        public sealed class PartyUpdate : CallbackMsg
         {
             public CSODOTAParty oldParty;
             public CSODOTAParty party;
 
-            internal PartyUpdate(CSODOTAParty msg, CSODOTAParty oldLob)
+            internal PartySnapshot(CSODOTAParty msg, CSODOTAParty oldLob)
             {
                 party = msg;
                 oldParty = oldLob;
@@ -323,27 +325,14 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        ///     When joining a lobby a snapshot is sent out.
+        ///     Lobby was updated
         /// </summary>
         public sealed class PracticeLobbySnapshot : CallbackMsg
         {
             public CSODOTALobby lobby;
-
-            internal PracticeLobbySnapshot(CSODOTALobby msg)
-            {
-                lobby = msg;
-            }
-        }
-
-        /// <summary>
-        ///     Lobby was updated
-        /// </summary>
-        public sealed class PracticeLobbyUpdate : CallbackMsg
-        {
-            public CSODOTALobby lobby;
             public CSODOTALobby oldLobby;
 
-            internal PracticeLobbyUpdate(CSODOTALobby msg, CSODOTALobby oldLob)
+            internal PracticeLobbySnapshot(CSODOTALobby msg, CSODOTALobby oldLob)
             {
                 lobby = msg;
                 oldLobby = oldLob;

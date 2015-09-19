@@ -790,17 +790,20 @@ namespace Dota2.GC
 
         private void HandleSubscribedType(CMsgSOCacheSubscribed.SubscribedType cache)
         {
-            if (cache.type_id == (int)CSOTypes.LOBBY)
+            switch (cache.type_id)
             {
-                HandleLobbySnapshot(cache.object_data[0]);
-            }
-            else if (cache.type_id == (int)CSOTypes.PARTY)
-            {
-                HandlePartySnapshot(cache.object_data[0]);
-            }
-            else if (cache.type_id == (int)CSOTypes.PARTYINVITE)
-            {
-                HandlePartyInviteSnapshot(cache.object_data[0]);
+                case (int)CSOTypes.LOBBY:
+                    HandleLobbySnapshot(cache.object_data[0]);
+                    break;
+                case (int)CSOTypes.PARTY:
+                    HandlePartySnapshot(cache.object_data[0]);
+                    break;
+                case (int)CSOTypes.PARTYINVITE:
+                    HandlePartyInviteSnapshot(cache.object_data[0]);
+                    break;
+                case (int) CSOTypes.LOBBYINVITE:
+                    HandleLobbyInviteSnapshot(cache.object_data[0]);
+                    break;
             }
         }
 
@@ -821,6 +824,10 @@ namespace Dota2.GC
             {
                 Party = null;
                 Client.PostCallback(new PartyLeave(null));
+            }else if (LobbyInvite != null && dest.Body.type_id == (int) CSOTypes.LOBBYINVITE)
+            {
+                LobbyInvite = null;
+                Client.PostCallback(new LobbyInviteLeave(null));
             }
         }
 
@@ -846,47 +853,49 @@ namespace Dota2.GC
                 Client.PostCallback(new CacheUnsubscribed(unSub.Body));
         }
 
-        private void HandleLobbySnapshot(byte[] data, bool update = false)
+        private void HandleLobbySnapshot(byte[] data)
         {
             using (var stream = new MemoryStream(data))
             {
                 var lob = Serializer.Deserialize<CSODOTALobby>(stream);
                 CSODOTALobby oldLob = Lobby;
                 Lobby = lob;
-                if (update)
-                    Client.PostCallback(new PracticeLobbyUpdate(lob, oldLob));
-                else
-                    Client.PostCallback(new PracticeLobbySnapshot(lob));
+                Client.PostCallback(new PracticeLobbySnapshot(lob, oldLob));
             }
             UploadRichPresence();
         }
 
-        private void HandlePartySnapshot(byte[] data, bool update = false)
+        private void HandlePartySnapshot(byte[] data)
         {
             using (var stream = new MemoryStream(data))
             {
                 var party = Serializer.Deserialize<CSODOTAParty>(stream);
                 CSODOTAParty oldParty = Party;
                 Party = party;
-                if (update)
-                    Client.PostCallback(new PartyUpdate(party, oldParty));
-                else
-                    Client.PostCallback(new PartySnapshot(party));
+                Client.PostCallback(new PartySnapshot(party, oldParty));
             }
             UploadRichPresence();
         }
 
-        private void HandlePartyInviteSnapshot(byte[] data, bool update = false)
+        private void HandlePartyInviteSnapshot(byte[] data)
         {
             using (var stream = new MemoryStream(data))
             {
                 var party = Serializer.Deserialize<CSODOTAPartyInvite>(stream);
                 CSODOTAPartyInvite oldParty = PartyInvite;
                 PartyInvite = party;
-                if (update)
-                    Client.PostCallback(new PartyInviteUpdate(party, oldParty));
-                else
-                    Client.PostCallback(new PartyInviteSnapshot(party));
+                Client.PostCallback(new PartyInviteSnapshot(party, oldParty));
+            }
+        }
+
+        private void HandleLobbyInviteSnapshot(byte[] data)
+        {
+            using (var stream = new MemoryStream(data))
+            {
+                var lobby = Serializer.Deserialize<CSODOTALobbyInvite>(stream);
+                CSODOTALobbyInvite oldLobby = LobbyInvite;
+                LobbyInvite = lobby;
+                Client.PostCallback(new LobbyInviteSnapshot(lobby, oldLobby));
             }
         }
 
@@ -982,15 +991,15 @@ namespace Dota2.GC
             {
                 if (mObj.type_id == (int)CSOTypes.LOBBY)
                 {
-                    HandleLobbySnapshot(mObj.object_data, true);
+                    HandleLobbySnapshot(mObj.object_data);
                 }
                 else if (mObj.type_id == (int)CSOTypes.PARTY)
                 {
-                    HandlePartySnapshot(mObj.object_data, true);
+                    HandlePartySnapshot(mObj.object_data);
                 }
                 else if (mObj.type_id == (int)CSOTypes.PARTYINVITE)
                 {
-                    HandlePartyInviteSnapshot(mObj.object_data, true);
+                    HandlePartyInviteSnapshot(mObj.object_data);
                 }
                 else
                 {
