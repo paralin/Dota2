@@ -74,7 +74,27 @@ namespace Dota2.GC
         /// <summary>
         /// The underlying SteamClient.
         /// </summary>
-        public SteamClient SteamClient;
+        public SteamClient SteamClient { get; private set; }
+
+        /// <summary>
+        /// Econ items.
+        /// </summary>
+        public Dictionary<ulong, CSOEconItem> EconItems { get; private set; } 
+
+        /// <summary>
+        /// League view passes.
+        /// </summary>
+        public Dictionary<ulong, CSOEconItemLeagueViewPass> LeagueViewPasses { get; private set; } 
+
+        /// <summary>
+        /// Ping map view states.
+        /// </summary>
+        public Dictionary<int, CSODOTAMapLocationState> MapLocationStates { get; private set; } 
+
+        /// <summary>
+        /// Contains various information about our player.
+        /// </summary>
+        public CSOEconGameAccountClient GameAccountClient { get; set; }
 
         /// <summary>
         /// Internally create an instance of the GC handler.
@@ -87,6 +107,12 @@ namespace Dota2.GC
             gameId = appId;
             engine = _engine;
             SteamClient = client;
+            // Usually we'd have around 200-600 items.
+            EconItems = new Dictionary<ulong, CSOEconItem>(300);
+            // Reasonably a bot wouldn't have very many of these.
+            LeagueViewPasses = new Dictionary<ulong, CSOEconItemLeagueViewPass>(5);
+            // Generally this seems to be 2
+            MapLocationStates = new Dictionary<int, CSODOTAMapLocationState>(2);
             gcConnectTimer = new Timer(5000);
             gcConnectTimer.Elapsed += (sender, args) =>
             {
@@ -174,10 +200,29 @@ namespace Dota2.GC
         /// </summary>
         public enum RPType
         {
+            /// <summary>
+            /// Initial state.
+            /// </summary>
             Init,
+
+            /// <summary>
+            /// Currently playing a game.
+            /// </summary>
             Play,
+
+            /// <summary>
+            /// Queuing for a match.
+            /// </summary>
             Queue,
+
+            /// <summary>
+            /// No state? Menu probably.
+            /// </summary>
             None,
+
+            /// <summary>
+            /// Automatically decide state.
+            /// </summary>
             Auto
         }
 
@@ -370,7 +415,7 @@ namespace Dota2.GC
         /// <summary>
         ///     Join a team
         /// </summary>
-        /// <param name="channel">The channel slot to join. Valid channel values range from 0 to 5.</param>
+        /// <param name="team">The team to join.</param>
         public void JoinCoachSlot(DOTA_GC_TEAM team = DOTA_GC_TEAM.DOTA_GC_TEAM_GOOD_GUYS)
         {
             var joinChannel =
@@ -545,7 +590,7 @@ namespace Dota2.GC
         /// <summary>
         ///     Kick a player from the lobby
         /// </summary>
-        /// <param name="steam_id">Account ID of player to kick</param>
+        /// <param name="account_id">Account ID of player to kick</param>
         public void KickPlayerFromLobby(uint account_id)
         {
             var kick = new ClientGCMsgProtobuf<CMsgPracticeLobbyKick>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyKick);
@@ -556,7 +601,8 @@ namespace Dota2.GC
         /// <summary>
         ///     Joins a chat channel. Note that limited Steam accounts cannot join chat channels.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">Name of the chat channel</param>
+        /// <param name="type">Type of the chat channel</param>
         public void JoinChatChannel(string name,
             DOTAChatChannelType_t type = DOTAChatChannelType_t.DOTAChannelType_Custom)
         {
@@ -740,6 +786,7 @@ namespace Dota2.GC
                         {(uint) EGCBaseClientMsg.k_EMsgGCClientWelcome, HandleWelcome},
                         {(uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyJoinResponse, HandlePracticeLobbyJoinResponse},
                         {(uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyListResponse, HandlePracticeLobbyListResponse},
+                        {(uint) ESOMsg.k_ESOMsg_UpdateMultiple, HandleUpdateMultiple},
                         {(uint) ESOMsg.k_ESOMsg_CacheSubscribed, HandleCacheSubscribed},
                         {(uint) ESOMsg.k_ESOMsg_CacheUnsubscribed, HandleCacheUnsubscribed},
                         {(uint) ESOMsg.k_ESOMsg_Destroy, HandleCacheDestroy},
@@ -749,7 +796,6 @@ namespace Dota2.GC
                         {(uint) EDOTAGCMsg.k_EMsgGCChatMessage, HandleChatMessage},
                         {(uint) EDOTAGCMsg.k_EMsgGCOtherJoinedChannel, HandleOtherJoinedChannel},
                         {(uint) EDOTAGCMsg.k_EMsgGCOtherLeftChannel, HandleOtherLeftChannel},
-                        {(uint) ESOMsg.k_ESOMsg_UpdateMultiple, HandleUpdateMultiple},
                         {(uint) EDOTAGCMsg.k_EMsgGCPopup, HandlePopup},
                         {(uint) EDOTAGCMsg.k_EMsgDOTALiveLeagueGameUpdate, HandleLiveLeageGameUpdate},
                         {(uint) EGCBaseMsg.k_EMsgGCInvitationCreated, HandleInvitationCreated},
@@ -816,25 +862,45 @@ namespace Dota2.GC
             }
         }
 
+        /// <summary>
+        /// Handle various cache subscription types.
+        /// </summary>
+        /// <param name="cache"></param>
         private void HandleSubscribedType(CMsgSOCacheSubscribed.SubscribedType cache)
         {
-            switch (cache.type_id)
+            switch ((CSOTypes)cache.type_id)
             {
-                case (int) CSOTypes.LOBBY:
+                case CSOTypes.ECON_ITEM:
+                    HandleEconItemsSnapshot(cache.object_data);
+                    break;
+                case CSOTypes.ECON_GAME_ACCOUNT_CLIENT:
+                    HandleGameAccountClientSnapshot(cache.object_data[0]);
+                    break;
+                case CSOTypes.LEAGUE_VIEW_PASS:
+                    HandleLeaguePassesSnapshot(cache.object_data);
+                    break;
+                case CSOTypes.MAP_LOCATION_STATE:
+                    HandleMapLocationsSnapshot(cache.object_data);
+                    break;
+                case CSOTypes.LOBBY:
                     HandleLobbySnapshot(cache.object_data[0]);
                     break;
-                case (int) CSOTypes.PARTY:
+                case CSOTypes.PARTY:
                     HandlePartySnapshot(cache.object_data[0]);
                     break;
-                case (int) CSOTypes.PARTYINVITE:
+                case CSOTypes.PARTYINVITE:
                     HandlePartyInviteSnapshot(cache.object_data[0]);
                     break;
-                case (int) CSOTypes.LOBBYINVITE:
+                case CSOTypes.LOBBYINVITE:
                     HandleLobbyInviteSnapshot(cache.object_data[0]);
                     break;
             }
         }
 
+        /// <summary>
+        /// Handle when a cache is destroyed.
+        /// </summary>
+        /// <param name="obj">Message</param>
         public void HandleCacheDestroy(IPacketGCMsg obj)
         {
             var dest = new ClientGCMsgProtobuf<CMsgSOSingleObject>(obj);
@@ -882,6 +948,43 @@ namespace Dota2.GC
                 Client.PostCallback(new CacheUnsubscribed(unSub.Body));
         }
 
+        private void HandleLeaguePassesSnapshot(IEnumerable<byte[]> items)
+        {
+            foreach (var bitem in items)
+            {
+                using (var stream = new MemoryStream(bitem))
+                {
+                    var item = Serializer.Deserialize<CSOEconItemLeagueViewPass>(stream);
+                    LeagueViewPasses[item.league_id] = item;
+                }
+            }
+            Client.PostCallback(new LeagueViewPassesSnapshot(LeagueViewPasses.Values));
+        }
+
+        private void HandleMapLocationsSnapshot(IEnumerable<byte[]> items)
+        {
+            foreach (var bitem in items)
+            {
+                using (var stream = new MemoryStream(bitem))
+                {
+                    var item = Serializer.Deserialize<CSODOTAMapLocationState>(stream);
+                    MapLocationStates[item.location_id] = item;
+                }
+            }
+        }
+
+        private void HandleEconItemsSnapshot(IEnumerable<byte[]> items)
+        {
+            foreach (var bitem in items)
+            {
+                using (var stream = new MemoryStream(bitem))
+                {
+                    var item = Serializer.Deserialize<CSOEconItem>(stream);
+                    EconItems[item.id] = item;
+                }
+            }
+        }
+
         private void HandleLobbySnapshot(byte[] data)
         {
             using (var stream = new MemoryStream(data))
@@ -892,6 +995,15 @@ namespace Dota2.GC
                 Client.PostCallback(new PracticeLobbySnapshot(lob, oldLob));
             }
             UploadRichPresence();
+        }
+
+        private void HandleGameAccountClientSnapshot(byte[] data)
+        {
+            using (var stream = new MemoryStream(data))
+            {
+                GameAccountClient = Serializer.Deserialize<CSOEconGameAccountClient>(stream);
+                Client.PostCallback(new GameAccountClientSnapshot(GameAccountClient));
+            }
         }
 
         private void HandlePartySnapshot(byte[] data)

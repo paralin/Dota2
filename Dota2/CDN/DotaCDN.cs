@@ -81,9 +81,24 @@ namespace Dota2.CDN
         /// </summary>
         public enum CDNType
         {
+            /// <summary>
+            /// Local CDN. Presumably developer machines.
+            /// </summary>
             LOCAL,
+
+            /// <summary>
+            /// Standard, public CDN
+            /// </summary>
             STANDARD,
+
+            /// <summary>
+            /// CDN specific to China due to regulations.
+            /// </summary>
             CHINA,
+
+            /// <summary>
+            /// TEST cdn, valve internal.
+            /// </summary>
             TEST
         }
 
