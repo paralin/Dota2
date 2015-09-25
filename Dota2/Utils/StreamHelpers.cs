@@ -6,7 +6,8 @@ namespace Dota2.Utils
 {
     internal static class StreamHelpers
     {
-        static byte[] data = new byte[8];
+        private static byte[] data = new byte[8];
+
         public static Int16 ReadInt16(this Stream stream)
         {
             stream.Read(data, 0, 2);
@@ -55,7 +56,6 @@ namespace Dota2.Utils
 
             using (MemoryStream ms = new MemoryStream())
             {
-
                 while (true)
                 {
                     byte[] data = new byte[characterSize];
@@ -95,7 +95,7 @@ namespace Dota2.Utils
             return bufferCache;
         }
 
-        static byte[] discardBuffer = new byte[2 << 12];
+        private static byte[] discardBuffer = new byte[2 << 12];
 
         public static void ReadAndDiscard(this Stream stream, int len)
         {

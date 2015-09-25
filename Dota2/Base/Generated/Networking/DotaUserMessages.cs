@@ -1126,6 +1126,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _queue; }
       set { _queue = value; }
     }
+
+    private int _sequence_number = default(int);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"sequence_number", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int sequence_number
+    {
+      get { return _sequence_number; }
+      set { _sequence_number = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

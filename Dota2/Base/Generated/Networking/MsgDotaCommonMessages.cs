@@ -11,6 +11,7 @@
 using SteamKit2.GC.Internal;
    
 // Generated from: dota_commonmessages.proto
+// Note: requires additional types generated from: networkbasetypes.proto
 namespace Dota2.GC.Dota.Internal
 {
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CDOTAMsg_LocationPing")]
@@ -261,6 +262,86 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _tgtpath; }
       set { _tgtpath = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CDOTAMsg_UnitOrder")]
+  public partial class CDOTAMsg_UnitOrder : global::ProtoBuf.IExtensible
+  {
+    public CDOTAMsg_UnitOrder() {}
+    
+
+    private int _issuer = (int)-1;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"issuer", DataFormat = global::ProtoBuf.DataFormat.ZigZag)]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
+    public int issuer
+    {
+      get { return _issuer; }
+      set { _issuer = value; }
+    }
+
+    private dotaunitorder_t _order_type = dotaunitorder_t.DOTA_UNIT_ORDER_NONE;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"order_type", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(dotaunitorder_t.DOTA_UNIT_ORDER_NONE)]
+    public dotaunitorder_t order_type
+    {
+      get { return _order_type; }
+      set { _order_type = value; }
+    }
+    private readonly global::System.Collections.Generic.List<int> _units = new global::System.Collections.Generic.List<int>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"units", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<int> units
+    {
+      get { return _units; }
+    }
+  
+
+    private int _target_index = default(int);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"target_index", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int target_index
+    {
+      get { return _target_index; }
+      set { _target_index = value; }
+    }
+
+    private int _ability_index = default(int);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"ability_index", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int ability_index
+    {
+      get { return _ability_index; }
+      set { _ability_index = value; }
+    }
+
+    private CMsgVector _position = null;
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"position", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgVector position
+    {
+      get { return _position; }
+      set { _position = value; }
+    }
+
+    private bool _queue = default(bool);
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"queue", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool queue
+    {
+      get { return _queue; }
+      set { _queue = value; }
+    }
+
+    private int _sequence_number = default(int);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"sequence_number", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int sequence_number
+    {
+      get { return _sequence_number; }
+      set { _sequence_number = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

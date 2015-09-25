@@ -15,7 +15,7 @@ namespace Dota2.Datagram.Config.Model
         /// <summary>
         /// Datacenter definitions
         /// </summary>
-        public Dictionary<string, NetworkDatacenter> data_centers { get; set; } 
+        public Dictionary<string, NetworkDatacenter> data_centers { get; set; }
 
         /// <summary>
         /// Routing cluster definitions

@@ -22,7 +22,7 @@ namespace Dota2.GC
             {
                 switch (msg.id)
                 {
-                    case (uint)EDOTAGCMsg.k_EMsgGCLeagueAdminList:
+                    case (uint) EDOTAGCMsg.k_EMsgGCLeagueAdminList:
                         extra.LeagueAdminList = msg.contents.DeserializeProtobuf<CMsgLeagueAdminList>();
                         break;
                 }

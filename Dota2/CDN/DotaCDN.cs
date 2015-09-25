@@ -57,7 +57,8 @@ namespace Dota2.CDN
         /// <returns></returns>
         public static Uri DatagramNetworkConfig(CDNType type = CDNType.STANDARD, Games game = Games.DOTA2)
         {
-            UriBuilder builder = new UriBuilder("http", GetHostname(type), 80, StaticDataPath(CDNData.DATAGRAM_NETWORK_CONFIG, game));
+            UriBuilder builder = new UriBuilder("http", GetHostname(type), 80,
+                StaticDataPath(CDNData.DATAGRAM_NETWORK_CONFIG, game));
             return builder.Uri;
         }
 
@@ -78,7 +79,7 @@ namespace Dota2.CDN
         /// <summary>
         /// CDN type
         /// </summary>
-        public enum CDNType 
+        public enum CDNType
         {
             LOCAL,
             STANDARD,

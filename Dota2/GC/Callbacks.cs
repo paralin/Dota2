@@ -90,6 +90,20 @@ namespace Dota2.GC
             }
         }
 
+        /// <summary>
+        ///     Reponse when trying to list chat channels
+        /// </summary>
+        public sealed class ChatChannelListResponse : CallbackMsg
+        {
+            public CMsgDOTARequestChatChannelListResponse result;
+
+            internal ChatChannelListResponse(CMsgDOTARequestChatChannelListResponse msg)
+            {
+                result = msg;
+            }
+        }
+
+
         public sealed class LiveLeagueGameUpdate : CallbackMsg
         {
             public CMsgDOTALiveLeagueGameUpdate result;

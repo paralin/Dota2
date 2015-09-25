@@ -10,5 +10,4 @@
         PARTYINVITE = 2006,
         LOBBYINVITE = 2011
     }
-
 }

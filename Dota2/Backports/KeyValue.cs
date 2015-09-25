@@ -13,13 +13,13 @@ using SteamKit2;
 
 namespace Dota2.Backports
 {
-    class KVTextReader : StreamReader
+    internal class KVTextReader : StreamReader
     {
-        static Dictionary<char, char> escapedMapping = new Dictionary<char, char>
+        private static Dictionary<char, char> escapedMapping = new Dictionary<char, char>
         {
-            { 'n', '\n' },
-            { 'r', '\r' },
-            { 't', '\t' },
+            {'n', '\n'},
+            {'r', '\r'},
+            {'t', '\t'},
             // todo: any others?
         };
 
@@ -70,15 +70,14 @@ namespace Dota2.Backports
                 }
 
                 currentKey = null;
-            }
-            while (!EndOfStream);
+            } while (!EndOfStream);
         }
 
         private void EatWhiteSpace()
         {
             while (!EndOfStream)
             {
-                if (!Char.IsWhiteSpace((char)Peek()))
+                if (!Char.IsWhiteSpace((char) Peek()))
                 {
                     break;
                 }
@@ -91,7 +90,7 @@ namespace Dota2.Backports
         {
             if (!EndOfStream)
             {
-                char next = (char)Peek();
+                char next = (char) Peek();
                 if (next == '/')
                 {
                     Read();
@@ -135,7 +134,7 @@ namespace Dota2.Backports
             if (EndOfStream)
                 return null;
 
-            char next = (char)Peek();
+            char next = (char) Peek();
             if (next == '"')
             {
                 wasQuoted = true;
@@ -150,7 +149,7 @@ namespace Dota2.Backports
                     {
                         Read();
 
-                        char escapedChar = (char)Read();
+                        char escapedChar = (char) Read();
                         char replacedChar;
 
                         if (escapedMapping.TryGetValue(escapedChar, out replacedChar))
@@ -164,7 +163,7 @@ namespace Dota2.Backports
                     if (Peek() == '"')
                         break;
 
-                    sb.Append((char)Read());
+                    sb.Append((char) Read());
                 }
 
                 // "
@@ -184,7 +183,7 @@ namespace Dota2.Backports
             var ret = new StringBuilder();
             while (!EndOfStream)
             {
-                next = (char)Peek();
+                next = (char) Peek();
 
                 if (next == '"' || next == '{' || next == '}')
                     break;
@@ -219,7 +218,7 @@ namespace Dota2.Backports
     /// </summary>
     public class KeyValue
     {
-        enum Type : byte
+        private enum Type : byte
         {
             None = 0,
             String = 1,
@@ -248,12 +247,13 @@ namespace Dota2.Backports
         /// <summary>
         /// Represents an invalid <see cref="KeyValue"/> given when a searched for child does not exist.
         /// </summary>
-        public readonly static KeyValue Invalid = new KeyValue();
+        public static readonly KeyValue Invalid = new KeyValue();
 
         /// <summary>
         /// Gets or sets the name of this instance.
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// Gets or sets the value of this instance.
         /// </summary>
@@ -345,6 +345,7 @@ namespace Dota2.Backports
 
             return value;
         }
+
         /// <summary>
         /// Attempts to convert and return the value of this instance as an unsigned long.
         /// If the conversion is invalid, the default value is returned.
@@ -447,7 +448,9 @@ namespace Dota2.Backports
         /// </summary>
         /// <param name="path">The path to the file to load.</param>
         /// <returns>a <see cref="KeyValue"/> instance if the load was successful, or <c>null</c> on failure.</returns>
-        [Obsolete("Use TryReadAsBinary instead. Note that TryLoadAsBinary returns the root object, not a dummy parent node containg the root object.")]
+        [Obsolete(
+            "Use TryReadAsBinary instead. Note that TryLoadAsBinary returns the root object, not a dummy parent node containg the root object."
+            )]
         public static KeyValue LoadAsBinary(string path)
         {
             var kv = LoadFromFile(path, true);
@@ -474,7 +477,7 @@ namespace Dota2.Backports
         }
 
 
-        static KeyValue LoadFromFile(string path, bool asBinary)
+        private static KeyValue LoadFromFile(string path, bool asBinary)
         {
             if (File.Exists(path) == false)
             {
@@ -586,7 +589,7 @@ namespace Dota2.Backports
                     throw new Exception("RecursiveLoadFromBuffer: got EOF or empty keyname");
                 }
 
-                if (name.StartsWith("}") && !wasQuoted)	// top level closed, stop reading
+                if (name.StartsWith("}") && !wasQuoted) // top level closed, stop reading
                     break;
 
                 KeyValue dat = new KeyValue(name);
@@ -655,30 +658,30 @@ namespace Dota2.Backports
             }
         }
 
-        void RecursiveSaveBinaryToStream(Stream f)
+        private void RecursiveSaveBinaryToStream(Stream f)
         {
             RecursiveSaveBinaryToStreamCore(f);
-            f.WriteByte((byte)Type.End);
+            f.WriteByte((byte) Type.End);
         }
 
-        void RecursiveSaveBinaryToStreamCore(Stream f)
+        private void RecursiveSaveBinaryToStreamCore(Stream f)
         {
             // Only supported types ATM:
             // 1. KeyValue with children (no value itself)
             // 2. String KeyValue
             if (Children.Any())
             {
-                f.WriteByte((byte)Type.None);
+                f.WriteByte((byte) Type.None);
                 f.WriteNullTermString(Name, Encoding.UTF8);
                 foreach (var child in Children)
                 {
                     child.RecursiveSaveBinaryToStreamCore(f);
                 }
-                f.WriteByte((byte)Type.End);
+                f.WriteByte((byte) Type.End);
             }
             else
             {
-                f.WriteByte((byte)Type.String);
+                f.WriteByte((byte) Type.String);
                 f.WriteNullTermString(Name, Encoding.UTF8);
                 f.WriteNullTermString(Value ?? string.Empty, Encoding.UTF8);
             }
@@ -714,12 +717,12 @@ namespace Dota2.Backports
             WriteString(stream, "}\n");
         }
 
-        void WriteIndents(Stream stream, int indentLevel)
+        private void WriteIndents(Stream stream, int indentLevel)
         {
             WriteString(stream, new string('\t', indentLevel));
         }
 
-        static void WriteString(Stream stream, string str, bool quote = false)
+        private static void WriteString(Stream stream, string str, bool quote = false)
         {
             byte[] bytes = Encoding.UTF8.GetBytes((quote ? "\"" : "") + str.Replace("\"", "\\\"") + (quote ? "\"" : ""));
             stream.Write(bytes, 0, bytes.Length);
@@ -730,7 +733,9 @@ namespace Dota2.Backports
         /// </summary>
         /// <param name="input">The input <see cref="Stream"/> to read from.</param>
         /// <returns><c>true</c> if the read was successful; otherwise, <c>false</c>.</returns>
-        [Obsolete("Use TryReadAsBinary instead. Note that TryReadAsBinary returns the root object, not a dummy parent node containg the root object.")]
+        [Obsolete(
+            "Use TryReadAsBinary instead. Note that TryReadAsBinary returns the root object, not a dummy parent node containg the root object."
+            )]
         public bool ReadAsBinary(Stream input)
         {
             var dummyChild = new KeyValue();
@@ -748,13 +753,13 @@ namespace Dota2.Backports
             return TryReadAsBinaryCore(input, this, null);
         }
 
-        static bool TryReadAsBinaryCore(Stream input, KeyValue current, KeyValue parent)
+        private static bool TryReadAsBinaryCore(Stream input, KeyValue current, KeyValue parent)
         {
             current.Children = new List<KeyValue>();
 
             while (true)
             {
-                var type = (Type)input.ReadByte();
+                var type = (Type) input.ReadByte();
 
                 if (type == Type.End)
                 {
@@ -766,52 +771,53 @@ namespace Dota2.Backports
                 switch (type)
                 {
                     case Type.None:
+                    {
+                        var child = new KeyValue();
+                        var didReadChild = TryReadAsBinaryCore(input, child, current);
+                        if (!didReadChild)
                         {
-                            var child = new KeyValue();
-                            var didReadChild = TryReadAsBinaryCore(input, child, current);
-                            if (!didReadChild)
-                            {
-                                return false;
-                            }
-                            break;
-                        }
-
-                    case Type.String:
-                        {
-                            current.Value = input.ReadNullTermString(Encoding.UTF8);
-                            break;
-                        }
-
-                    case Type.WideString:
-                        {
-                            DebugLog.WriteLine("KeyValue", "Encountered WideString type when parsing binary KeyValue, which is unsupported. Returning false.");
                             return false;
                         }
+                        break;
+                    }
+
+                    case Type.String:
+                    {
+                        current.Value = input.ReadNullTermString(Encoding.UTF8);
+                        break;
+                    }
+
+                    case Type.WideString:
+                    {
+                        DebugLog.WriteLine("KeyValue",
+                            "Encountered WideString type when parsing binary KeyValue, which is unsupported. Returning false.");
+                        return false;
+                    }
 
                     case Type.Int32:
                     case Type.Color:
                     case Type.Pointer:
-                        {
-                            current.Value = Convert.ToString(input.ReadInt32());
-                            break;
-                        }
+                    {
+                        current.Value = Convert.ToString(input.ReadInt32());
+                        break;
+                    }
 
                     case Type.UInt64:
-                        {
-                            current.Value = Convert.ToString(input.ReadUInt64());
-                            break;
-                        }
+                    {
+                        current.Value = Convert.ToString(input.ReadUInt64());
+                        break;
+                    }
 
                     case Type.Float32:
-                        {
-                            current.Value = Convert.ToString(input.ReadFloat());
-                            break;
-                        }
+                    {
+                        current.Value = Convert.ToString(input.ReadFloat());
+                        break;
+                    }
 
                     default:
-                        {
-                            return false;
-                        }
+                    {
+                        return false;
+                    }
                 }
 
                 if (parent != null)

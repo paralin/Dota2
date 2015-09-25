@@ -1936,6 +1936,52 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CSVCMsg_HLTVStatus")]
+  public partial class CSVCMsg_HLTVStatus : global::ProtoBuf.IExtensible
+  {
+    public CSVCMsg_HLTVStatus() {}
+    
+
+    private string _master = "";
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"master", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string master
+    {
+      get { return _master; }
+      set { _master = value; }
+    }
+
+    private int _clients = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"clients", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int clients
+    {
+      get { return _clients; }
+      set { _clients = value; }
+    }
+
+    private int _slots = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"slots", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int slots
+    {
+      get { return _slots; }
+      set { _slots = value; }
+    }
+
+    private int _proxies = default(int);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"proxies", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int proxies
+    {
+      get { return _proxies; }
+      set { _proxies = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CSVCMsg_CmdKeyValues")]
   public partial class CSVCMsg_CmdKeyValues : global::ProtoBuf.IExtensible
   {
@@ -2636,20 +2682,8 @@ namespace Dota2.GC.Dota.Internal
       [global::ProtoBuf.ProtoEnum(Name=@"svc_PacketReliable", Value=61)]
       svc_PacketReliable = 61,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_UserMessage", Value=62)]
-      svc_UserMessage = 62,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_SendTable", Value=63)]
-      svc_SendTable = 63,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_GameEvent", Value=67)]
-      svc_GameEvent = 67,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_TempEntities", Value=68)]
-      svc_TempEntities = 68,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"svc_GameEventList", Value=69)]
-      svc_GameEventList = 69,
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_HLTVStatus", Value=62)]
+      svc_HLTVStatus = 62,
             
       [global::ProtoBuf.ProtoEnum(Name=@"svc_FullFrameSplit", Value=70)]
       svc_FullFrameSplit = 70
