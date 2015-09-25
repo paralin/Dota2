@@ -599,6 +599,17 @@ namespace Dota2.GC
         }
 
         /// <summary>
+        ///     Kick a player from the lobby team they're in.
+        /// </summary>
+        /// <param name="account_id">Account ID of player to kick</param>
+        public void KickPlayerFromLobbyTeam(uint account_id)
+        {
+            var kick = new ClientGCMsgProtobuf<CMsgPracticeLobbyKickFromTeam>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyKickFromTeam);
+            kick.Body.account_id = account_id;
+            Send(kick);
+        }
+
+        /// <summary>
         ///     Joins a chat channel. Note that limited Steam accounts cannot join chat channels.
         /// </summary>
         /// <param name="name">Name of the chat channel</param>
