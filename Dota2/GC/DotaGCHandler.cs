@@ -1174,6 +1174,18 @@ namespace Dota2.GC
         {
             var resp = new ClientGCMsgProtobuf<CMsgDOTAPopup>(obj);
             Client.PostCallback(new Popup(resp.Body));
+            switch (resp.Body.id)
+            {
+                case CMsgDOTAPopup.PopupID.KICKED_FROM_LOBBY:
+                    Client.PostCallback(new KickedFromLobby(resp.Body));
+                    break;
+                case CMsgDOTAPopup.PopupID.KICKED_FROM_PARTY:
+                    Client.PostCallback(new KickedFromParty(resp.Body));
+                    break;
+                case CMsgDOTAPopup.PopupID.KICKED_FROM_TEAM:
+                    Client.PostCallback(new KickedFromTeam(resp.Body));
+                    break;
+            }
         }
 
         /// <summary>

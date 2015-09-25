@@ -632,5 +632,53 @@ namespace Dota2.GC
                 result = msg;
             }
         }
+        
+        /// <summary>
+        ///     Called when we've just been kicked from a party.
+        /// </summary>
+        public sealed class KickedFromParty : CallbackMsg
+        {
+            /// <summary>
+            /// The in-game popup notification.
+            /// </summary>
+            public CMsgDOTAPopup popup;
+
+            internal KickedFromParty(CMsgDOTAPopup up)
+            {
+                popup = up;
+            }
+        }
+
+        /// <summary>
+        ///     Called when we've just been kicked from a lobby.
+        /// </summary>
+        public sealed class KickedFromLobby : CallbackMsg
+        {
+            /// <summary>
+            /// The in-game popup notification.
+            /// </summary>
+            public CMsgDOTAPopup popup;
+
+            internal KickedFromLobby(CMsgDOTAPopup up)
+            {
+                popup = up;
+            }
+        }
+
+        /// <summary>
+        ///     Called when we've just been kicked from a team.
+        /// </summary>
+        public sealed class KickedFromTeam : CallbackMsg
+        {
+            /// <summary>
+            /// The in-game popup notification.
+            /// </summary>
+            public CMsgDOTAPopup popup;
+
+            internal KickedFromTeam(CMsgDOTAPopup up)
+            {
+                popup = up;
+            }
+        }
     }
 }
