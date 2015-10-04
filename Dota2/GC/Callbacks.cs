@@ -680,5 +680,21 @@ namespace Dota2.GC
                 popup = up;
             }
         }
+
+        /// <summary>
+        ///     Response to a RequestProfileCards call
+        /// </summary>
+        public sealed class ProfileCardResponse : CallbackMsg
+        {
+            /// <summary>
+            /// The profile card response
+            /// </summary>
+            public CMsgDOTAProfileCard result;
+
+            internal ProfileCardResponse(CMsgDOTAProfileCard msg)
+            {
+                result = msg;
+            }
+        }
     }
 }
