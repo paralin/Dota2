@@ -599,6 +599,17 @@ namespace Dota2.GC
         }
 
         /// <summary>
+        ///     Kick a player from the lobby team they're in.
+        /// </summary>
+        /// <param name="account_id">Account ID of player to kick</param>
+        public void KickPlayerFromLobbyTeam(uint account_id)
+        {
+            var kick = new ClientGCMsgProtobuf<CMsgPracticeLobbyKickFromTeam>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyKickFromTeam);
+            kick.Body.account_id = account_id;
+            Send(kick);
+        }
+
+        /// <summary>
         ///     Joins a chat channel. Note that limited Steam accounts cannot join chat channels.
         /// </summary>
         /// <param name="name">Name of the chat channel</param>
@@ -752,6 +763,16 @@ namespace Dota2.GC
         }
 
         /// <summary>
+        ///     Requests someone's profile cards
+        /// </summary>
+        public void RequestProfileCards(uint account_id)
+        {
+            var request = new ClientGCMsgProtobuf<CMsgClientToGCGetProfileCard>((uint)EDOTAGCMsg.k_EMsgClientToGCGetProfileCard);
+            request.Body.account_id = account_id;
+            Send(request);
+        }
+
+        /// <summary>
         /// Packet GC message.
         /// </summary>
         /// <param name="eMsg"></param>
@@ -809,6 +830,7 @@ namespace Dota2.GC
                         {(uint) EDOTAGCMsg.k_EMsgGCGuildInviteAccountResponse, HandleGuildInviteAccountResponse},
                         {(uint) EDOTAGCMsg.k_EMsgGCGuildCancelInviteResponse, HandleGuildCancelInviteResponse},
                         {(uint) EDOTAGCMsg.k_EMsgGCGuildData, HandleGuildData},
+                        {(uint) EDOTAGCMsg.k_EMsgClientToGCGetProfileCardResponse, HandleProfileCardResponse },
                     };
                     Action<IPacketGCMsg> func;
                     if (!messageMap.TryGetValue(gcmsg.MsgType, out func))
@@ -1163,6 +1185,18 @@ namespace Dota2.GC
         {
             var resp = new ClientGCMsgProtobuf<CMsgDOTAPopup>(obj);
             Client.PostCallback(new Popup(resp.Body));
+            switch (resp.Body.id)
+            {
+                case CMsgDOTAPopup.PopupID.KICKED_FROM_LOBBY:
+                    Client.PostCallback(new KickedFromLobby(resp.Body));
+                    break;
+                case CMsgDOTAPopup.PopupID.KICKED_FROM_PARTY:
+                    Client.PostCallback(new KickedFromParty(resp.Body));
+                    break;
+                case CMsgDOTAPopup.PopupID.KICKED_FROM_TEAM:
+                    Client.PostCallback(new KickedFromTeam(resp.Body));
+                    break;
+            }
         }
 
         /// <summary>
@@ -1226,6 +1260,12 @@ namespace Dota2.GC
         {
             var resp = new ClientGCMsgProtobuf<CMsgDOTAGuildSDO>(obj);
             Client.PostCallback(new GuildDataResponse(resp.Body));
+        }
+
+        private void HandleProfileCardResponse(IPacketGCMsg obj)
+        {
+            var resp = new ClientGCMsgProtobuf<CMsgDOTAProfileCard>(obj);
+            Client.PostCallback(new ProfileCardResponse(resp.Body));
         }
     }
 }
