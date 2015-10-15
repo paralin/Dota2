@@ -477,6 +477,9 @@ namespace Dota2.GC
         /// </summary>
         public sealed class GameAccountClientSnapshot : CallbackMsg
         {
+            /// <summary>
+            /// The game account client.
+            /// </summary>
             public CSOEconGameAccountClient client;
 
             internal GameAccountClientSnapshot(CSOEconGameAccountClient cli)
