@@ -5,9 +5,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Dota2.Engine.Game.Data;
+using Dota2.GameClient.Engine.Game.Data;
 
-namespace Dota2.Engine.Session.Unpackers
+namespace Dota2.GameClient.Engine.Session.Unpackers
 {
     /// <summary>
     ///     Flattens network SendTables

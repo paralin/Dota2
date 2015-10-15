@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
-using Dota2.Engine.Control;
-using Dota2.Engine.Data;
-using Dota2.Engine.Game;
-using Dota2.Engine.Game.Data;
-using Dota2.Engine.Game.Entities;
-using Dota2.Engine.Session;
+using Dota2.GameClient.Engine.Control;
+using Dota2.GameClient.Engine.Data;
+using Dota2.GameClient.Engine.Game;
+using Dota2.GameClient.Engine.Game.Data;
+using Dota2.GameClient.Engine.Game.Entities;
+using Dota2.GameClient.Engine.Session;
+using Dota2.GameClient.Utils;
 using Dota2.GC;
 using Dota2.GC.Dota.Internal;
-using Dota2.Utils;
 using SteamKit2;
 using SteamKit2.Internal;
 
-namespace Dota2.Engine
+namespace Dota2.GameClient.Engine
 {
     /// <summary>
     ///     A client capable of connecting to Source 1 servers.

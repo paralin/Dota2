@@ -5,7 +5,7 @@
     See https://github.com/dschleck/nora/blob/master/lara/net/Lzss.cs
 */
 
-namespace Dota2.Engine.Session.Networking
+namespace Dota2.GameClient.Engine.Session.Networking
 {
     /// <summary>
     ///     LZss compression.

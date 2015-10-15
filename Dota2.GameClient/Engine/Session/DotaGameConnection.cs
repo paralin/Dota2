@@ -6,20 +6,20 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using Dota2.Engine.Data;
-using Dota2.Engine.Session.Networking;
+using Dota2.GameClient.Engine.Data;
+using Dota2.GameClient.Engine.Session.Networking;
+using Dota2.GameClient.Utils;
 using Dota2.GC.Dota.Internal;
-using Dota2.Utils;
 using ProtoBuf;
 using Snappy.Sharp;
-using Stream = Dota2.Engine.Session.Networking.Stream;
+using Stream = Dota2.GameClient.Engine.Session.Networking.Stream;
 
 /*
     This file heavily based off of the nora project.
     See https://github.com/dschleck/nora/blob/master/lara/net/Connection.cs
 */
 
-namespace Dota2.Engine.Session
+namespace Dota2.GameClient.Engine.Session
 {
     internal class DotaGameConnection : IDisposable
     {

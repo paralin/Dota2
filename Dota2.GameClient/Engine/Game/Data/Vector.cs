@@ -3,7 +3,7 @@
     See https://github.com/dschleck/nora/blob/master/lara/state/Vectors.cs
 */
 
-namespace Dota2.Engine.Game.Data
+namespace Dota2.GameClient.Engine.Game.Data
 {
     /// <summary>
     ///     x,y,z coordinate in the game world

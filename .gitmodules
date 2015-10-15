@@ -4,3 +4,9 @@
 [submodule "Samples/LobbyDump"]
 	path = Samples/LobbyDump
 	url = https://github.com/paralin/Dota2LobbyDump.git
+[submodule "Samples/DotaGameConnect"]
+	path = Samples/DotaGameConnect
+	url = https://github.com/paralin/DotaGameConnect.git
+[submodule "Samples/GameConnect"]
+	path = Samples/GameConnect
+	url = https://github.com/paralin/DotaGameConnect.git

@@ -5,7 +5,7 @@
     See https://github.com/dschleck/nora/blob/master/lara/state/Entity.cs
 */
 
-namespace Dota2.Engine.Game.Data
+namespace Dota2.GameClient.Engine.Game.Data
 {
     /// <summary>
     ///     A DOTA 2 game entity.

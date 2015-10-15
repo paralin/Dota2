@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using Dota2.Utils;
+using Dota2.GameClient.Utils;
 using Snappy.Sharp;
 
 /*
@@ -8,7 +8,7 @@ using Snappy.Sharp;
     See https://github.com/dschleck/nora/blob/master/lara/net/Stream.cs
 */
 
-namespace Dota2.Engine.Session.Networking
+namespace Dota2.GameClient.Engine.Session.Networking
 {
     /// <summary>
     ///     A network stream over a connection.

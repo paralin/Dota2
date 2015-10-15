@@ -4,13 +4,13 @@
 */
 
 using System.Collections.Generic;
-using Dota2.Engine.Control;
-using Dota2.Engine.Game;
-using Dota2.Engine.Game.Data;
+using Dota2.GameClient.Engine.Control;
+using Dota2.GameClient.Engine.Game;
+using Dota2.GameClient.Engine.Game.Data;
+using Dota2.GameClient.Utils;
 using Dota2.GC.Dota.Internal;
-using Dota2.Utils;
 
-namespace Dota2.Engine.Session.Actuators
+namespace Dota2.GameClient.Engine.Session.Actuators
 {
     /// <summary>
     ///     Generates user commands.

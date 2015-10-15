@@ -1,4 +1,4 @@
-namespace Dota2.Engine.Session.State.Enums
+namespace Dota2.GameClient.Engine.Session.State.Enums
 {
     /// <summary>
     ///     General states of the DOTA 2 game session.

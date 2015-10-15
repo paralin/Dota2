@@ -3,7 +3,7 @@
     See https://github.com/dschleck/nora/blob/master/lara/state/UserCmd.cs
 */
 
-namespace Dota2.Engine.Game.Data
+namespace Dota2.GameClient.Engine.Game.Data
 {
     /// <summary>
     ///     A command made by the user. Includes viewport state, etc, presumably for replays.

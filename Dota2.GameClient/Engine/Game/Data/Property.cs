@@ -5,10 +5,10 @@
 
 using System;
 using System.Collections.Generic;
-using Dota2.Engine.Session.Unpackers;
-using Dota2.Utils;
+using Dota2.GameClient.Engine.Session.Unpackers;
+using Dota2.GameClient.Utils;
 
-namespace Dota2.Engine.Game.Data
+namespace Dota2.GameClient.Engine.Game.Data
 {
     /// <summary>
     ///     A networked entity property.

@@ -5,7 +5,7 @@
     See https://github.com/dschleck/nora/blob/master/lara/state/FlatTable.cs
 */
 
-namespace Dota2.Engine.Game.Data
+namespace Dota2.GameClient.Engine.Game.Data
 {
     /// <summary>
     ///     A flat network table.

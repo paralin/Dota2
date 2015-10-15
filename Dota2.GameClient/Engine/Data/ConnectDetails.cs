@@ -1,4 +1,4 @@
-﻿namespace Dota2.Engine.Data
+﻿namespace Dota2.GameClient.Engine.Data
 {
     /// <summary>
     ///     Details used to connect to the game server.

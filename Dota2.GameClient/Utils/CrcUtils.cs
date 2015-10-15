@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-/*
+﻿/*
     Based on this article: 
     http://www.sanity-free.com/12/crc32_implementation_in_csharp.html
 */
 
-namespace Dota2.Utils
+namespace Dota2.GameClient.Utils
 {
     public class CrcUtils
     {

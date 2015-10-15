@@ -3,7 +3,7 @@
     See https://github.com/dschleck/nora/blob/master/lara/state/Order.cs
 */
 
-namespace Dota2.Engine.Game.Data
+namespace Dota2.GameClient.Engine.Game.Data
 {
     /// <summary>
     ///     An order executable by a player.

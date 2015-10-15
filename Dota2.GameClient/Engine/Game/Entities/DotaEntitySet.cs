@@ -1,8 +1,6 @@
-﻿using System;
-using Dota2.Engine.Game.Data;
-using Dota2.Engine.Game.Entities.Dota;
+﻿using Dota2.GameClient.Engine.Game.Entities.Dota;
 
-namespace Dota2.Engine.Game.Entities
+namespace Dota2.GameClient.Engine.Game.Entities
 {
     //todo: implement the rest of the known entities: https://github.com/skadistats/skadi/wiki/DT_DOTA_BaseNPC
 

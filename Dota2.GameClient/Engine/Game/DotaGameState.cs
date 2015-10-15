@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dota2.Engine.Data;
-using Dota2.Engine.Game.Data;
-using Dota2.Engine.Game.Entities;
+using Dota2.GameClient.Engine.Data;
+using Dota2.GameClient.Engine.Game.Data;
+using Dota2.GameClient.Engine.Game.Entities;
 using Dota2.GC.Dota.Internal;
 
 /*
@@ -10,7 +10,7 @@ using Dota2.GC.Dota.Internal;
     See https://github.com/dschleck/nora/blob/master/lara/state/Client.cs
 */
 
-namespace Dota2.Engine.Game
+namespace Dota2.GameClient.Engine.Game
 {
     /// <summary>
     ///     Simulates the data stored in a DOTA 2 client.

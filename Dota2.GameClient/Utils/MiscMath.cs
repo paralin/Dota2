@@ -2,7 +2,7 @@
     A lot of this math based on the Nora project.
 */
 
-namespace Dota2.Utils
+namespace Dota2.GameClient.Utils
 {
     /// <summary>
     /// Misc math functions.

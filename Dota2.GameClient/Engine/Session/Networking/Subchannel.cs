@@ -3,7 +3,7 @@
     See https://github.com/dschleck/nora/blob/master/lara/net/Subchannel.cs
 */
 
-namespace Dota2.Engine.Session.Networking
+namespace Dota2.GameClient.Engine.Session.Networking
 {
     /// <summary>
     ///     A DOTA 2 DotaGameConnection subchannel.

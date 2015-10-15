@@ -9,7 +9,7 @@ using SteamKit2;
     See https://github.com/dschleck/nora/blob/master/clara/AuthTicket.cs
  */
 
-namespace Dota2.Engine.Data
+namespace Dota2.GameClient.Engine.Data
 {
     /// <summary>
     ///     Generates auth tickets.

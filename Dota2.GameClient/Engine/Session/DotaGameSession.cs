@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Dota2.Engine.Control;
-using Dota2.Engine.Data;
-using Dota2.Engine.Game;
-using Dota2.Engine.Game.Entities;
-using Dota2.Engine.Session.Actuators;
-using Dota2.Engine.Session.Handlers;
-using Dota2.Engine.Session.Handlers.Game;
-using Dota2.Engine.Session.Handlers.Handshake;
-using Dota2.Engine.Session.Handlers.Signon;
-using Dota2.Engine.Session.State.Enums;
+using Dota2.GameClient.Engine.Control;
+using Dota2.GameClient.Engine.Data;
+using Dota2.GameClient.Engine.Game;
+using Dota2.GameClient.Engine.Game.Entities;
+using Dota2.GameClient.Engine.Session.Actuators;
+using Dota2.GameClient.Engine.Session.Handlers;
+using Dota2.GameClient.Engine.Session.Handlers.Game;
+using Dota2.GameClient.Engine.Session.Handlers.Handshake;
+using Dota2.GameClient.Engine.Session.Handlers.Signon;
+using Dota2.GameClient.Engine.Session.State.Enums;
 using Stateless;
 using SteamKit2;
 
-namespace Dota2.Engine.Session
+namespace Dota2.GameClient.Engine.Session
 {
     /// <summary>
     ///     An instance of a DOTA 2 game session.

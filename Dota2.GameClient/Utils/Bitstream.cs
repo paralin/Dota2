@@ -1,14 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Dota2.Engine.Game.Data;
+using Dota2.GameClient.Engine.Game.Data;
 
 /*
     This code from the Nora project.
     See https://github.com/dschleck/nora/blob/master/lara/Bitstream.cs
  */
 
-namespace Dota2.Utils
+namespace Dota2.GameClient.Utils
 {
     public class Bitstream : Stream
     {

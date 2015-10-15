@@ -1,6 +1,6 @@
-﻿using Dota2.Engine.Session.State.Enums;
+﻿using Dota2.GameClient.Engine.Session.State.Enums;
 
-namespace Dota2.Engine.Session.Handlers
+namespace Dota2.GameClient.Engine.Session.Handlers
 {
     /// <summary>
     /// A handler that can process messages

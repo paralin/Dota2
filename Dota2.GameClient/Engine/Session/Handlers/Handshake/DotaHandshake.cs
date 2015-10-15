@@ -5,14 +5,14 @@
 
 using System;
 using System.Text;
-using Dota2.Engine.Data;
-using Dota2.Engine.Game;
-using Dota2.Engine.Session.State.Enums;
+using Dota2.GameClient.Engine.Data;
+using Dota2.GameClient.Engine.Game;
+using Dota2.GameClient.Engine.Session.State.Enums;
+using Dota2.GameClient.Utils;
 using Dota2.GC.Dota.Internal;
-using Dota2.Utils;
 using ProtoBuf;
 
-namespace Dota2.Engine.Session.Handlers.Handshake
+namespace Dota2.GameClient.Engine.Session.Handlers.Handshake
 {
     /// <summary>
     ///     A handler that completes the handshake with the game server.

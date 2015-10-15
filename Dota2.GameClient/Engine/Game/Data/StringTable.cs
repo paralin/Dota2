@@ -5,10 +5,10 @@
 
 using System;
 using System.Collections.Generic;
+using Dota2.GameClient.Utils;
 using Dota2.GC.Dota.Internal;
-using Dota2.Utils;
 
-namespace Dota2.Engine.Game.Data
+namespace Dota2.GameClient.Engine.Game.Data
 {
     /// <summary>
     ///     A networked string table.

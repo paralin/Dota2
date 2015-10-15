@@ -1,7 +1,7 @@
-﻿using Dota2.Engine.Session.State.Enums;
+﻿using Dota2.GameClient.Engine.Session.State.Enums;
 using SteamKit2;
 
-namespace Dota2.Engine
+namespace Dota2.GameClient.Engine
 {
     public partial class DotaGameClient
     {

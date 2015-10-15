@@ -1,6 +1,6 @@
-﻿using Dota2.Engine.Game;
+﻿using Dota2.GameClient.Engine.Game;
 
-namespace Dota2.Engine.Control
+namespace Dota2.GameClient.Engine.Control
 {
     /// <summary>
     /// Capable of controlling a DOTA 2 game client

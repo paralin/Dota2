@@ -6,7 +6,7 @@
 using System;
 using Dota2.GC.Dota.Internal;
 
-namespace Dota2.Engine.Game.Data
+namespace Dota2.GameClient.Engine.Game.Data
 {
     /// <summary>
     ///     Information about a networked property.

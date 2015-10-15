@@ -1,6 +1,6 @@
-﻿using Dota2.Engine.Game.Data;
+﻿using Dota2.GameClient.Engine.Game.Data;
 
-namespace Dota2.Engine.Control
+namespace Dota2.GameClient.Engine.Control
 {
     /// <summary>
     /// Internally a commander that can submit orders.

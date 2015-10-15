@@ -1,6 +1,6 @@
-﻿using Dota2.Engine.Game.Data;
+﻿using Dota2.GameClient.Engine.Game.Data;
 
-namespace Dota2.Engine.Game.Entities.Dota
+namespace Dota2.GameClient.Engine.Game.Entities.Dota
 {
     /// <summary>
     /// Player names and IDs
