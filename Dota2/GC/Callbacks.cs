@@ -699,5 +699,21 @@ namespace Dota2.GC
                 result = msg;
             }
         }
+        
+        /// <summary>
+        ///     Called upon a rich presence update
+        /// </summary>
+        public sealed class RichPresenceUpdate : CallbackMsg
+        {
+            /// <summary>
+            /// The rich presence info 
+            /// </summary>
+            public CMsgClientRichPresenceInfo result;
+
+            internal RichPresenceUpdate(CMsgClientRichPresenceInfo msg)
+            {
+                result = msg;
+            }
+        }
     }
 }

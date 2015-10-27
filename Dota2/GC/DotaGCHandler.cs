@@ -830,7 +830,7 @@ namespace Dota2.GC
                         {(uint) EDOTAGCMsg.k_EMsgGCGuildInviteAccountResponse, HandleGuildInviteAccountResponse},
                         {(uint) EDOTAGCMsg.k_EMsgGCGuildCancelInviteResponse, HandleGuildCancelInviteResponse},
                         {(uint) EDOTAGCMsg.k_EMsgGCGuildData, HandleGuildData},
-                        {(uint) EDOTAGCMsg.k_EMsgClientToGCGetProfileCardResponse, HandleProfileCardResponse },
+                        {(uint) EDOTAGCMsg.k_EMsgClientToGCGetProfileCardResponse, HandleProfileCardResponse},
                     };
                     Action<IPacketGCMsg> func;
                     if (!messageMap.TryGetValue(gcmsg.MsgType, out func))
@@ -863,6 +863,12 @@ namespace Dota2.GC
                         {
                             var msg = new ClientMsg<MsgClientOGSBeginSessionResponse>(packetMsg);
                             Client.PostCallback(new BeginSessionResponse(msg.Body));
+                        }
+                            break;
+                        case EMsg.ClientRichPresenceInfo:
+                        {
+                            var msg = new ClientMsgProtobuf<CMsgClientRichPresenceInfo>(packetMsg);
+                            Client.PostCallback(new RichPresenceUpdate(msg.Body));
                         }
                             break;
                     }
