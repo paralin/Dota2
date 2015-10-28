@@ -3192,6 +3192,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _maximpacttime; }
       set { _maximpacttime = value; }
     }
+
+    private uint _colorgemcolor = default(uint);
+    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"colorgemcolor", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint colorgemcolor
+    {
+      get { return _colorgemcolor; }
+      set { _colorgemcolor = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -3282,6 +3291,15 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _vTargetLoc; }
       set { _vTargetLoc = value; }
+    }
+
+    private uint _colorgemcolor = default(uint);
+    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"colorgemcolor", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint colorgemcolor
+    {
+      get { return _colorgemcolor; }
+      set { _colorgemcolor = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -5139,7 +5157,10 @@ namespace Dota2.GC.Dota.Internal
       DOTA_UM_ProjectionAbility = 552,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_ProjectionEvent", Value=553)]
-      DOTA_UM_ProjectionEvent = 553
+      DOTA_UM_ProjectionEvent = 553,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_CombatLogDataHLTV", Value=554)]
+      DOTA_UM_CombatLogDataHLTV = 554
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_CHAT_MESSAGE", EnumPassthru=true)]

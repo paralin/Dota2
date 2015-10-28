@@ -887,6 +887,15 @@ namespace Dota2.Datagram.Internal
     public CMsgSteamDatagramConnectionStatsRouterToServer() {}
     
 
+    private CMsgSteamDatagramConnectionQuality _r2s = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"r2s", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgSteamDatagramConnectionQuality r2s
+    {
+      get { return _r2s; }
+      set { _r2s = value; }
+    }
+
     private CMsgSteamDatagramConnectionQuality _c2s = null;
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"c2s", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
@@ -914,6 +923,15 @@ namespace Dota2.Datagram.Internal
       set { _router_timestamp = value; }
     }
 
+    private uint _seq_num_r2s = default(uint);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"seq_num_r2s", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint seq_num_r2s
+    {
+      get { return _seq_num_r2s; }
+      set { _seq_num_r2s = value; }
+    }
+
     private uint _seq_num_c2s = default(uint);
     [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"seq_num_c2s", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(uint))]
@@ -934,6 +952,70 @@ namespace Dota2.Datagram.Internal
 
     private uint _client_session_id = default(uint);
     [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"client_session_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint client_session_id
+    {
+      get { return _client_session_id; }
+      set { _client_session_id = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramConnectionStatsServerToRouter")]
+  public partial class CMsgSteamDatagramConnectionStatsServerToRouter : global::ProtoBuf.IExtensible
+  {
+    public CMsgSteamDatagramConnectionStatsServerToRouter() {}
+    
+
+    private CMsgSteamDatagramConnectionQuality _s2r = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"s2r", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgSteamDatagramConnectionQuality s2r
+    {
+      get { return _s2r; }
+      set { _s2r = value; }
+    }
+
+    private CMsgSteamDatagramConnectionQuality _s2c = null;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"s2c", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgSteamDatagramConnectionQuality s2c
+    {
+      get { return _s2c; }
+      set { _s2c = value; }
+    }
+
+    private uint _seq_num_s2r = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"seq_num_s2r", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint seq_num_s2r
+    {
+      get { return _seq_num_s2r; }
+      set { _seq_num_s2r = value; }
+    }
+
+    private uint _seq_num_s2c = default(uint);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"seq_num_s2c", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint seq_num_s2c
+    {
+      get { return _seq_num_s2c; }
+      set { _seq_num_s2c = value; }
+    }
+
+    private ulong _client_steam_id = default(ulong);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"client_steam_id", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong client_steam_id
+    {
+      get { return _client_steam_id; }
+      set { _client_steam_id = value; }
+    }
+
+    private uint _client_session_id = default(uint);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"client_session_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(uint))]
     public uint client_session_id
     {

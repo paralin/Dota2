@@ -1601,25 +1601,70 @@ namespace Dota2.GC.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgGCToClientBundleUnpacked")]
-  public partial class CMsgGCToClientBundleUnpacked : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgClientToGCUnpackBundle")]
+  public partial class CMsgClientToGCUnpackBundle : global::ProtoBuf.IExtensible
   {
-    public CMsgGCToClientBundleUnpacked() {}
+    public CMsgClientToGCUnpackBundle() {}
     
 
-    private ulong _bundle_item_id = default(ulong);
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"bundle_item_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    private ulong _item_id = default(ulong);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"item_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(ulong))]
-    public ulong bundle_item_id
+    public ulong item_id
     {
-      get { return _bundle_item_id; }
-      set { _bundle_item_id = value; }
+      get { return _item_id; }
+      set { _item_id = value; }
     }
-    private readonly global::System.Collections.Generic.List<ulong> _item_ids = new global::System.Collections.Generic.List<ulong>();
-    [global::ProtoBuf.ProtoMember(2, Name=@"item_ids", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public global::System.Collections.Generic.List<ulong> item_ids
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgClientToGCUnpackBundleResponse")]
+  public partial class CMsgClientToGCUnpackBundleResponse : global::ProtoBuf.IExtensible
+  {
+    public CMsgClientToGCUnpackBundleResponse() {}
+    
+    private readonly global::System.Collections.Generic.List<ulong> _unpacked_item_ids = new global::System.Collections.Generic.List<ulong>();
+    [global::ProtoBuf.ProtoMember(1, Name=@"unpacked_item_ids", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<ulong> unpacked_item_ids
     {
-      get { return _item_ids; }
+      get { return _unpacked_item_ids; }
+    }
+  
+
+    private CMsgClientToGCUnpackBundleResponse.EUnpackBundle _response = CMsgClientToGCUnpackBundleResponse.EUnpackBundle.k_UnpackBundle_Succeeded;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"response", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(CMsgClientToGCUnpackBundleResponse.EUnpackBundle.k_UnpackBundle_Succeeded)]
+    public CMsgClientToGCUnpackBundleResponse.EUnpackBundle response
+    {
+      get { return _response; }
+      set { _response = value; }
+    }
+    [global::ProtoBuf.ProtoContract(Name=@"EUnpackBundle", EnumPassthru=true)]
+    public enum EUnpackBundle
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_UnpackBundle_Succeeded", Value=0)]
+      k_UnpackBundle_Succeeded = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_UnpackBundle_Failed_ItemIsNotBundle", Value=1)]
+      k_UnpackBundle_Failed_ItemIsNotBundle = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_UnpackBundle_Failed_UnableToCreateContainedItem", Value=2)]
+      k_UnpackBundle_Failed_UnableToCreateContainedItem = 2,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_UnpackBundle_Failed_SOCacheError", Value=3)]
+      k_UnpackBundle_Failed_SOCacheError = 3,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_UnpackBundle_Failed_ItemIsInvalid", Value=4)]
+      k_UnpackBundle_Failed_ItemIsInvalid = 4,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_UnpackBundle_Failed_BadItemQuantity", Value=5)]
+      k_UnpackBundle_Failed_BadItemQuantity = 5,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_UnpackBundle_Failed_UnableToDeleteItem", Value=6)]
+      k_UnpackBundle_Failed_UnableToDeleteItem = 6
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -2214,6 +2259,9 @@ namespace Dota2.GC.Internal
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCSetItemPositions", Value=1077)]
       k_EMsgGCSetItemPositions = 1077,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCSetItemPositions_RateLimited", Value=1096)]
+      k_EMsgGCSetItemPositions_RateLimited = 1096,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCApplyEggEssence", Value=1078)]
       k_EMsgGCApplyEggEssence = 1078,
             
@@ -2255,6 +2303,12 @@ namespace Dota2.GC.Internal
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCRequestCrateItemsResponse", Value=1093)]
       k_EMsgGCRequestCrateItemsResponse = 1093,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCExtractGemsResponse", Value=1094)]
+      k_EMsgGCExtractGemsResponse = 1094,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCResetStrangeGemCountResponse", Value=1095)]
+      k_EMsgGCResetStrangeGemCountResponse = 1095,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCServerUseItemRequest", Value=1103)]
       k_EMsgGCServerUseItemRequest = 1103,
@@ -2505,8 +2559,8 @@ namespace Dota2.GC.Internal
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCWrapAndDeliverGiftResponse", Value=2566)]
       k_EMsgClientToGCWrapAndDeliverGiftResponse = 2566,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToClientBundleUnpacked", Value=2567)]
-      k_EMsgGCToClientBundleUnpacked = 2567,
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCUnpackBundleResponse", Value=2567)]
+      k_EMsgClientToGCUnpackBundleResponse = 2567,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToClientStoreTransactionCompleted", Value=2568)]
       k_EMsgGCToClientStoreTransactionCompleted = 2568,
@@ -2530,7 +2584,10 @@ namespace Dota2.GC.Internal
       k_EMsgClientToGCUnlockCrate = 2574,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCUnlockCrateResponse", Value=2575)]
-      k_EMsgClientToGCUnlockCrateResponse = 2575
+      k_EMsgClientToGCUnlockCrateResponse = 2575,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCUnpackBundle", Value=2576)]
+      k_EMsgClientToGCUnpackBundle = 2576
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EGCMsgResponse", EnumPassthru=true)]
