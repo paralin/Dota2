@@ -236,7 +236,7 @@ namespace Dota2.GC
             {
                 if (!Ready) inp = RPType.None;
                 else if (Lobby != null && Lobby.state == CSODOTALobby.State.RUN) inp = RPType.Play;
-                else inp = RPType.Auto;
+                else inp = RPType.Init;
             }
 
             // Update rich presence
