@@ -8,8 +8,11 @@
 //------------------------------------------------------------------------------
 #pragma warning disable 1591
 
-using SteamKit2.GC.Internal;
-   
+using Dota2.GC.Internal;
+using CMsgSHA1Digest = SteamKit2.GC.Internal.CMsgSHA1Digest;
+using ESourceEngine = SteamKit2.GC.Internal.ESourceEngine;
+using PartnerAccountType = SteamKit2.GC.Internal.PartnerAccountType;
+
 // Generated from: dota_gcmessages_client.proto
 // Note: requires additional types generated from: steammessages.proto
 // Note: requires additional types generated from: dota_gcmessages_common.proto
