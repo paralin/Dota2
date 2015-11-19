@@ -1613,7 +1613,10 @@ namespace Dota2.GC.Internal
       GCConnectionStatus_NO_STEAM = 4,
             
       [global::ProtoBuf.ProtoEnum(Name=@"GCConnectionStatus_SUSPENDED", Value=5)]
-      GCConnectionStatus_SUSPENDED = 5
+      GCConnectionStatus_SUSPENDED = 5,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"GCConnectionStatus_STEAM_GOING_DOWN", Value=6)]
+      GCConnectionStatus_STEAM_GOING_DOWN = 6
     }
   
 }

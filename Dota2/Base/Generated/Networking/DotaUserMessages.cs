@@ -40,13 +40,22 @@ namespace Dota2.GC.Dota.Internal
     public CDOTAUserMsg_Ping() {}
     
 
-    private string _message = "";
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"message", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
-    public string message
+    private uint _ping = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"ping", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint ping
     {
-      get { return _message; }
-      set { _message = value; }
+      get { return _ping; }
+      set { _ping = value; }
+    }
+
+    private uint _loss = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"loss", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint loss
+    {
+      get { return _loss; }
+      set { _loss = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -920,15 +929,6 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _velocity; }
       set { _velocity = value; }
-    }
-
-    private int _latency = default(int);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"latency", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int latency
-    {
-      get { return _latency; }
-      set { _latency = value; }
     }
 
     private int _entindex = default(int);
@@ -4888,6 +4888,34 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CDOTAUserMsg_XPAlert")]
+  public partial class CDOTAUserMsg_XPAlert : global::ProtoBuf.IExtensible
+  {
+    public CDOTAUserMsg_XPAlert() {}
+    
+
+    private uint _player_id = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"player_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint player_id
+    {
+      get { return _player_id; }
+      set { _player_id = value; }
+    }
+
+    private uint _target_entindex = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"target_entindex", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint target_entindex
+    {
+      get { return _target_entindex; }
+      set { _target_entindex = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"EDotaUserMessages", EnumPassthru=true)]
     public enum EDotaUserMessages
     {
@@ -5160,7 +5188,10 @@ namespace Dota2.GC.Dota.Internal
       DOTA_UM_ProjectionEvent = 553,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_CombatLogDataHLTV", Value=554)]
-      DOTA_UM_CombatLogDataHLTV = 554
+      DOTA_UM_CombatLogDataHLTV = 554,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_XPAlert", Value=555)]
+      DOTA_UM_XPAlert = 555
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_CHAT_MESSAGE", EnumPassthru=true)]
