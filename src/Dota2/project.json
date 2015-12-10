@@ -1,5 +1,5 @@
 {
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "A plugin for SteamKit that interacts with the DOTA 2 game coordinator.",
   "authors": [ "paralin" ],
   "tags": [ "dota2", "steam", "networking", "steamkit", "dota", "moba" ],
@@ -21,9 +21,8 @@
   },
 
   "dependencies": {
-    "Newtonsoft.Json": "8.0.1-beta3",
-    "protobuf-net": "2.1.0-alpha-1",
-    "SteamKit2": "1.6.5"
+    "Newtonsoft.Json": "[7.0.1, 8.0.2]",
+    "SteamKit2": "[1.6.5, 1.7.0)"
   },
 
   "commands": {

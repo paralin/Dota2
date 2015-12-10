@@ -8,11 +8,8 @@
 //------------------------------------------------------------------------------
 #pragma warning disable 1591
 
-using Dota2.GC.Internal;
-using CMsgSHA1Digest = SteamKit2.GC.Internal.CMsgSHA1Digest;
-using ESourceEngine = SteamKit2.GC.Internal.ESourceEngine;
-using PartnerAccountType = SteamKit2.GC.Internal.PartnerAccountType;
-
+using SteamKit2.GC.Internal;
+   
 // Generated from: dota_gcmessages_client.proto
 // Note: requires additional types generated from: steammessages.proto
 // Note: requires additional types generated from: dota_gcmessages_common.proto
@@ -8437,6 +8434,13 @@ namespace Dota2.GC.Dota.Internal
       get { return _lobby_id; }
       set { _lobby_id = value; }
     }
+    private readonly global::System.Collections.Generic.List<uint> _regions = new global::System.Collections.Generic.List<uint>();
+    [global::ProtoBuf.ProtoMember(5, Name=@"regions", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<uint> regions
+    {
+      get { return _regions; }
+    }
+  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -9326,6 +9330,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _extra_messages; }
     }
   
+
+    private ulong _minimum_recent_item_id = default(ulong);
+    [global::ProtoBuf.ProtoMember(27, IsRequired = false, Name=@"minimum_recent_item_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong minimum_recent_item_id
+    {
+      get { return _minimum_recent_item_id; }
+      set { _minimum_recent_item_id = value; }
+    }
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"LocalizationDigest")]
   public partial class LocalizationDigest : global::ProtoBuf.IExtensible
   {
