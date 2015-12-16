@@ -2954,6 +2954,53 @@ namespace Dota2.GC.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgClientToGCLookupAccountName")]
+  public partial class CMsgClientToGCLookupAccountName : global::ProtoBuf.IExtensible
+  {
+    public CMsgClientToGCLookupAccountName() {}
+    
+
+    private uint _account_id = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"account_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint account_id
+    {
+      get { return _account_id; }
+      set { _account_id = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgClientToGCLookupAccountNameResponse")]
+  public partial class CMsgClientToGCLookupAccountNameResponse : global::ProtoBuf.IExtensible
+  {
+    public CMsgClientToGCLookupAccountNameResponse() {}
+    
+
+    private uint _account_id = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"account_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint account_id
+    {
+      get { return _account_id; }
+      set { _account_id = value; }
+    }
+
+    private string _account_name = "";
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"account_name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string account_name
+    {
+      get { return _account_name; }
+      set { _account_name = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"EGCItemMsg", EnumPassthru=true)]
     public enum EGCItemMsg
     {
@@ -3060,18 +3107,6 @@ namespace Dota2.GC.Internal
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGC_RevolvingLootList_DEPRECATED", Value=1042)]
       k_EMsgGC_RevolvingLootList_DEPRECATED = 1042,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCLookupAccount", Value=1043)]
-      k_EMsgGCLookupAccount = 1043,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCLookupAccountResponse", Value=1044)]
-      k_EMsgGCLookupAccountResponse = 1044,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCLookupAccountName", Value=1045)]
-      k_EMsgGCLookupAccountName = 1045,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCLookupAccountNameResponse", Value=1046)]
-      k_EMsgGCLookupAccountNameResponse = 1046,
-            
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCUpdateItemSchema", Value=1049)]
       k_EMsgGCUpdateItemSchema = 1049,
             
@@ -3113,12 +3148,6 @@ namespace Dota2.GC.Internal
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCPresets_SetItemPosition", Value=1064)]
       k_EMsgGCPresets_SetItemPosition = 1064,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGC_ReportAbuse", Value=1065)]
-      k_EMsgGC_ReportAbuse = 1065,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGC_ReportAbuseResponse", Value=1066)]
-      k_EMsgGC_ReportAbuseResponse = 1066,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCPresets_SelectPresetForClassReply", Value=1067)]
       k_EMsgGCPresets_SelectPresetForClassReply = 1067,
@@ -3493,7 +3522,13 @@ namespace Dota2.GC.Internal
       k_EMsgGCGenericResult = 2579,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgSQLGCToGCGrantBackpackSlots", Value=2580)]
-      k_EMsgSQLGCToGCGrantBackpackSlots = 2580
+      k_EMsgSQLGCToGCGrantBackpackSlots = 2580,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCLookupAccountName", Value=2581)]
+      k_EMsgClientToGCLookupAccountName = 2581,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCLookupAccountNameResponse", Value=2582)]
+      k_EMsgClientToGCLookupAccountNameResponse = 2582
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EGCMsgResponse", EnumPassthru=true)]

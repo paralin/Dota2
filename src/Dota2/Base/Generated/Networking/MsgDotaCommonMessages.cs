@@ -717,7 +717,10 @@ namespace Dota2.GC.Dota.Internal
       DOTA_UNIT_ORDER_PING_ABILITY = 27,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UNIT_ORDER_MOVE_TO_DIRECTION", Value=28)]
-      DOTA_UNIT_ORDER_MOVE_TO_DIRECTION = 28
+      DOTA_UNIT_ORDER_MOVE_TO_DIRECTION = 28,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UNIT_ORDER_PATROL", Value=29)]
+      DOTA_UNIT_ORDER_PATROL = 29
     }
   
 }

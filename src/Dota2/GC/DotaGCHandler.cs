@@ -16,8 +16,7 @@ using SteamKit2.GC;
 using SteamKit2.Internal;
 using KeyValue = Dota2.Backports.KeyValue;
 
-// todo: There's no way now to tell if someone accepted / rejected a lobby invite.
-
+// todo: Add a way to tell if someone accepted/rejected a party invite using pending_invites
 namespace Dota2.GC
 {
     /// <summary>
@@ -27,13 +26,12 @@ namespace Dota2.GC
     {
         private Timer gcConnectTimer;
         private bool running = false;
-        private Games gameId = Games.DOTA2;
         private ESourceEngine engine;
 
         /// <summary>
-        /// The Game ID the handler will use.
+        /// The Game ID the handler will use. Defaults to Main Client.
         /// </summary>
-        public Games GameID => gameId;
+        public Games GameID { get; }
 
         /// <summary>
         /// The engine to use.
@@ -104,7 +102,7 @@ namespace Dota2.GC
         /// <param name="_engine"></param>
         internal DotaGCHandler(SteamClient client, Games appId, ESourceEngine _engine)
         {
-            gameId = appId;
+            GameID = appId;
             engine = _engine;
             SteamClient = client;
             // Usually we'd have around 200-600 items.
@@ -336,10 +334,6 @@ namespace Dota2.GC
             var invite = new ClientGCMsgProtobuf<CMsgPartyInviteResponse>((uint) EGCBaseMsg.k_EMsgGCPartyInviteResponse);
             invite.Body.party_id = party_id;
             invite.Body.accept = accept;
-            invite.Body.as_coach = false;
-            invite.Body.team_id = 0;
-            invite.Body.game_language_enum = 1;
-            invite.Body.game_language_name = "english";
             Send(invite);
         }
 
@@ -347,14 +341,18 @@ namespace Dota2.GC
         ///      Respond to a lobby invite
         /// </summary>
         /// <param name="lobby_id">Lobby ID</param>
-        /// <param name="accept">accept lobby invite</param>
-        public void RespondLobbyInvite(ulong lobby_id, bool accept = true)
+        /// <param name="accept">accept lobby invite, true/false</param>
+        /// <param name="custom_game_crc">If responding to a custom game invite, the crc of te game</param>
+        /// <param name="custom_game_timestamp">If responding to a custom game invite, the timestamp of the download.</param>
+        public void RespondLobbyInvite(ulong lobby_id, bool accept = true, ulong custom_game_crc = 0, uint custom_game_timestamp = 0)
         {
             var invite = new ClientGCMsgProtobuf<CMsgLobbyInviteResponse>((uint) EGCBaseMsg.k_EMsgGCLobbyInviteResponse);
             invite.Body.lobby_id = lobby_id;
             invite.Body.accept = accept;
-            invite.Body.game_language_enum = 1;
-            invite.Body.game_language_name = "english";
+            if (custom_game_crc != 0)
+                invite.Body.custom_game_crc = custom_game_crc;
+            if (custom_game_timestamp != 0)
+                invite.Body.custom_game_timestamp = custom_game_timestamp;
             Send(invite);
         }
 
@@ -504,7 +502,8 @@ namespace Dota2.GC
             create.Body.lobby_details = details;
             create.Body.lobby_details.pass_key = pass_key;
             create.Body.lobby_details.visibility = DOTALobbyVisibility.DOTALobbyVisibility_Public;
-            create.Body.search_key = "";
+            if (string.IsNullOrWhiteSpace(create.Body.search_key))
+                create.Body.search_key = "";
             Send(create);
         }
 

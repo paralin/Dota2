@@ -1172,6 +1172,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _origin; }
       set { _origin = value; }
     }
+
+    private bool _reverse = default(bool);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"reverse", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool reverse
+    {
+      get { return _reverse; }
+      set { _reverse = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
