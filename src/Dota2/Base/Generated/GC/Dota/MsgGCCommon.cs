@@ -434,6 +434,24 @@ namespace Dota2.GC.Dota.Internal
       get { return _play_time_level; }
       set { _play_time_level = value; }
     }
+
+    private uint _player_behavior_seq_num_last_report = default(uint);
+    [global::ProtoBuf.ProtoMember(71, IsRequired = false, Name=@"player_behavior_seq_num_last_report", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint player_behavior_seq_num_last_report
+    {
+      get { return _player_behavior_seq_num_last_report; }
+      set { _player_behavior_seq_num_last_report = value; }
+    }
+
+    private uint _player_behavior_score_last_report = default(uint);
+    [global::ProtoBuf.ProtoMember(72, IsRequired = false, Name=@"player_behavior_score_last_report", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint player_behavior_score_last_report
+    {
+      get { return _player_behavior_score_last_report; }
+      set { _player_behavior_score_last_report = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -7949,7 +7967,13 @@ namespace Dota2.GC.Dota.Internal
       k_EMsgClientToGCH264Unsupported = 8076,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCRequestH264Support", Value=8077)]
-      k_EMsgClientToGCRequestH264Support = 8077
+      k_EMsgClientToGCRequestH264Support = 8077,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCLatestBehaviorReportRequest", Value=8095)]
+      k_EMsgClientToGCLatestBehaviorReportRequest = 8095,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCLatestBehaviorReport", Value=8096)]
+      k_EMsgClientToGCLatestBehaviorReport = 8096
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"ESpecialPingValue", EnumPassthru=true)]
