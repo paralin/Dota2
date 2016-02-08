@@ -1,5 +1,5 @@
 {
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "A plugin for SteamKit that interacts with the DOTA 2 game coordinator.",
   "authors": [ "paralin" ],
   "tags": [ "dota2", "steam", "networking", "steamkit", "dota", "moba" ],
@@ -15,9 +15,11 @@
 
   "compilationOptions": { },
   "frameworks": {
+    "net40": {},
+    "net45": {},
     "net451": {},
-    "dnx451": {},
-    "net40": {}
+    "net460": {},
+    "dnx451": {}
   },
 
   "dependencies": {
