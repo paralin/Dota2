@@ -53,10 +53,9 @@ SteamKit2 and Dota2 (this package) are released under the [LGPL-2.1 license](htt
 
 In order to compile and use SteamKit2 and Dota2, the following dependencies are required:
 
-  - .NET 4.0 or [Mono ≥2.8](http://mono-project.com)
-  - [protobuf-net](http://code.google.com/p/protobuf-net/) ([NuGet package](http://nuget.org/packages/protobuf-net))
+  - [DNX](https://docs.asp.net/en/latest/getting-started/index.html)
 
-Note: If you're using the NuGet package, the protobuf-net dependency _should_ be resolved for you. See the SteamKit [Installation Guide](https://github.com/SteamRE/SteamKit/wiki/Installation) for more information.
+Note: DNX is in beta. It's recommended to use your preferred editor / compiler and install the NuGet package, "Dota2," which supports a variety of frameworks.
 
 
 ## Contact
