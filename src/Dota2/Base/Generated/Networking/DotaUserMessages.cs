@@ -2038,6 +2038,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _change_control_point_attachment; }
       set { _change_control_point_attachment = value; }
     }
+
+    private CDOTAUserMsg_ParticleManager.UpdateEntityPosition _update_entity_position = null;
+    [global::ProtoBuf.ProtoMember(17, IsRequired = false, Name=@"update_entity_position", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CDOTAUserMsg_ParticleManager.UpdateEntityPosition update_entity_position
+    {
+      get { return _update_entity_position; }
+      set { _update_entity_position = value; }
+    }
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReleaseParticleIndex")]
   public partial class ReleaseParticleIndex : global::ProtoBuf.IExtensible
   {
@@ -2432,6 +2441,34 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _entity_handle; }
       set { _entity_handle = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UpdateEntityPosition")]
+  public partial class UpdateEntityPosition : global::ProtoBuf.IExtensible
+  {
+    public UpdateEntityPosition() {}
+    
+
+    private int _entity_handle = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"entity_handle", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int entity_handle
+    {
+      get { return _entity_handle; }
+      set { _entity_handle = value; }
+    }
+
+    private CMsgVector _position = null;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"position", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgVector position
+    {
+      get { return _position; }
+      set { _position = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -4925,6 +4962,16 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CDOTAUserMsg_UpdateQuestProgress")]
+  public partial class CDOTAUserMsg_UpdateQuestProgress : global::ProtoBuf.IExtensible
+  {
+    public CDOTAUserMsg_UpdateQuestProgress() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"EDotaUserMessages", EnumPassthru=true)]
     public enum EDotaUserMessages
     {
@@ -5200,7 +5247,10 @@ namespace Dota2.GC.Dota.Internal
       DOTA_UM_CombatLogDataHLTV = 554,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_XPAlert", Value=555)]
-      DOTA_UM_XPAlert = 555
+      DOTA_UM_XPAlert = 555,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_UpdateQuestProgress", Value=556)]
+      DOTA_UM_UpdateQuestProgress = 556
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_CHAT_MESSAGE", EnumPassthru=true)]
@@ -5596,7 +5646,10 @@ namespace Dota2.GC.Dota.Internal
       DOTA_PARTICLE_MANAGER_EVENT_FROZEN = 12,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_PARTICLE_MANAGER_EVENT_CHANGE_CONTROL_POINT_ATTACHMENT", Value=13)]
-      DOTA_PARTICLE_MANAGER_EVENT_CHANGE_CONTROL_POINT_ATTACHMENT = 13
+      DOTA_PARTICLE_MANAGER_EVENT_CHANGE_CONTROL_POINT_ATTACHMENT = 13,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_PARTICLE_MANAGER_EVENT_UPDATE_ENTITY_POSITION", Value=14)]
+      DOTA_PARTICLE_MANAGER_EVENT_UPDATE_ENTITY_POSITION = 14
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_OVERHEAD_ALERT", EnumPassthru=true)]
