@@ -3,7 +3,7 @@ mono:
 - beta
 solution: DOTA2.sln
 install:
-- curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | sh && source ~/.dnx/dnvm/dnvm.sh && dnvm upgrade && dnvm alias 1.0.0-rc1-update1 default -r coreclr -arch x86 && dnvm use default
+- curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | sh && source ~/.dnx/dnvm/dnvm.sh && dnvm upgrade
 
 script:
 - cd ./src/Dota2/ && dnu restore . && dnu build . && cd -
