@@ -6,5 +6,5 @@ install:
 - curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | sh && source ~/.dnx/dnvm/dnvm.sh && dnvm upgrade
 
 script:
-- cd ./src && dnu restore ./* && dnu build ./* && cd -
+- cd ./src/Dota2/ && dnu restore . && dnu build . && cd -
 - cd src/Dota2/ && dnx test && cd -
