@@ -1,14 +1,10 @@
-sudo: false
 language: csharp
-solution: Dota2.sln
-
+mono:
+- beta
+solution: DOTA2.sln
 install:
-    - nuget restore Dota2.sln
-    - cd Samples/LobbyDump/ && nuget restore Dota2LobbyDump.sln && cd -
+- curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | sh && source ~/.dnx/dnvm/dnvm.sh && dnvm upgrade
 
 script:
-    - xbuild /p:NoWarn=1584 Dota2.sln
-
-cache:
-    directories:
-        - "~/.local/share/NuGet/Cache"
+- cd ./src && dnu restore ./* && dnu build ./* && cd -
+- cd src/Dota2/ && dnx test && cd -

@@ -1,6 +1,0 @@
-﻿Initial DNX support has been implemented.
-
-These lines will be added to the frameworks once SteamKit supports those platforms:
-
-    "dotnet5.4": {},
-    "netcore50": {},
