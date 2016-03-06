@@ -16,7 +16,6 @@ using SteamKit2.GC;
 using SteamKit2.Internal;
 using KeyValue = Dota2.Backports.KeyValue;
 
-// todo: Add a way to tell if someone accepted/rejected a party invite using pending_invites
 namespace Dota2.GC
 {
     /// <summary>
@@ -24,22 +23,81 @@ namespace Dota2.GC
     /// </summary>
     public sealed partial class DotaGCHandler : ClientMsgHandler
     {
-        private Timer gcConnectTimer;
-        private bool running = false;
-        private ESourceEngine engine;
-
         /// <summary>
-        /// The Game ID the handler will use. Defaults to Main Client.
+        ///     Rich presence type.
         /// </summary>
-        public Games GameID { get; }
+        public enum RPType
+        {
+            /// <summary>
+            ///     Initial state.
+            /// </summary>
+            Init,
+
+            /// <summary>
+            ///     Currently playing a game.
+            /// </summary>
+            Play,
+
+            /// <summary>
+            ///     Queuing for a match.
+            /// </summary>
+            Queue,
+
+            /// <summary>
+            ///     No state? Menu probably.
+            /// </summary>
+            None,
+
+            /// <summary>
+            ///     Automatically decide state.
+            /// </summary>
+            Auto
+        }
+
+        private readonly Timer _gcConnectTimer;
+        private bool _running;
 
         /// <summary>
-        /// The engine to use.
+        ///     Internally create an instance of the GC handler.
         /// </summary>
-        public ESourceEngine Engine => engine;
+        /// <param name="client"></param>
+        /// <param name="appId"></param>
+        /// <param name="_engine"></param>
+        internal DotaGCHandler(SteamClient client, Games appId, ESourceEngine _engine)
+        {
+            GameId = appId;
+            Engine = _engine;
+            SteamClient = client;
+            // Usually we'd have around 200-600 items.
+            EconItems = new Dictionary<ulong, CSOEconItem>(300);
+            // Reasonably a bot wouldn't have very many of these.
+            LeagueViewPasses = new Dictionary<ulong, CSOEconItemLeagueViewPass>(5);
+            // Generally this seems to be 2
+            MapLocationStates = new Dictionary<int, CSODOTAMapLocationState>(2);
+            _gcConnectTimer = new Timer(5000);
+            _gcConnectTimer.Elapsed += (sender, args) =>
+            {
+                if (!_running)
+                {
+                    _gcConnectTimer.Stop();
+                    return;
+                }
+                SayHello();
+            };
+        }
 
         /// <summary>
-        /// Is the GC ready?
+        ///     The Game ID the handler will use. Defaults to Main Client.
+        /// </summary>
+        public Games GameId { get; }
+
+        /// <summary>
+        ///     The engine to use.
+        /// </summary>
+        public ESourceEngine Engine { get; }
+
+        /// <summary>
+        ///     Is the GC ready?
         /// </summary>
         public bool Ready { get; private set; }
 
@@ -70,65 +128,36 @@ namespace Dota2.GC
         public CMsgClientUDSInviteToGame Invitation { get; private set; }
 
         /// <summary>
-        /// The underlying SteamClient.
+        ///     The underlying SteamClient.
         /// </summary>
         public SteamClient SteamClient { get; private set; }
 
         /// <summary>
-        /// Econ items.
+        ///     Econ items.
         /// </summary>
-        public Dictionary<ulong, CSOEconItem> EconItems { get; private set; } 
+        public Dictionary<ulong, CSOEconItem> EconItems { get; }
 
         /// <summary>
-        /// League view passes.
+        ///     League view passes.
         /// </summary>
-        public Dictionary<ulong, CSOEconItemLeagueViewPass> LeagueViewPasses { get; private set; } 
+        public Dictionary<ulong, CSOEconItemLeagueViewPass> LeagueViewPasses { get; }
 
         /// <summary>
-        /// Ping map view states.
+        ///     Ping map view states.
         /// </summary>
-        public Dictionary<int, CSODOTAMapLocationState> MapLocationStates { get; private set; } 
+        public Dictionary<int, CSODOTAMapLocationState> MapLocationStates { get; }
 
         /// <summary>
-        /// Contains various information about our player.
+        ///     Contains various information about our player.
         /// </summary>
         public CSOEconGameAccountClient GameAccountClient { get; set; }
 
         /// <summary>
-        /// Internally create an instance of the GC handler.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="appId"></param>
-        /// <param name="_engine"></param>
-        internal DotaGCHandler(SteamClient client, Games appId, ESourceEngine _engine)
-        {
-            GameID = appId;
-            engine = _engine;
-            SteamClient = client;
-            // Usually we'd have around 200-600 items.
-            EconItems = new Dictionary<ulong, CSOEconItem>(300);
-            // Reasonably a bot wouldn't have very many of these.
-            LeagueViewPasses = new Dictionary<ulong, CSOEconItemLeagueViewPass>(5);
-            // Generally this seems to be 2
-            MapLocationStates = new Dictionary<int, CSODOTAMapLocationState>(2);
-            gcConnectTimer = new Timer(5000);
-            gcConnectTimer.Elapsed += (sender, args) =>
-            {
-                if (!running)
-                {
-                    gcConnectTimer.Stop();
-                    return;
-                }
-                SayHello();
-            };
-        }
-
-        /// <summary>
-        /// Setup the DOTA 2 GC handler on an existing client.
+        ///     Setup the DOTA 2 GC handler on an existing client.
         /// </summary>
         /// <param name="client"></param>
         /// <param name="appId">Optional, specify the GC to communicate with.</param>
-        /// <param name="engine">Optional, engine to connect to. Default source2.</param>
+        /// <param name="engine">Optional, _engine to connect to. Default source2.</param>
         public static void Bootstrap(SteamClient client, Games appId = Games.DOTA2,
             ESourceEngine engine = ESourceEngine.k_ESE_Source2)
         {
@@ -144,7 +173,7 @@ namespace Dota2.GC
             var clientMsg = new ClientMsgProtobuf<CMsgGCClient>(EMsg.ClientToGC);
 
             clientMsg.Body.msgtype = MsgUtil.MakeGCMsg(msg.MsgType, msg.IsProto);
-            clientMsg.Body.appid = (uint) GameID;
+            clientMsg.Body.appid = (uint) GameId;
 
             clientMsg.Body.payload = msg.Serialize();
 
@@ -152,7 +181,7 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        /// Old method of starting the DOTA client.
+        ///     Old method of starting the DOTA client.
         /// </summary>
         [Obsolete("LaunchDota is deprecated, use Start/Stop instead.")]
         public void LaunchDota()
@@ -161,15 +190,15 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        /// Start playing DOTA 2 and automatically request a GC session.
+        ///     Start playing DOTA 2 and automatically request a GC session.
         /// </summary>
         public void Start()
         {
-            running = true;
+            _running = true;
 
             var launchEvent = new ClientMsg<MsgClientAppUsageEvent>();
             launchEvent.Body.AppUsageEvent = EAppUsageEvent.GameLaunch;
-            launchEvent.Body.GameID = new GameID {AppID = (uint) GameID, AppType = SteamKit2.GameID.GameType.App};
+            launchEvent.Body.GameID = new GameID {AppID = (uint) GameId, AppType = SteamKit2.GameID.GameType.App};
             Client.Send(launchEvent);
 
             UploadRichPresence(RPType.Init);
@@ -177,7 +206,7 @@ namespace Dota2.GC
             var playGame = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayedWithDataBlob);
             playGame.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed
             {
-                game_id = (ulong) GameID,
+                game_id = (ulong) GameId,
                 game_extra_info = "Dota 2",
                 game_data_blob = null,
                 streaming_provider_id = 0,
@@ -188,45 +217,14 @@ namespace Dota2.GC
 
             Client.Send(playGame);
 
-            gcConnectTimer.Stop();
+            _gcConnectTimer.Stop();
             SayHello();
-            gcConnectTimer.Start();
+            _gcConnectTimer.Start();
         }
 
         /// <summary>
-        /// Rich presence type.
-        /// </summary>
-        public enum RPType
-        {
-            /// <summary>
-            /// Initial state.
-            /// </summary>
-            Init,
-
-            /// <summary>
-            /// Currently playing a game.
-            /// </summary>
-            Play,
-
-            /// <summary>
-            /// Queuing for a match.
-            /// </summary>
-            Queue,
-
-            /// <summary>
-            /// No state? Menu probably.
-            /// </summary>
-            None,
-
-            /// <summary>
-            /// Automatically decide state.
-            /// </summary>
-            Auto
-        }
-
-        /// <summary>
-        /// Uploads rich presence for a variety of situations.
-        /// <param name="inp">Type of RP event to upload.</param>
+        ///     Uploads rich presence for a variety of situations.
+        ///     <param name="inp">Type of RP event to upload.</param>
         /// </summary>
         public void UploadRichPresence(RPType inp = RPType.Auto)
         {
@@ -249,10 +247,10 @@ namespace Dota2.GC
                 case RPType.Init:
                     kv.Children.Add(new KeyValue("status", "#DOTA_RP_INIT"));
                     kv.Children.Add(new KeyValue("num_params", "0"));
-                    kv.Children.Add(new KeyValue("engine", ((uint) Engine).ToString()));
+                    kv.Children.Add(new KeyValue("_engine", ((uint) Engine).ToString()));
                     if (Lobby != null)
                         kv.Children.Add(new KeyValue("lobby",
-                            "lobby_id: " + Lobby.lobby_id + " lobby_state: " + Lobby.state.ToString("G") + " password: " +
+                            "lobbyId: " + Lobby.lobby_id + " lobby_state: " + Lobby.state.ToString("G") + " password: " +
                             (Lobby.pass_key.Length == 0 ? "false" : "true") + " game_mode: " +
                             ((DOTA_GameMode) Lobby.game_mode).ToString("G") + " member_count: " + Lobby.members.Count +
                             " max_member_count: " + (Lobby.custom_max_players == 0 ? 10 : Lobby.custom_max_players) +
@@ -271,33 +269,33 @@ namespace Dota2.GC
                 var sid = friends.GetFriendByIndex(i);
                 var relationship = friends.GetFriendRelationship(sid);
                 if (relationship == EFriendRelationship.Friend &&
-                    friends.GetFriendGamePlayed(sid) == (new GameID((uint) GameID)))
+                    friends.GetFriendGamePlayed(sid) == new GameID((uint) GameId))
                     rpup.Body.steamid_broadcast.Add(sid.ConvertToUInt64());
             }
             Client.Send(rpup);
         }
 
         /// <summary>
-        /// Send the hello message requesting a GC session. Do not call this manually!
+        ///     Send the hello message requesting a GC session. Do not call this manually!
         /// </summary>
         public void SayHello()
         {
-            if (!running) return;
+            if (!_running) return;
             var clientHello = new ClientGCMsgProtobuf<CMsgClientHello>((uint) EGCBaseClientMsg.k_EMsgGCClientHello);
             clientHello.Body.client_launcher = PartnerAccountType.PARTNER_NONE;
-            clientHello.Body.engine = engine;
+            clientHello.Body.engine = Engine;
             clientHello.Body.secret_key = "";
             clientHello.Body.client_session_need = 104;
             Send(clientHello);
         }
 
         /// <summary>
-        /// Stop playing DOTA 2.
+        ///     Stop playing DOTA 2.
         /// </summary>
         public void Stop()
         {
-            running = false;
-            gcConnectTimer.Stop();
+            _running = false;
+            _gcConnectTimer.Stop();
 
             var playGame = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
             // playGame.Body.games_played left empty
@@ -338,21 +336,22 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        ///      Respond to a lobby invite
+        ///     Respond to a lobby invite
         /// </summary>
-        /// <param name="lobby_id">Lobby ID</param>
+        /// <param name="lobbyId">Lobby ID</param>
         /// <param name="accept">accept lobby invite, true/false</param>
-        /// <param name="custom_game_crc">If responding to a custom game invite, the crc of te game</param>
-        /// <param name="custom_game_timestamp">If responding to a custom game invite, the timestamp of the download.</param>
-        public void RespondLobbyInvite(ulong lobby_id, bool accept = true, ulong custom_game_crc = 0, uint custom_game_timestamp = 0)
+        /// <param name="customGameCrc">If responding to a custom game invite, the crc of te game</param>
+        /// <param name="customGameTimestamp">If responding to a custom game invite, the timestamp of the download.</param>
+        public void RespondLobbyInvite(ulong lobbyId, bool accept = true, ulong customGameCrc = 0,
+            uint customGameTimestamp = 0)
         {
             var invite = new ClientGCMsgProtobuf<CMsgLobbyInviteResponse>((uint) EGCBaseMsg.k_EMsgGCLobbyInviteResponse);
-            invite.Body.lobby_id = lobby_id;
+            invite.Body.lobby_id = lobbyId;
             invite.Body.accept = accept;
-            if (custom_game_crc != 0)
-                invite.Body.custom_game_crc = custom_game_crc;
-            if (custom_game_timestamp != 0)
-                invite.Body.custom_game_timestamp = custom_game_timestamp;
+            if (customGameCrc != 0)
+                invite.Body.custom_game_crc = customGameCrc;
+            if (customGameTimestamp != 0)
+                invite.Body.custom_game_timestamp = customGameTimestamp;
             Send(invite);
         }
 
@@ -360,12 +359,12 @@ namespace Dota2.GC
         ///     Join a lobby given a lobby ID
         /// </summary>
         /// <param name="lobbyId"></param>
-        /// <param name="pass_key"></param>
-        public void JoinLobby(ulong lobbyId, string pass_key = null)
+        /// <param name="passKey"></param>
+        public void JoinLobby(ulong lobbyId, string passKey = null)
         {
             var joinLobby = new ClientGCMsgProtobuf<CMsgPracticeLobbyJoin>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyJoin);
             joinLobby.Body.lobby_id = lobbyId;
-            joinLobby.Body.pass_key = pass_key;
+            joinLobby.Body.pass_key = passKey;
             Send(joinLobby);
         }
 
@@ -425,7 +424,7 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        /// Requests a subscription refresh for a specific cache ID.
+        ///     Requests a subscription refresh for a specific cache ID.
         /// </summary>
         /// <param name="type">the type of the cache</param>
         /// <param name="id">the cache soid</param>
@@ -442,10 +441,10 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        /// Send a request for player information.
+        ///     Send a request for player information.
         /// </summary>
         /// <param name="ids">DOTA 2 profile ids.</param>
-        public void RequestPlayerInfo(IEnumerable<UInt32> ids)
+        public void RequestPlayerInfo(IEnumerable<uint> ids)
         {
             var req = new ClientGCMsgProtobuf<CMsgGCPlayerInfoRequest>((uint) EDOTAGCMsg.k_EMsgGCPlayerInfoRequest);
             req.Body.account_ids.AddRange(ids);
@@ -453,7 +452,7 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        /// Requests the entire pro team list.
+        ///     Requests the entire pro team list.
         /// </summary>
         public void RequestProTeamList()
         {
@@ -462,17 +461,32 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        /// Switches team in a GC Lobby.
+        ///     Switches team in a GC Lobby.
         /// </summary>
         /// <param name="team">target team</param>
         /// <param name="slot">slot on the team</param>
-        public void JoinTeam(DOTA_GC_TEAM team, uint slot = 1)
+        /// <param name="botDifficulty">set bot difficulty for slot</param>
+        public void JoinTeam(DOTA_GC_TEAM team, uint slot = 1, DOTABotDifficulty botDifficulty = DOTABotDifficulty.BOT_DIFFICULTY_EXTRA3)
         {
             var joinSlot =
                 new ClientGCMsgProtobuf<CMsgPracticeLobbySetTeamSlot>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbySetTeamSlot);
             joinSlot.Body.team = team;
             joinSlot.Body.slot = slot;
+            if (botDifficulty != DOTABotDifficulty.BOT_DIFFICULTY_EXTRA3)
+                joinSlot.Body.bot_difficulty = botDifficulty;
             Send(joinSlot);
+        }
+
+        /// <summary>
+        /// Adds or removes a bot from a slot. Alias for JoinTeam with difficulty param.
+        /// </summary>
+        /// <param name="team">team</param>
+        /// <param name="slot">slot</param>
+        /// <param name="botDifficulty">difficulty</param>
+        public void SetBotSlotDifficulty(DOTA_GC_TEAM team, uint slot = 1,
+            DOTABotDifficulty botDifficulty = DOTABotDifficulty.BOT_DIFFICULTY_PASSIVE)
+        {
+            JoinTeam(team, slot, botDifficulty);
         }
 
         /// <summary>
@@ -486,21 +500,14 @@ namespace Dota2.GC
         /// <summary>
         ///     Create a practice or tournament or custom lobby.
         /// </summary>
-        /// <param name="pass_key">Password for the lobby.</param>
+        /// <param name="passKey">Password for the lobby.</param>
         /// <param name="details">Lobby options.</param>
-        /// <param name="tournament_game">Is this a tournament game?</param>
-        /// <param name="tournament">Tournament ID</param>
-        /// <param name="tournament_game_id">Tournament game ID</param>
-        public void CreateLobby(string pass_key, CMsgPracticeLobbySetDetails details, bool tournament_game = false,
-            uint tournament = 0, uint tournament_game_id = 0)
+        public void CreateLobby(string passKey, CMsgPracticeLobbySetDetails details)
         {
             var create = new ClientGCMsgProtobuf<CMsgPracticeLobbyCreate>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyCreate);
-            create.Body.pass_key = pass_key;
-            create.Body.tournament_game_id = tournament_game_id;
-            create.Body.tournament_game = tournament_game;
-            create.Body.tournament_id = tournament;
+            create.Body.pass_key = passKey;
             create.Body.lobby_details = details;
-            create.Body.lobby_details.pass_key = pass_key;
+            create.Body.lobby_details.pass_key = passKey;
             create.Body.lobby_details.visibility = DOTALobbyVisibility.DOTALobbyVisibility_Public;
             if (string.IsNullOrWhiteSpace(create.Body.search_key))
                 create.Body.search_key = "";
@@ -530,8 +537,8 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        /// Invite someone to the existing lobby.
-        /// <remarks>You need an existing lobby for this to work.</remarks>
+        ///     Invite someone to the existing lobby.
+        ///     <remarks>You need an existing lobby for this to work.</remarks>
         /// </summary>
         /// <param name="steam_id">steam ID to invite</param>
         public void InviteToLobby(ulong steam_id)
@@ -552,7 +559,7 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        /// Sets the team details on the team the bot is sitting on.
+        ///     Sets the team details on the team the bot is sitting on.
         /// </summary>
         /// <param name="teamid"></param>
         public void ApplyTeamToLobby(uint teamid)
@@ -578,33 +585,35 @@ namespace Dota2.GC
         /// <summary>
         ///     Kick a player from the party
         /// </summary>
-        /// <param name="steam_id">Steam ID of player to kick</param>
-        public void KickPlayerFromParty(ulong steam_id)
+        /// <param name="steamId">Steam ID of player to kick</param>
+        public void KickPlayerFromParty(ulong steamId)
         {
             var kick = new ClientGCMsgProtobuf<CMsgKickFromParty>((uint) EGCBaseMsg.k_EMsgGCKickFromParty);
-            kick.Body.steam_id = steam_id;
+            kick.Body.steam_id = steamId;
             Send(kick);
         }
 
         /// <summary>
         ///     Kick a player from the lobby
         /// </summary>
-        /// <param name="account_id">Account ID of player to kick</param>
-        public void KickPlayerFromLobby(uint account_id)
+        /// <param name="accountId">Account ID of player to kick</param>
+        public void KickPlayerFromLobby(uint accountId)
         {
             var kick = new ClientGCMsgProtobuf<CMsgPracticeLobbyKick>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyKick);
-            kick.Body.account_id = account_id;
+            kick.Body.account_id = accountId;
             Send(kick);
         }
 
         /// <summary>
         ///     Kick a player from the lobby team they're in.
         /// </summary>
-        /// <param name="account_id">Account ID of player to kick</param>
-        public void KickPlayerFromLobbyTeam(uint account_id)
+        /// <param name="accountId">Account ID of player to kick</param>
+        public void KickPlayerFromLobbyTeam(uint accountId)
         {
-            var kick = new ClientGCMsgProtobuf<CMsgPracticeLobbyKickFromTeam>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyKickFromTeam);
-            kick.Body.account_id = account_id;
+            var kick =
+                new ClientGCMsgProtobuf<CMsgPracticeLobbyKickFromTeam>(
+                    (uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyKickFromTeam);
+            kick.Body.account_id = accountId;
             Send(kick);
         }
 
@@ -623,7 +632,7 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        /// Request a list of public chat channels from the GC.
+        ///     Request a list of public chat channels from the GC.
         /// </summary>
         public void RequestChatChannelList()
         {
@@ -672,12 +681,12 @@ namespace Dota2.GC
         /// <summary>
         ///     Requests a lobby list with an optional password
         /// </summary>
-        /// <param name="pass_key">Pass key.</param>
+        /// <param name="passKey">Pass key.</param>
         /// <param name="tournament"> Tournament games? </param>
-        public void PracticeLobbyList(string pass_key = null, bool tournament = false)
+        public void PracticeLobbyList(string passKey = null, bool tournament = false)
         {
             var list = new ClientGCMsgProtobuf<CMsgPracticeLobbyList>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbyList);
-            list.Body.pass_key = pass_key;
+            list.Body.pass_key = passKey;
             list.Body.tournament_games = tournament;
             Send(list);
         }
@@ -715,40 +724,40 @@ namespace Dota2.GC
         ///     Set someones role in a guild.
         ///     Roles are: 0 (Kick), 1 (Guild Leader), 2 (Guild Officer), 3 (Regular Member)
         /// </summary>
-        public void SetAccountGuildRole(uint guild_id, uint account_id, uint target_role)
+        public void SetAccountGuildRole(uint guildId, uint accountId, uint targetRole)
         {
             var request =
                 new ClientGCMsgProtobuf<CMsgDOTAGuildSetAccountRoleRequest>(
                     (uint) EDOTAGCMsg.k_EMsgGCGuildSetAccountRoleRequest);
-            request.Body.guild_id = guild_id;
-            request.Body.target_account_id = account_id;
-            request.Body.target_role = target_role;
+            request.Body.guild_id = guildId;
+            request.Body.target_account_id = accountId;
+            request.Body.target_role = targetRole;
             Send(request);
         }
 
         /// <summary>
-        ///     Invites account_id to a guild.
+        ///     Invites accountId to a guild.
         /// </summary>
-        public void InviteToGuild(uint guild_id, uint account_id)
+        public void InviteToGuild(uint guildId, uint accountId)
         {
             var request =
                 new ClientGCMsgProtobuf<CMsgDOTAGuildInviteAccountRequest>(
                     (uint) EDOTAGCMsg.k_EMsgGCGuildInviteAccountRequest);
-            request.Body.guild_id = guild_id;
-            request.Body.target_account_id = account_id;
+            request.Body.guild_id = guildId;
+            request.Body.target_account_id = accountId;
             Send(request);
         }
 
         /// <summary>
         ///     Cancels a pending guild invite
         /// </summary>
-        public void CancelGuildInvite(uint guild_id, uint account_id)
+        public void CancelGuildInvite(uint guildId, uint accountId)
         {
             var request =
                 new ClientGCMsgProtobuf<CMsgDOTAGuildCancelInviteRequest>(
                     (uint) EDOTAGCMsg.k_EMsgGCGuildCancelInviteRequest);
-            request.Body.guild_id = guild_id;
-            request.Body.target_account_id = account_id;
+            request.Body.guild_id = guildId;
+            request.Body.target_account_id = accountId;
             Send(request);
         }
 
@@ -766,13 +775,14 @@ namespace Dota2.GC
         /// </summary>
         public void RequestProfileCards(uint account_id)
         {
-            var request = new ClientGCMsgProtobuf<CMsgClientToGCGetProfileCard>((uint)EDOTAGCMsg.k_EMsgClientToGCGetProfileCard);
+            var request =
+                new ClientGCMsgProtobuf<CMsgClientToGCGetProfileCard>((uint) EDOTAGCMsg.k_EMsgClientToGCGetProfileCard);
             request.Body.account_id = account_id;
             Send(request);
         }
 
         /// <summary>
-        /// Packet GC message.
+        ///     Packet GC message.
         /// </summary>
         /// <param name="eMsg"></param>
         /// <param name="data"></param>
@@ -780,7 +790,7 @@ namespace Dota2.GC
         private static IPacketGCMsg GetPacketGCMsg(uint eMsg, byte[] data)
         {
             // strip off the protobuf flag
-            uint realEMsg = MsgUtil.GetGCMsg(eMsg);
+            var realEMsg = MsgUtil.GetGCMsg(eMsg);
 
             if (MsgUtil.IsProtoBuf(eMsg))
             {
@@ -798,9 +808,9 @@ namespace Dota2.GC
             if (packetMsg.MsgType == EMsg.ClientFromGC)
             {
                 var msg = new ClientMsgProtobuf<CMsgGCClient>(packetMsg);
-                if (msg.Body.appid == (uint) GameID)
+                if (msg.Body.appid == (uint) GameId)
                 {
-                    IPacketGCMsg gcmsg = GetPacketGCMsg(msg.Body.msgtype, msg.Body.payload);
+                    var gcmsg = GetPacketGCMsg(msg.Body.msgtype, msg.Body.payload);
                     var messageMap = new Dictionary<uint, Action<IPacketGCMsg>>
                     {
                         {(uint) EGCBaseClientMsg.k_EMsgGCClientWelcome, HandleWelcome},
@@ -829,7 +839,7 @@ namespace Dota2.GC
                         {(uint) EDOTAGCMsg.k_EMsgGCGuildInviteAccountResponse, HandleGuildInviteAccountResponse},
                         {(uint) EDOTAGCMsg.k_EMsgGCGuildCancelInviteResponse, HandleGuildCancelInviteResponse},
                         {(uint) EDOTAGCMsg.k_EMsgGCGuildData, HandleGuildData},
-                        {(uint) EDOTAGCMsg.k_EMsgClientToGCGetProfileCardResponse, HandleProfileCardResponse},
+                        {(uint) EDOTAGCMsg.k_EMsgClientToGCGetProfileCardResponse, HandleProfileCardResponse}
                     };
                     Action<IPacketGCMsg> func;
                     if (!messageMap.TryGetValue(gcmsg.MsgType, out func))
@@ -883,19 +893,19 @@ namespace Dota2.GC
         private void HandleCacheSubscribed(IPacketGCMsg obj)
         {
             var sub = new ClientGCMsgProtobuf<CMsgSOCacheSubscribed>(obj);
-            foreach (CMsgSOCacheSubscribed.SubscribedType cache in sub.Body.objects)
+            foreach (var cache in sub.Body.objects)
             {
                 HandleSubscribedType(cache);
             }
         }
 
         /// <summary>
-        /// Handle various cache subscription types.
+        ///     Handle various cache subscription types.
         /// </summary>
         /// <param name="cache"></param>
         private void HandleSubscribedType(CMsgSOCacheSubscribed.SubscribedType cache)
         {
-            switch ((CSOTypes)cache.type_id)
+            switch ((CSOTypes) cache.type_id)
             {
                 case CSOTypes.ECON_ITEM:
                     HandleEconItemsSnapshot(cache.object_data);
@@ -925,7 +935,7 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        /// Handle when a cache is destroyed.
+        ///     Handle when a cache is destroyed.
         /// </summary>
         /// <param name="obj">Message</param>
         public void HandleCacheDestroy(IPacketGCMsg obj)
@@ -1017,7 +1027,7 @@ namespace Dota2.GC
             using (var stream = new MemoryStream(data))
             {
                 var lob = Serializer.Deserialize<CSODOTALobby>(stream);
-                CSODOTALobby oldLob = Lobby;
+                var oldLob = Lobby;
                 Lobby = lob;
                 Client.PostCallback(new PracticeLobbySnapshot(lob, oldLob));
             }
@@ -1038,7 +1048,7 @@ namespace Dota2.GC
             using (var stream = new MemoryStream(data))
             {
                 var party = Serializer.Deserialize<CSODOTAParty>(stream);
-                CSODOTAParty oldParty = Party;
+                var oldParty = Party;
                 Party = party;
                 Client.PostCallback(new PartySnapshot(party, oldParty));
             }
@@ -1050,7 +1060,7 @@ namespace Dota2.GC
             using (var stream = new MemoryStream(data))
             {
                 var party = Serializer.Deserialize<CSODOTAPartyInvite>(stream);
-                CSODOTAPartyInvite oldParty = PartyInvite;
+                var oldParty = PartyInvite;
                 PartyInvite = party;
                 Client.PostCallback(new PartyInviteSnapshot(party, oldParty));
             }
@@ -1061,7 +1071,7 @@ namespace Dota2.GC
             using (var stream = new MemoryStream(data))
             {
                 var lobby = Serializer.Deserialize<CSODOTALobbyInvite>(stream);
-                CSODOTALobbyInvite oldLobby = LobbyInvite;
+                var oldLobby = LobbyInvite;
                 LobbyInvite = lobby;
                 Client.PostCallback(new LobbyInviteSnapshot(lobby, oldLobby));
             }
@@ -1124,7 +1134,7 @@ namespace Dota2.GC
 
         private void HandleConnectionStatus(IPacketGCMsg obj)
         {
-            if (!running)
+            if (!_running)
             {
                 // Stahhp
                 Stop();
@@ -1134,7 +1144,7 @@ namespace Dota2.GC
             var resp = new ClientGCMsgProtobuf<CMsgConnectionStatus>(obj);
             Client.PostCallback(new ConnectionStatus(resp.Body));
 
-            if (resp.Body.status != GCConnectionStatus.GCConnectionStatus_HAVE_SESSION) gcConnectTimer.Start();
+            if (resp.Body.status != GCConnectionStatus.GCConnectionStatus_HAVE_SESSION) _gcConnectTimer.Start();
 
             Ready = resp.Body.status == GCConnectionStatus.GCConnectionStatus_HAVE_SESSION;
         }
@@ -1160,8 +1170,8 @@ namespace Dota2.GC
         private void HandleUpdateMultiple(IPacketGCMsg obj)
         {
             var resp = new ClientGCMsgProtobuf<CMsgSOMultipleObjects>(obj);
-            bool handled = true;
-            foreach (CMsgSOMultipleObjects.SingleObject mObj in resp.Body.objects_modified)
+            var handled = true;
+            foreach (var mObj in resp.Body.objects_modified)
             {
                 if (mObj.type_id == (int) CSOTypes.LOBBY)
                 {
@@ -1205,7 +1215,7 @@ namespace Dota2.GC
         }
 
         /// <summary>
-        ///     GC tells us if there are tournaments running.
+        ///     GC tells us if there are tournaments _running.
         /// </summary>
         /// <param name="obj"></param>
         private void HandleLiveLeageGameUpdate(IPacketGCMsg obj)
@@ -1217,7 +1227,7 @@ namespace Dota2.GC
         //Initial message sent when connected to the GC
         private void HandleWelcome(IPacketGCMsg msg)
         {
-            gcConnectTimer.Stop();
+            _gcConnectTimer.Stop();
 
             Ready = true;
 
@@ -1230,8 +1240,8 @@ namespace Dota2.GC
             Client.PostCallback(new GCWelcomeCallback(wel.Body));
 
             //Handle any cache subscriptions
-            foreach (CMsgSOCacheSubscribed cache in wel.Body.outofdate_subscribed_caches)
-                foreach (CMsgSOCacheSubscribed.SubscribedType obj in cache.objects)
+            foreach (var cache in wel.Body.outofdate_subscribed_caches)
+                foreach (var obj in cache.objects)
                     HandleSubscribedType(obj);
 
             UploadRichPresence();

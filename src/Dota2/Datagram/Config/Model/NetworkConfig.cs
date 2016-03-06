@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable InconsistentNaming
 
 namespace Dota2.Datagram.Config.Model
 {

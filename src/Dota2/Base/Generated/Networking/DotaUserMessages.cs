@@ -2789,10 +2789,10 @@ namespace Dota2.GC.Dota.Internal
       set { _survey_id = value; }
     }
 
-    private uint _match_id = default(uint);
+    private ulong _match_id = default(ulong);
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"match_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint match_id
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong match_id
     {
       get { return _match_id; }
       set { _match_id = value; }
@@ -5250,7 +5250,10 @@ namespace Dota2.GC.Dota.Internal
       DOTA_UM_XPAlert = 555,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_UpdateQuestProgress", Value=556)]
-      DOTA_UM_UpdateQuestProgress = 556
+      DOTA_UM_UpdateQuestProgress = 556,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_MatchMetadata", Value=557)]
+      DOTA_UM_MatchMetadata = 557
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_CHAT_MESSAGE", EnumPassthru=true)]
