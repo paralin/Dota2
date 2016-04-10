@@ -1396,6 +1396,13 @@ namespace Dota2.GC.Dota.Internal
       get { return _match_flags; }
       set { _match_flags = value; }
     }
+    private readonly global::System.Collections.Generic.List<uint> _team_scores = new global::System.Collections.Generic.List<uint>();
+    [global::ProtoBuf.ProtoMember(39, Name=@"team_scores", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<uint> team_scores
+    {
+      get { return _team_scores; }
+    }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CTeam")]
   public partial class CTeam : global::ProtoBuf.IExtensible
   {
@@ -2388,6 +2395,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _metadata_private_key; }
       set { _metadata_private_key = value; }
     }
+
+    private CMsgDOTAMatch _match_details = null;
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"match_details", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CMsgDOTAMatch match_details
+    {
+      get { return _match_details; }
+      set { _match_details = value; }
+    }
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CAdditionalSignoutMsg")]
   public partial class CAdditionalSignoutMsg : global::ProtoBuf.IExtensible
   {
@@ -2415,6 +2431,23 @@ namespace Dota2.GC.Dota.Internal
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgTimedRewardContainer")]
+  public partial class CMsgTimedRewardContainer : global::ProtoBuf.IExtensible
+  {
+    public CMsgTimedRewardContainer() {}
+    
+    private readonly global::System.Collections.Generic.List<CLobbyTimedRewardDetails> _timed_reward_details = new global::System.Collections.Generic.List<CLobbyTimedRewardDetails>();
+    [global::ProtoBuf.ProtoMember(1, Name=@"timed_reward_details", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<CLobbyTimedRewardDetails> timed_reward_details
+    {
+      get { return _timed_reward_details; }
+    }
   
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -2499,78 +2532,6 @@ namespace Dota2.GC.Dota.Internal
       get { return _retry_delay_seconds; }
       set { _retry_delay_seconds = value; }
     }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgGameChatLog")]
-  public partial class CMsgGameChatLog : global::ProtoBuf.IExtensible
-  {
-    public CMsgGameChatLog() {}
-    
-
-    private ulong _match_id = default(ulong);
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"match_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(ulong))]
-    public ulong match_id
-    {
-      get { return _match_id; }
-      set { _match_id = value; }
-    }
-    private readonly global::System.Collections.Generic.List<CMsgGameChatLog.CChatLine> _lines = new global::System.Collections.Generic.List<CMsgGameChatLog.CChatLine>();
-    [global::ProtoBuf.ProtoMember(2, Name=@"lines", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<CMsgGameChatLog.CChatLine> lines
-    {
-      get { return _lines; }
-    }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CChatLine")]
-  public partial class CChatLine : global::ProtoBuf.IExtensible
-  {
-    public CChatLine() {}
-    
-
-    private uint _account_id = default(uint);
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"account_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint account_id
-    {
-      get { return _account_id; }
-      set { _account_id = value; }
-    }
-
-    private uint _team_only = default(uint);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"team_only", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint team_only
-    {
-      get { return _team_only; }
-      set { _team_only = value; }
-    }
-
-    private string _text = "";
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"text", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
-    public string text
-    {
-      get { return _text; }
-      set { _text = value; }
-    }
-
-    private uint _game_time = default(uint);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"game_time", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint game_time
-    {
-      get { return _game_time; }
-      set { _game_time = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

@@ -720,7 +720,10 @@ namespace Dota2.GC.Dota.Internal
       DOTA_UNIT_ORDER_MOVE_TO_DIRECTION = 28,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UNIT_ORDER_PATROL", Value=29)]
-      DOTA_UNIT_ORDER_PATROL = 29
+      DOTA_UNIT_ORDER_PATROL = 29,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UNIT_ORDER_VECTOR_TARGET_POSITION", Value=30)]
+      DOTA_UNIT_ORDER_VECTOR_TARGET_POSITION = 30
     }
   
 }

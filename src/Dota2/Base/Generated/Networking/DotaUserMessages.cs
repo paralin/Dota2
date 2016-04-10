@@ -1743,6 +1743,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _fade_out; }
       set { _fade_out = value; }
     }
+
+    private float _playback_rate = (float)1;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"playback_rate", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue((float)1)]
+    public float playback_rate
+    {
+      get { return _playback_rate; }
+      set { _playback_rate = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -5253,7 +5262,10 @@ namespace Dota2.GC.Dota.Internal
       DOTA_UM_UpdateQuestProgress = 556,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_MatchMetadata", Value=557)]
-      DOTA_UM_MatchMetadata = 557
+      DOTA_UM_MatchMetadata = 557,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_MatchDetails", Value=558)]
+      DOTA_UM_MatchDetails = 558
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_CHAT_MESSAGE", EnumPassthru=true)]

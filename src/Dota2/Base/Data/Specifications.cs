@@ -1,7 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dota2.GC.Dota.Internal;
-using Dota2.GC.Internal;
+using SteamKit2.GC.Internal;
+using CSOEconGameAccountClient = Dota2.GC.Internal.CSOEconGameAccountClient;
+using CSOEconItem = Dota2.GC.Internal.CSOEconItem;
+using CSOEconItemDropRateBonus = Dota2.GC.Internal.CSOEconItemDropRateBonus;
+using CSOEconItemEventTicket = Dota2.GC.Internal.CSOEconItemEventTicket;
+using CSOEconItemLeagueViewPass = Dota2.GC.Internal.CSOEconItemLeagueViewPass;
+using CSOEconItemTournamentPassport = Dota2.GC.Internal.CSOEconItemTournamentPassport;
+using CSOItemRecipe = Dota2.GC.Internal.CSOItemRecipe;
 
 namespace Dota2.Base.Data
 {
