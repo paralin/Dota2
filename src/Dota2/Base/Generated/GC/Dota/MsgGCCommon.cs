@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 #pragma warning disable 1591
 
+using Dota2.GC.Internal;
 using SteamKit2.GC.Internal;
    
 // Generated from: dota_gcmessages_common.proto

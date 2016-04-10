@@ -1,7 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dota2.GC.Dota.Internal;
+using SteamKit2.GC.Dota.Internal;
 using SteamKit2.GC.Internal;
+using CMsgDOTATournament = Dota2.GC.Dota.Internal.CMsgDOTATournament;
+using CSODOTAGameAccountClient = Dota2.GC.Dota.Internal.CSODOTAGameAccountClient;
+using CSODOTAGameHeroFavorites = Dota2.GC.Dota.Internal.CSODOTAGameHeroFavorites;
+using CSODOTALobby = Dota2.GC.Dota.Internal.CSODOTALobby;
+using CSODOTALobbyInvite = Dota2.GC.Dota.Internal.CSODOTALobbyInvite;
+using CSODOTAMapLocationState = Dota2.GC.Dota.Internal.CSODOTAMapLocationState;
+using CSODOTAParty = Dota2.GC.Dota.Internal.CSODOTAParty;
+using CSODOTAPartyInvite = Dota2.GC.Dota.Internal.CSODOTAPartyInvite;
+using CSODOTAPlayerChallenge = Dota2.GC.Dota.Internal.CSODOTAPlayerChallenge;
 using CSOEconGameAccountClient = Dota2.GC.Internal.CSOEconGameAccountClient;
 using CSOEconItem = Dota2.GC.Internal.CSOEconItem;
 using CSOEconItemDropRateBonus = Dota2.GC.Internal.CSOEconItemDropRateBonus;
