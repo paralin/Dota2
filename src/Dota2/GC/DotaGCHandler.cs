@@ -10,6 +10,7 @@ using System.Timers;
 using Dota2.Base.Data;
 using Dota2.GC.Dota.Internal;
 using Dota2.GC.Internal;
+using Dota2.Utils;
 using ProtoBuf;
 using SteamKit2;
 using SteamKit2.GC;
@@ -512,6 +513,18 @@ namespace Dota2.GC
             if (string.IsNullOrWhiteSpace(create.Body.search_key))
                 create.Body.search_key = "";
             Send(create);
+        }
+
+        /// <summary>
+        /// Change the details of an existing lobby.
+        /// </summary>
+        /// <param name="details">Lobby details overrides.</param>
+        public void SetLobbyDetails(CMsgPracticeLobbySetDetails details)
+        {
+            var update = new ClientGCMsgProtobuf<CMsgPracticeLobbySetDetails>((uint) EDOTAGCMsg.k_EMsgGCPracticeLobbySetDetails);
+            // there's no way to pass a pre-allocated body, so copy the params
+            PropertyCopier.CopyProperties(update.Body, details);
+            Send(update);
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 Dota2 [![Build Status](https://travis-ci.org/paralin/Dota2.png)](https://travis-ci.org/paralin/Dota2)
 ---
 
-[![forthebadge](http://forthebadge.com/images/badges/compatibility-betamax.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/fuck-it-ship-it.svg)](http://forthebadge.com)
+[![forthebadge](http://forthebadge.com/images/badges/powered-by-electricity.svg)](http://forthebadge.com)
 
 Dota2 is a .NET library designed as a plugin for [SteamKit](http://github.com/SteamRE/SteamKit). It provides a handler for the DOTA 2 game coordinator. The goal is to implement as much functionality of the client as possible.
 
