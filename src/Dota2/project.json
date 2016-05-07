@@ -1,28 +1,45 @@
 {
-  "version": "0.8.1",
+  "version": "0.8.1-rc2-24027",
   "description": "A plugin for SteamKit that interacts with the DOTA 2 game coordinator.",
   "authors": [ "paralin" ],
-  "tags": [ "dota2", "steam", "networking", "steamkit", "dota", "moba" ],
 
-  "projectUrl": "https://github.com/paralin/Dota2",
-  "licenseUrl": "https://github.com/paralin/Dota2/blob/master/src/Dota2/license.txt",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/paralin/dota2"
+  "packOptions": {
+    "tags": [ "dota2", "steam", "networking", "steamkit", "dota", "moba" ],
+    "projectUrl": "https://github.com/paralin/Dota2",
+    "licenseUrl": "https://github.com/paralin/Dota2/blob/master/src/Dota2/license.txt",
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/paralin/dota2"
+    },
+    "iconUrl": "https://raw.github.com/paralin/Dota2/master/Resources/Misc/dota2_logo.jpg",
+    "requireLicenseAcceptance": false
   },
-  "iconUrl": "https://raw.github.com/paralin/Dota2/master/Resources/Misc/dota2_logo.jpg",
-  "requireLicenseAcceptance": false,
 
-  "compilationOptions": { },
   "frameworks": {
-    "dnx451": {},
-    "net45": {},
-    "net451": {}
+      "net45": {
+      "dependencies": {
+	    "System.Net.Http": "4.0.0",
+        "SteamKit2": "[1.7.0, 1.8.0)"
+      }
+    },
+    "net451": {
+      "dependencies": {
+	    "System.Net.Http": "4.0.0",
+        "SteamKit2": "[1.7.0, 1.8.0)"
+      }
+    },
+    "dnxcore50" : {
+      "dependencies": {
+	    "System.Net.Http": "4.0.1-rc2-24027",
+        "System.Threading.Timer": "4.0.1-rc2-24027",
+        "System.Reflection.TypeExtensions": "4.1.0-rc2-24027",
+        "SteamKit2": "1.7.0-rc2-24027"
+      }
+    }
   },
 
   "dependencies": {
-    "Newtonsoft.Json": "8.0.3",
-    "SteamKit2": "[1.7.0, 1.8.0)"
+    "Newtonsoft.Json": "8.0.3"
   },
 
   "commands": {

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Net;
+using System.Net.Http;
 using Dota2.Base.Data;
 using Dota2.Datagram.Config.Model;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Dota2.CDN
@@ -68,9 +67,9 @@ namespace Dota2.CDN
         /// <returns>Network config on success, null otherwise.</returns>
         public static NetworkConfig GetNetworkConfig(CDNType type = CDNType.STANDARD, Games game = Games.DOTA2)
         {
-            using (var wc = new WebClient())
+            using (var wc = new HttpClient())
             {
-                var str = wc.DownloadString(DatagramNetworkConfig(type, game));
+                var str = wc.GetStringAsync(DatagramNetworkConfig(type, game)).Result;
                 JObject obj = JObject.Parse(str);
                 return obj.ToObject<NetworkConfig>();
             }
