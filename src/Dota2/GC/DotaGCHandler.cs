@@ -220,7 +220,7 @@ namespace Dota2.GC
 
             Client.Send(playGame);
 
-            _gcConnectTimer.Change(0, 0);
+            _gcConnectTimer.Change(Timeout.Infinite, Timeout.Infinite);
             SayHello();
             _gcConnectTimer.Change(0, 5000);
         }
@@ -298,7 +298,7 @@ namespace Dota2.GC
         public void Stop()
         {
             _running = false;
-            _gcConnectTimer.Change(0, 0);
+            _gcConnectTimer.Change(Timeout.Infinite, Timeout.Infinite);
 
             var playGame = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
             // playGame.Body.games_played left empty
@@ -1159,7 +1159,8 @@ namespace Dota2.GC
             var resp = new ClientGCMsgProtobuf<CMsgConnectionStatus>(obj);
             Client.PostCallback(new ConnectionStatus(resp.Body));
 
-            if (resp.Body.status != GCConnectionStatus.GCConnectionStatus_HAVE_SESSION) _gcConnectTimer.Change(0, 5000);
+            if (resp.Body.status != GCConnectionStatus.GCConnectionStatus_HAVE_SESSION) 
+				_gcConnectTimer.Change(0, 5000);
 
             Ready = resp.Body.status == GCConnectionStatus.GCConnectionStatus_HAVE_SESSION;
         }
@@ -1242,7 +1243,7 @@ namespace Dota2.GC
         //Initial message sent when connected to the GC
         private void HandleWelcome(IPacketGCMsg msg)
         {
-            _gcConnectTimer.Change(0, 0);
+            _gcConnectTimer.Change(Timeout.Infinite, Timeout.Infinite);
 
             Ready = true;
 
