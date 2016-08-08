@@ -1,5 +1,5 @@
 {
-  "version": "0.8.1-rc2-24027-2",
+  "version": "0.8.1-sbx320-2",
   "description": "A plugin for SteamKit that interacts with the DOTA 2 game coordinator.",
   "authors": [ "paralin" ],
 
@@ -16,32 +16,30 @@
   },
 
   "frameworks": {
-      "net45": {
+    "net45": {
       "dependencies": {
 	    "System.Net.Http": "4.0.0",
-        "SteamKit2": "[1.7.0, 1.8.0)"
+        "SteamKit2": "[1.7.0, 1.8.0)",
+		"Newtonsoft.Json": "8.0.3"
       }
     },
     "net451": {
       "dependencies": {
 	    "System.Net.Http": "4.0.0",
-        "SteamKit2": "[1.7.0, 1.8.0)"
+        "SteamKit2": "[1.7.0, 1.8.0)",
+		"Newtonsoft.Json": "8.0.3"
       }
     },
-    "dnxcore50" : {
+    "netstandard1.6" : {
+	  "imports": ["dnxcore50" ],
       "dependencies": {
-	    "System.Net.Http": "4.0.1-rc2-24027",
-        "System.Threading.Timer": "4.0.1-rc2-24027",
-        "System.Reflection.TypeExtensions": "4.1.0-rc2-24027",
-        "SteamKit2": "1.7.0-rc2-24027"
+	    "System.Net.Http": "4.1.0",
+        "System.Threading.Timer": "4.0.1",
+        "System.Reflection.TypeExtensions": "4.1.0",
+        "SteamKit2": "1.8.0-sbx320",
+		"Newtonsoft.Json": "9.0.1"
       }
     }
   },
 
-  "dependencies": {
-    "Newtonsoft.Json": "8.0.3"
-  },
-
-  "commands": {
-  }
 }
