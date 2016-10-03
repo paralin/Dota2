@@ -423,6 +423,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _map_name; }
       set { _map_name = value; }
     }
+
+    private string _addons = "";
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"addons", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string addons
+    {
+      get { return _addons; }
+      set { _addons = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -811,6 +820,15 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _creationsequence; }
       set { _creationsequence = value; }
+    }
+
+    private string _savegamefilename = "";
+    [global::ProtoBuf.ProtoMember(17, IsRequired = false, Name=@"savegamefilename", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string savegamefilename
+    {
+      get { return _savegamefilename; }
+      set { _savegamefilename = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

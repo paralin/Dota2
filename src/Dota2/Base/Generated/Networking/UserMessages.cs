@@ -755,6 +755,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _value; }
       set { _value = value; }
     }
+
+    private uint _int_value = default(uint);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"int_value", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint int_value
+    {
+      get { return _int_value; }
+      set { _int_value = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -1212,6 +1221,15 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _rolltype; }
       set { _rolltype = value; }
+    }
+
+    private float _logo_length = default(float);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"logo_length", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float logo_length
+    {
+      get { return _logo_length; }
+      set { _logo_length = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -2030,6 +2048,34 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageHapticPulse")]
+  public partial class CUserMessageHapticPulse : global::ProtoBuf.IExtensible
+  {
+    public CUserMessageHapticPulse() {}
+    
+
+    private int _hand_id = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"hand_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int hand_id
+    {
+      get { return _hand_id; }
+      set { _hand_id = value; }
+    }
+
+    private EHapticPulseType _pulse_type = EHapticPulseType.VR_HAND_HAPTIC_PULSE_LIGHT;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"pulse_type", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(EHapticPulseType.VR_HAND_HAPTIC_PULSE_LIGHT)]
+    public EHapticPulseType pulse_type
+    {
+      get { return _pulse_type; }
+      set { _pulse_type = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"EBaseUserMessages", EnumPassthru=true)]
     public enum EBaseUserMessages
     {
@@ -2148,6 +2194,9 @@ namespace Dota2.GC.Dota.Internal
       [global::ProtoBuf.ProtoEnum(Name=@"UM_CustomGameEvent", Value=148)]
       UM_CustomGameEvent = 148,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"UM_HandHapticPulse", Value=149)]
+      UM_HandHapticPulse = 149,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"UM_MAX_BASE", Value=200)]
       UM_MAX_BASE = 200
     }
@@ -2240,6 +2289,20 @@ namespace Dota2.GC.Dota.Internal
             
       [global::ProtoBuf.ProtoEnum(Name=@"GAME_PARTICLE_MANAGER_EVENT_CHANGE_CONTROL_POINT_ATTACHMENT", Value=13)]
       GAME_PARTICLE_MANAGER_EVENT_CHANGE_CONTROL_POINT_ATTACHMENT = 13
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"EHapticPulseType", EnumPassthru=true)]
+    public enum EHapticPulseType
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"VR_HAND_HAPTIC_PULSE_LIGHT", Value=0)]
+      VR_HAND_HAPTIC_PULSE_LIGHT = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"VR_HAND_HAPTIC_PULSE_MEDIUM", Value=1)]
+      VR_HAND_HAPTIC_PULSE_MEDIUM = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"VR_HAND_HAPTIC_PULSE_STRONG", Value=2)]
+      VR_HAND_HAPTIC_PULSE_STRONG = 2
     }
   
 }

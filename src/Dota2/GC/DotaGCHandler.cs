@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Timers;
 using Dota2.Base.Data;
 using Dota2.GC.Dota.Internal;
@@ -448,7 +449,7 @@ namespace Dota2.GC
         public void RequestPlayerInfo(IEnumerable<uint> ids)
         {
             var req = new ClientGCMsgProtobuf<CMsgGCPlayerInfoRequest>((uint) EDOTAGCMsg.k_EMsgGCPlayerInfoRequest);
-            req.Body.account_ids.AddRange(ids);
+            req.Body.player_infos.AddRange(ids.Select(m => new CMsgGCPlayerInfoRequest.PlayerInfo() {account_id = m}));
             Send(req);
         }
 

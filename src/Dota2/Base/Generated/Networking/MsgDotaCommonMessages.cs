@@ -723,7 +723,16 @@ namespace Dota2.GC.Dota.Internal
       DOTA_UNIT_ORDER_PATROL = 29,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UNIT_ORDER_VECTOR_TARGET_POSITION", Value=30)]
-      DOTA_UNIT_ORDER_VECTOR_TARGET_POSITION = 30
+      DOTA_UNIT_ORDER_VECTOR_TARGET_POSITION = 30,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UNIT_ORDER_RADAR", Value=31)]
+      DOTA_UNIT_ORDER_RADAR = 31,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UNIT_ORDER_SET_ITEM_COMBINE_LOCK", Value=32)]
+      DOTA_UNIT_ORDER_SET_ITEM_COMBINE_LOCK = 32,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UNIT_ORDER_CONTINUE", Value=33)]
+      DOTA_UNIT_ORDER_CONTINUE = 33
     }
   
 }

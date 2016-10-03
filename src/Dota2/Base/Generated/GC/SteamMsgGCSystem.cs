@@ -391,7 +391,10 @@ namespace Dota2.GC.Internal
       k_EMsgGCToGCUniverseStartup = 163,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToGCUniverseStartupResponse", Value=164)]
-      k_EMsgGCToGCUniverseStartupResponse = 164
+      k_EMsgGCToGCUniverseStartupResponse = 164,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToGCForwardAccountDetails", Value=165)]
+      k_EMsgGCToGCForwardAccountDetails = 165
     }
   
 }

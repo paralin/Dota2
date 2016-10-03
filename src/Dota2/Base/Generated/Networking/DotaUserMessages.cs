@@ -975,6 +975,24 @@ namespace Dota2.GC.Dota.Internal
       get { return _max_speed; }
       set { _max_speed = value; }
     }
+
+    private float _fow_radius = default(float);
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"fow_radius", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float fow_radius
+    {
+      get { return _fow_radius; }
+      set { _fow_radius = value; }
+    }
+
+    private bool _sticky_fow_reveal = default(bool);
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"sticky_fow_reveal", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool sticky_fow_reveal
+    {
+      get { return _sticky_fow_reveal; }
+      set { _sticky_fow_reveal = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -2056,6 +2074,15 @@ namespace Dota2.GC.Dota.Internal
       get { return _update_entity_position; }
       set { _update_entity_position = value; }
     }
+
+    private CDOTAUserMsg_ParticleManager.SetParticleFoWProperties _set_particle_fow_properties = null;
+    [global::ProtoBuf.ProtoMember(18, IsRequired = false, Name=@"set_particle_fow_properties", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public CDOTAUserMsg_ParticleManager.SetParticleFoWProperties set_particle_fow_properties
+    {
+      get { return _set_particle_fow_properties; }
+      set { _set_particle_fow_properties = value; }
+    }
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReleaseParticleIndex")]
   public partial class ReleaseParticleIndex : global::ProtoBuf.IExtensible
   {
@@ -2478,6 +2505,43 @@ namespace Dota2.GC.Dota.Internal
     {
       get { return _position; }
       set { _position = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SetParticleFoWProperties")]
+  public partial class SetParticleFoWProperties : global::ProtoBuf.IExtensible
+  {
+    public SetParticleFoWProperties() {}
+    
+
+    private int _fow_control_point = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"fow_control_point", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int fow_control_point
+    {
+      get { return _fow_control_point; }
+      set { _fow_control_point = value; }
+    }
+
+    private int _fow_control_point2 = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"fow_control_point2", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int fow_control_point2
+    {
+      get { return _fow_control_point2; }
+      set { _fow_control_point2 = value; }
+    }
+
+    private float _fow_radius = default(float);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"fow_radius", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float fow_radius
+    {
+      get { return _fow_radius; }
+      set { _fow_radius = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -4981,6 +5045,86 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CDOTAUserMsg_QuestStatus")]
+  public partial class CDOTAUserMsg_QuestStatus : global::ProtoBuf.IExtensible
+  {
+    public CDOTAUserMsg_QuestStatus() {}
+    
+    private uint _player_id;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"player_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public uint player_id
+    {
+      get { return _player_id; }
+      set { _player_id = value; }
+    }
+
+    private uint _quest_id = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"quest_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint quest_id
+    {
+      get { return _quest_id; }
+      set { _quest_id = value; }
+    }
+
+    private uint _challenge_id = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"challenge_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint challenge_id
+    {
+      get { return _challenge_id; }
+      set { _challenge_id = value; }
+    }
+
+    private uint _progress = default(uint);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"progress", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint progress
+    {
+      get { return _progress; }
+      set { _progress = value; }
+    }
+
+    private uint _goal = default(uint);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"goal", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint goal
+    {
+      get { return _goal; }
+      set { _goal = value; }
+    }
+
+    private uint _query = default(uint);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"query", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint query
+    {
+      get { return _query; }
+      set { _query = value; }
+    }
+
+    private float _fail_gametime = default(float);
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"fail_gametime", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float fail_gametime
+    {
+      get { return _fail_gametime; }
+      set { _fail_gametime = value; }
+    }
+
+    private uint _item_id = default(uint);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"item_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint item_id
+    {
+      get { return _item_id; }
+      set { _item_id = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"EDotaUserMessages", EnumPassthru=true)]
     public enum EDotaUserMessages
     {
@@ -5265,7 +5409,10 @@ namespace Dota2.GC.Dota.Internal
       DOTA_UM_MatchMetadata = 557,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_MatchDetails", Value=558)]
-      DOTA_UM_MatchDetails = 558
+      DOTA_UM_MatchDetails = 558,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_UM_QuestStatus", Value=559)]
+      DOTA_UM_QuestStatus = 559
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_CHAT_MESSAGE", EnumPassthru=true)]
@@ -5534,7 +5681,22 @@ namespace Dota2.GC.Dota.Internal
       CHAT_MESSAGE_PAUSE_COUNTDOWN = 94,
             
       [global::ProtoBuf.ProtoEnum(Name=@"CHAT_MESSAGE_COINS_WAGERED", Value=95)]
-      CHAT_MESSAGE_COINS_WAGERED = 95
+      CHAT_MESSAGE_COINS_WAGERED = 95,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CHAT_MESSAGE_HERO_NOMINATED_BAN", Value=96)]
+      CHAT_MESSAGE_HERO_NOMINATED_BAN = 96,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CHAT_MESSAGE_HERO_BANNED", Value=97)]
+      CHAT_MESSAGE_HERO_BANNED = 97,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CHAT_MESSAGE_HERO_BAN_COUNT", Value=98)]
+      CHAT_MESSAGE_HERO_BAN_COUNT = 98,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CHAT_MESSAGE_RIVER_PAINTED", Value=99)]
+      CHAT_MESSAGE_RIVER_PAINTED = 99,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CHAT_MESSAGE_SCAN_USED", Value=100)]
+      CHAT_MESSAGE_SCAN_USED = 100
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_NO_BATTLE_POINTS_REASONS", EnumPassthru=true)]
@@ -5589,6 +5751,20 @@ namespace Dota2.GC.Dota.Internal
             
       [global::ProtoBuf.ProtoEnum(Name=@"ABILITY_PING_UNLEARNED", Value=5)]
       ABILITY_PING_UNLEARNED = 5
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"DOTA_REPLAY_STATE_EVENT", EnumPassthru=true)]
+    public enum DOTA_REPLAY_STATE_EVENT
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_REPLAY_STATE_EVENT_GAME_START", Value=1)]
+      DOTA_REPLAY_STATE_EVENT_GAME_START = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_REPLAY_STATE_EVENT_STARTING_HORN", Value=2)]
+      DOTA_REPLAY_STATE_EVENT_STARTING_HORN = 2,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_REPLAY_STATE_EVENT_FIRST_BLOOD", Value=3)]
+      DOTA_REPLAY_STATE_EVENT_FIRST_BLOOD = 3
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EDotaEntityMessages", EnumPassthru=true)]
@@ -5664,7 +5840,10 @@ namespace Dota2.GC.Dota.Internal
       DOTA_PARTICLE_MANAGER_EVENT_CHANGE_CONTROL_POINT_ATTACHMENT = 13,
             
       [global::ProtoBuf.ProtoEnum(Name=@"DOTA_PARTICLE_MANAGER_EVENT_UPDATE_ENTITY_POSITION", Value=14)]
-      DOTA_PARTICLE_MANAGER_EVENT_UPDATE_ENTITY_POSITION = 14
+      DOTA_PARTICLE_MANAGER_EVENT_UPDATE_ENTITY_POSITION = 14,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DOTA_PARTICLE_MANAGER_EVENT_SET_FOW_PROPERTIES", Value=15)]
+      DOTA_PARTICLE_MANAGER_EVENT_SET_FOW_PROPERTIES = 15
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_OVERHEAD_ALERT", EnumPassthru=true)]
@@ -5717,7 +5896,10 @@ namespace Dota2.GC.Dota.Internal
       OVERHEAD_ALERT_LAST_HIT_CLOSE = 14,
             
       [global::ProtoBuf.ProtoEnum(Name=@"OVERHEAD_ALERT_LAST_HIT_MISS", Value=15)]
-      OVERHEAD_ALERT_LAST_HIT_MISS = 15
+      OVERHEAD_ALERT_LAST_HIT_MISS = 15,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"OVERHEAD_ALERT_MAGICAL_BLOCK", Value=16)]
+      OVERHEAD_ALERT_MAGICAL_BLOCK = 16
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"DOTA_POSITION_CATEGORY", EnumPassthru=true)]
@@ -5931,7 +6113,10 @@ namespace Dota2.GC.Dota.Internal
     {
             
       [global::ProtoBuf.ProtoEnum(Name=@"ePE_FirstBlood", Value=0)]
-      ePE_FirstBlood = 0
+      ePE_FirstBlood = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ePE_Killstreak_godlike", Value=1)]
+      ePE_Killstreak_godlike = 1
     }
   
 }

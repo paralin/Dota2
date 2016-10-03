@@ -1982,6 +1982,25 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CSVCMsg_ServerSteamID")]
+  public partial class CSVCMsg_ServerSteamID : global::ProtoBuf.IExtensible
+  {
+    public CSVCMsg_ServerSteamID() {}
+    
+
+    private ulong _steam_id = default(ulong);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"steam_id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong steam_id
+    {
+      get { return _steam_id; }
+      set { _steam_id = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CSVCMsg_CmdKeyValues")]
   public partial class CSVCMsg_CmdKeyValues : global::ProtoBuf.IExtensible
   {
@@ -2562,6 +2581,329 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgServerNetworkStats")]
+  public partial class CMsgServerNetworkStats : global::ProtoBuf.IExtensible
+  {
+    public CMsgServerNetworkStats() {}
+    
+
+    private bool _dedicated = default(bool);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"dedicated", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool dedicated
+    {
+      get { return _dedicated; }
+      set { _dedicated = value; }
+    }
+
+    private int _cpu_usage = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"cpu_usage", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int cpu_usage
+    {
+      get { return _cpu_usage; }
+      set { _cpu_usage = value; }
+    }
+
+    private int _memory_used_mb = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"memory_used_mb", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int memory_used_mb
+    {
+      get { return _memory_used_mb; }
+      set { _memory_used_mb = value; }
+    }
+
+    private int _memory_free_mb = default(int);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"memory_free_mb", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int memory_free_mb
+    {
+      get { return _memory_free_mb; }
+      set { _memory_free_mb = value; }
+    }
+
+    private int _uptime = default(int);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"uptime", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int uptime
+    {
+      get { return _uptime; }
+      set { _uptime = value; }
+    }
+
+    private int _spawn_count = default(int);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"spawn_count", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int spawn_count
+    {
+      get { return _spawn_count; }
+      set { _spawn_count = value; }
+    }
+
+    private int _num_clients = default(int);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"num_clients", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int num_clients
+    {
+      get { return _num_clients; }
+      set { _num_clients = value; }
+    }
+
+    private int _num_bots = default(int);
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"num_bots", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int num_bots
+    {
+      get { return _num_bots; }
+      set { _num_bots = value; }
+    }
+
+    private int _num_spectators = default(int);
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"num_spectators", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int num_spectators
+    {
+      get { return _num_spectators; }
+      set { _num_spectators = value; }
+    }
+
+    private int _num_tv_relays = default(int);
+    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"num_tv_relays", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int num_tv_relays
+    {
+      get { return _num_tv_relays; }
+      set { _num_tv_relays = value; }
+    }
+
+    private float _fps = default(float);
+    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"fps", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float fps
+    {
+      get { return _fps; }
+      set { _fps = value; }
+    }
+    private readonly global::System.Collections.Generic.List<CMsgServerNetworkStats.Port> _ports = new global::System.Collections.Generic.List<CMsgServerNetworkStats.Port>();
+    [global::ProtoBuf.ProtoMember(17, Name=@"ports", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<CMsgServerNetworkStats.Port> ports
+    {
+      get { return _ports; }
+    }
+  
+
+    private float _avg_latency_out = default(float);
+    [global::ProtoBuf.ProtoMember(18, IsRequired = false, Name=@"avg_latency_out", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float avg_latency_out
+    {
+      get { return _avg_latency_out; }
+      set { _avg_latency_out = value; }
+    }
+
+    private float _avg_latency_in = default(float);
+    [global::ProtoBuf.ProtoMember(19, IsRequired = false, Name=@"avg_latency_in", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float avg_latency_in
+    {
+      get { return _avg_latency_in; }
+      set { _avg_latency_in = value; }
+    }
+
+    private float _avg_packets_out = default(float);
+    [global::ProtoBuf.ProtoMember(20, IsRequired = false, Name=@"avg_packets_out", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float avg_packets_out
+    {
+      get { return _avg_packets_out; }
+      set { _avg_packets_out = value; }
+    }
+
+    private float _avg_packets_in = default(float);
+    [global::ProtoBuf.ProtoMember(21, IsRequired = false, Name=@"avg_packets_in", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float avg_packets_in
+    {
+      get { return _avg_packets_in; }
+      set { _avg_packets_in = value; }
+    }
+
+    private float _avg_loss_out = default(float);
+    [global::ProtoBuf.ProtoMember(22, IsRequired = false, Name=@"avg_loss_out", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float avg_loss_out
+    {
+      get { return _avg_loss_out; }
+      set { _avg_loss_out = value; }
+    }
+
+    private float _avg_loss_in = default(float);
+    [global::ProtoBuf.ProtoMember(23, IsRequired = false, Name=@"avg_loss_in", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float avg_loss_in
+    {
+      get { return _avg_loss_in; }
+      set { _avg_loss_in = value; }
+    }
+
+    private float _avg_data_out = default(float);
+    [global::ProtoBuf.ProtoMember(24, IsRequired = false, Name=@"avg_data_out", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float avg_data_out
+    {
+      get { return _avg_data_out; }
+      set { _avg_data_out = value; }
+    }
+
+    private float _avg_data_in = default(float);
+    [global::ProtoBuf.ProtoMember(25, IsRequired = false, Name=@"avg_data_in", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float avg_data_in
+    {
+      get { return _avg_data_in; }
+      set { _avg_data_in = value; }
+    }
+
+    private ulong _total_data_in = default(ulong);
+    [global::ProtoBuf.ProtoMember(26, IsRequired = false, Name=@"total_data_in", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong total_data_in
+    {
+      get { return _total_data_in; }
+      set { _total_data_in = value; }
+    }
+
+    private ulong _total_packets_in = default(ulong);
+    [global::ProtoBuf.ProtoMember(27, IsRequired = false, Name=@"total_packets_in", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong total_packets_in
+    {
+      get { return _total_packets_in; }
+      set { _total_packets_in = value; }
+    }
+
+    private ulong _total_data_out = default(ulong);
+    [global::ProtoBuf.ProtoMember(28, IsRequired = false, Name=@"total_data_out", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong total_data_out
+    {
+      get { return _total_data_out; }
+      set { _total_data_out = value; }
+    }
+
+    private ulong _total_packets_out = default(ulong);
+    [global::ProtoBuf.ProtoMember(29, IsRequired = false, Name=@"total_packets_out", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong total_packets_out
+    {
+      get { return _total_packets_out; }
+      set { _total_packets_out = value; }
+    }
+    private readonly global::System.Collections.Generic.List<CMsgServerNetworkStats.Player> _players = new global::System.Collections.Generic.List<CMsgServerNetworkStats.Player>();
+    [global::ProtoBuf.ProtoMember(30, Name=@"players", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<CMsgServerNetworkStats.Player> players
+    {
+      get { return _players; }
+    }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Port")]
+  public partial class Port : global::ProtoBuf.IExtensible
+  {
+    public Port() {}
+    
+
+    private int _port = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"port", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int port
+    {
+      get { return _port; }
+      set { _port = value; }
+    }
+
+    private string _name = "";
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string name
+    {
+      get { return _name; }
+      set { _name = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Player")]
+  public partial class Player : global::ProtoBuf.IExtensible
+  {
+    public Player() {}
+    
+
+    private ulong _steamid = default(ulong);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"steamid", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong steamid
+    {
+      get { return _steamid; }
+      set { _steamid = value; }
+    }
+
+    private string _remote_addr = "";
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"remote_addr", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string remote_addr
+    {
+      get { return _remote_addr; }
+      set { _remote_addr = value; }
+    }
+
+    private int _ping_stddev_ms = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"ping_stddev_ms", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int ping_stddev_ms
+    {
+      get { return _ping_stddev_ms; }
+      set { _ping_stddev_ms = value; }
+    }
+
+    private int _ping_avg_ms = default(int);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"ping_avg_ms", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int ping_avg_ms
+    {
+      get { return _ping_avg_ms; }
+      set { _ping_avg_ms = value; }
+    }
+
+    private float _packet_loss_pct = default(float);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"packet_loss_pct", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float packet_loss_pct
+    {
+      get { return _packet_loss_pct; }
+      set { _packet_loss_pct = value; }
+    }
+
+    private bool _is_bot = default(bool);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"is_bot", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool is_bot
+    {
+      get { return _is_bot; }
+      set { _is_bot = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"CLC_Messages", EnumPassthru=true)]
     public enum CLC_Messages
     {
@@ -2684,6 +3026,9 @@ namespace Dota2.GC.Dota.Internal
             
       [global::ProtoBuf.ProtoEnum(Name=@"svc_HLTVStatus", Value=62)]
       svc_HLTVStatus = 62,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"svc_ServerSteamID", Value=63)]
+      svc_ServerSteamID = 63,
             
       [global::ProtoBuf.ProtoEnum(Name=@"svc_FullFrameSplit", Value=70)]
       svc_FullFrameSplit = 70

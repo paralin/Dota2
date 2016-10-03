@@ -1,19 +1,20 @@
 {
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "A plugin for SteamKit that interacts with the DOTA 2 game coordinator.",
   "authors": [ "paralin" ],
-  "tags": [ "dota2", "steam", "networking", "steamkit", "dota", "moba" ],
 
-  "projectUrl": "https://github.com/paralin/Dota2",
-  "licenseUrl": "https://github.com/paralin/Dota2/blob/master/src/Dota2/license.txt",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/paralin/dota2"
+  "packOptions": {
+    "requireLicenseAcceptance": false,
+    "tags": [ "dota2", "steam", "networking", "steamkit", "dota", "moba" ],
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/paralin/dota2"
+    },
+    "projectUrl": "https://github.com/paralin/Dota2",
+    "licenseUrl": "https://github.com/paralin/Dota2/blob/master/src/Dota2/license.txt",
+    "iconUrl": "https://raw.github.com/paralin/Dota2/master/Resources/Misc/dota2_logo.jpg"
   },
-  "iconUrl": "https://raw.github.com/paralin/Dota2/master/Resources/Misc/dota2_logo.jpg",
-  "requireLicenseAcceptance": false,
 
-  "compilationOptions": { },
   "frameworks": {
     "dnx451": {},
     "net45": {},
