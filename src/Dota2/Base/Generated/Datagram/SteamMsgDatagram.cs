@@ -11,7 +11,7 @@
 // Generated from: steamdatagram_messages.proto
 namespace Dota2.Datagram.Internal
 {
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramRouterPingReply")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramRouterPingReply")]
   public partial class CMsgSteamDatagramRouterPingReply : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramRouterPingReply() {}
@@ -89,7 +89,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramGameserverPing")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramGameserverPing")]
   public partial class CMsgSteamDatagramGameserverPing : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramGameserverPing() {}
@@ -162,7 +162,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramGameServerAuthTicket")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramGameServerAuthTicket")]
   public partial class CMsgSteamDatagramGameServerAuthTicket : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramGameServerAuthTicket() {}
@@ -237,7 +237,7 @@ namespace Dota2.Datagram.Internal
       get { return _extra_fields; }
     }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ExtraField")]
+  [global::ProtoBuf.ProtoContract(Name=@"ExtraField")]
   public partial class ExtraField : global::ProtoBuf.IExtensible
   {
     public ExtraField() {}
@@ -297,7 +297,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramGameserverSessionRequest")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramGameserverSessionRequest")]
   public partial class CMsgSteamDatagramGameserverSessionRequest : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramGameserverSessionRequest() {}
@@ -343,7 +343,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramGameserverSessionEstablished")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramGameserverSessionEstablished")]
   public partial class CMsgSteamDatagramGameserverSessionEstablished : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramGameserverSessionEstablished() {}
@@ -380,7 +380,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramNoSession")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramNoSession")]
   public partial class CMsgSteamDatagramNoSession : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramNoSession() {}
@@ -435,7 +435,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramDiagnostic")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramDiagnostic")]
   public partial class CMsgSteamDatagramDiagnostic : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramDiagnostic() {}
@@ -463,7 +463,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramDataCenterState")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramDataCenterState")]
   public partial class CMsgSteamDatagramDataCenterState : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramDataCenterState() {}
@@ -475,7 +475,7 @@ namespace Dota2.Datagram.Internal
       get { return _data_centers; }
     }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Server")]
+  [global::ProtoBuf.ProtoContract(Name=@"Server")]
   public partial class Server : global::ProtoBuf.IExtensible
   {
     public Server() {}
@@ -503,7 +503,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"DataCenter")]
+  [global::ProtoBuf.ProtoContract(Name=@"DataCenter")]
   public partial class DataCenter : global::ProtoBuf.IExtensible
   {
     public DataCenter() {}
@@ -534,7 +534,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramLinkInstantaneousStats")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramLinkInstantaneousStats")]
   public partial class CMsgSteamDatagramLinkInstantaneousStats : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramLinkInstantaneousStats() {}
@@ -607,7 +607,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramLinkLifetimeStats")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramLinkLifetimeStats")]
   public partial class CMsgSteamDatagramLinkLifetimeStats : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramLinkLifetimeStats() {}
@@ -698,7 +698,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramConnectionQuality")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramConnectionQuality")]
   public partial class CMsgSteamDatagramConnectionQuality : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramConnectionQuality() {}
@@ -726,7 +726,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramConnectionStatsClientToRouter")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramConnectionStatsClientToRouter")]
   public partial class CMsgSteamDatagramConnectionStatsClientToRouter : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramConnectionStatsClientToRouter() {}
@@ -790,7 +790,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramConnectionStatsRouterToClient")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramConnectionStatsRouterToClient")]
   public partial class CMsgSteamDatagramConnectionStatsRouterToClient : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramConnectionStatsRouterToClient() {}
@@ -881,7 +881,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramConnectionStatsRouterToServer")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramConnectionStatsRouterToServer")]
   public partial class CMsgSteamDatagramConnectionStatsRouterToServer : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramConnectionStatsRouterToServer() {}
@@ -963,7 +963,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramConnectionStatsServerToRouter")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramConnectionStatsServerToRouter")]
   public partial class CMsgSteamDatagramConnectionStatsServerToRouter : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramConnectionStatsServerToRouter() {}
@@ -1027,7 +1027,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramClientPingSampleRequest")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramClientPingSampleRequest")]
   public partial class CMsgSteamDatagramClientPingSampleRequest : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramClientPingSampleRequest() {}
@@ -1046,7 +1046,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramClientPingSampleReply")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramClientPingSampleReply")]
   public partial class CMsgSteamDatagramClientPingSampleReply : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramClientPingSampleReply() {}
@@ -1067,7 +1067,7 @@ namespace Dota2.Datagram.Internal
       get { return _routing_clusters; }
     }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoutingCluster")]
+  [global::ProtoBuf.ProtoContract(Name=@"RoutingCluster")]
   public partial class RoutingCluster : global::ProtoBuf.IExtensible
   {
     public RoutingCluster() {}
@@ -1109,7 +1109,7 @@ namespace Dota2.Datagram.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramClientSwitchedPrimary")]
+  [global::ProtoBuf.ProtoContract(Name=@"CMsgSteamDatagramClientSwitchedPrimary")]
   public partial class CMsgSteamDatagramClientSwitchedPrimary : global::ProtoBuf.IExtensible
   {
     public CMsgSteamDatagramClientSwitchedPrimary() {}
@@ -1222,7 +1222,7 @@ namespace Dota2.Datagram.Internal
       get { return _to_quality_then; }
       set { _to_quality_then = value; }
     }
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RouterQuality")]
+  [global::ProtoBuf.ProtoContract(Name=@"RouterQuality")]
   public partial class RouterQuality : global::ProtoBuf.IExtensible
   {
     public RouterQuality() {}

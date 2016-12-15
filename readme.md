@@ -5,8 +5,6 @@ Dota2 [![Build Status](https://travis-ci.org/paralin/Dota2.png)](https://travis-
 
 Dota2 is a .NET library designed as a plugin for [SteamKit](http://github.com/SteamRE/SteamKit). It provides a handler for the DOTA 2 game coordinator. The goal is to implement as much functionality of the client as possible.
 
-Experimental support for connecting directly to Source engine servers, as well as connecting through the Steam datagram routing network, is in development. All Source engine reverse engineering credit goes to [Drew Schleck](https://github.com/dschleck) and his [nora](https://github.com/dschleck/nora) project.
-
 ## Getting Binaries
 
 

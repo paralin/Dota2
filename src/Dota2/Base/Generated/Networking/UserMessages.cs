@@ -14,7 +14,7 @@ using SteamKit2.GC.Internal;
 // Note: requires additional types generated from: networkbasetypes.proto
 namespace Dota2.GC.Dota.Internal
 {
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageAchievementEvent")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageAchievementEvent")]
   public partial class CUserMessageAchievementEvent : global::ProtoBuf.IExtensible
   {
     public CUserMessageAchievementEvent() {}
@@ -33,7 +33,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageCloseCaption")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageCloseCaption")]
   public partial class CUserMessageCloseCaption : global::ProtoBuf.IExtensible
   {
     public CUserMessageCloseCaption() {}
@@ -79,7 +79,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageCloseCaptionDirect")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageCloseCaptionDirect")]
   public partial class CUserMessageCloseCaptionDirect : global::ProtoBuf.IExtensible
   {
     public CUserMessageCloseCaptionDirect() {}
@@ -125,7 +125,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageCloseCaptionPlaceholder")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageCloseCaptionPlaceholder")]
   public partial class CUserMessageCloseCaptionPlaceholder : global::ProtoBuf.IExtensible
   {
     public CUserMessageCloseCaptionPlaceholder() {}
@@ -171,7 +171,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageCurrentTimescale")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageCurrentTimescale")]
   public partial class CUserMessageCurrentTimescale : global::ProtoBuf.IExtensible
   {
     public CUserMessageCurrentTimescale() {}
@@ -190,7 +190,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageDesiredTimescale")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageDesiredTimescale")]
   public partial class CUserMessageDesiredTimescale : global::ProtoBuf.IExtensible
   {
     public CUserMessageDesiredTimescale() {}
@@ -236,7 +236,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageFade")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageFade")]
   public partial class CUserMessageFade : global::ProtoBuf.IExtensible
   {
     public CUserMessageFade() {}
@@ -282,7 +282,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageShake")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageShake")]
   public partial class CUserMessageShake : global::ProtoBuf.IExtensible
   {
     public CUserMessageShake() {}
@@ -328,7 +328,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageShakeDir")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageShakeDir")]
   public partial class CUserMessageShakeDir : global::ProtoBuf.IExtensible
   {
     public CUserMessageShakeDir() {}
@@ -356,7 +356,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageScreenTilt")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageScreenTilt")]
   public partial class CUserMessageScreenTilt : global::ProtoBuf.IExtensible
   {
     public CUserMessageScreenTilt() {}
@@ -411,7 +411,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageSayText")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageSayText")]
   public partial class CUserMessageSayText : global::ProtoBuf.IExtensible
   {
     public CUserMessageSayText() {}
@@ -448,7 +448,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageSayText2")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageSayText2")]
   public partial class CUserMessageSayText2 : global::ProtoBuf.IExtensible
   {
     public CUserMessageSayText2() {}
@@ -521,7 +521,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageHudMsg")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageHudMsg")]
   public partial class CUserMessageHudMsg : global::ProtoBuf.IExtensible
   {
     public CUserMessageHudMsg() {}
@@ -630,7 +630,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageHudText")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageHudText")]
   public partial class CUserMessageHudText : global::ProtoBuf.IExtensible
   {
     public CUserMessageHudText() {}
@@ -649,7 +649,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageTextMsg")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageTextMsg")]
   public partial class CUserMessageTextMsg : global::ProtoBuf.IExtensible
   {
     public CUserMessageTextMsg() {}
@@ -675,7 +675,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageGameTitle")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageGameTitle")]
   public partial class CUserMessageGameTitle : global::ProtoBuf.IExtensible
   {
     public CUserMessageGameTitle() {}
@@ -685,7 +685,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageResetHUD")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageResetHUD")]
   public partial class CUserMessageResetHUD : global::ProtoBuf.IExtensible
   {
     public CUserMessageResetHUD() {}
@@ -695,7 +695,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageSendAudio")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageSendAudio")]
   public partial class CUserMessageSendAudio : global::ProtoBuf.IExtensible
   {
     public CUserMessageSendAudio() {}
@@ -723,7 +723,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageAudioParameter")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageAudioParameter")]
   public partial class CUserMessageAudioParameter : global::ProtoBuf.IExtensible
   {
     public CUserMessageAudioParameter() {}
@@ -769,7 +769,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageVoiceMask")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageVoiceMask")]
   public partial class CUserMessageVoiceMask : global::ProtoBuf.IExtensible
   {
     public CUserMessageVoiceMask() {}
@@ -802,7 +802,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageRequestState")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageRequestState")]
   public partial class CUserMessageRequestState : global::ProtoBuf.IExtensible
   {
     public CUserMessageRequestState() {}
@@ -812,7 +812,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageHintText")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageHintText")]
   public partial class CUserMessageHintText : global::ProtoBuf.IExtensible
   {
     public CUserMessageHintText() {}
@@ -831,7 +831,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageKeyHintText")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageKeyHintText")]
   public partial class CUserMessageKeyHintText : global::ProtoBuf.IExtensible
   {
     public CUserMessageKeyHintText() {}
@@ -848,7 +848,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageVoiceSubtitle")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageVoiceSubtitle")]
   public partial class CUserMessageVoiceSubtitle : global::ProtoBuf.IExtensible
   {
     public CUserMessageVoiceSubtitle() {}
@@ -885,7 +885,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageVGUIMenu")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageVGUIMenu")]
   public partial class CUserMessageVGUIMenu : global::ProtoBuf.IExtensible
   {
     public CUserMessageVGUIMenu() {}
@@ -915,7 +915,7 @@ namespace Dota2.GC.Dota.Internal
       get { return _keys; }
     }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Keys")]
+  [global::ProtoBuf.ProtoContract(Name=@"Keys")]
   public partial class Keys : global::ProtoBuf.IExtensible
   {
     public Keys() {}
@@ -948,7 +948,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageRumble")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageRumble")]
   public partial class CUserMessageRumble : global::ProtoBuf.IExtensible
   {
     public CUserMessageRumble() {}
@@ -985,7 +985,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageTrain")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageTrain")]
   public partial class CUserMessageTrain : global::ProtoBuf.IExtensible
   {
     public CUserMessageTrain() {}
@@ -1004,7 +1004,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageSayTextChannel")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageSayTextChannel")]
   public partial class CUserMessageSayTextChannel : global::ProtoBuf.IExtensible
   {
     public CUserMessageSayTextChannel() {}
@@ -1041,7 +1041,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageColoredText")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageColoredText")]
   public partial class CUserMessageColoredText : global::ProtoBuf.IExtensible
   {
     public CUserMessageColoredText() {}
@@ -1105,7 +1105,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageItemPickup")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageItemPickup")]
   public partial class CUserMessageItemPickup : global::ProtoBuf.IExtensible
   {
     public CUserMessageItemPickup() {}
@@ -1124,7 +1124,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageAmmoDenied")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageAmmoDenied")]
   public partial class CUserMessageAmmoDenied : global::ProtoBuf.IExtensible
   {
     public CUserMessageAmmoDenied() {}
@@ -1143,7 +1143,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageCrosshairAngle")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageCrosshairAngle")]
   public partial class CUserMessageCrosshairAngle : global::ProtoBuf.IExtensible
   {
     public CUserMessageCrosshairAngle() {}
@@ -1162,7 +1162,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageShowMenu")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageShowMenu")]
   public partial class CUserMessageShowMenu : global::ProtoBuf.IExtensible
   {
     public CUserMessageShowMenu() {}
@@ -1208,7 +1208,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageCreditsMsg")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageCreditsMsg")]
   public partial class CUserMessageCreditsMsg : global::ProtoBuf.IExtensible
   {
     public CUserMessageCreditsMsg() {}
@@ -1236,7 +1236,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CEntityMessagePlayJingle")]
+  [global::ProtoBuf.ProtoContract(Name=@"CEntityMessagePlayJingle")]
   public partial class CEntityMessagePlayJingle : global::ProtoBuf.IExtensible
   {
     public CEntityMessagePlayJingle() {}
@@ -1246,7 +1246,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CEntityMessageScreenOverlay")]
+  [global::ProtoBuf.ProtoContract(Name=@"CEntityMessageScreenOverlay")]
   public partial class CEntityMessageScreenOverlay : global::ProtoBuf.IExtensible
   {
     public CEntityMessageScreenOverlay() {}
@@ -1265,7 +1265,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CEntityMessageRemoveAllDecals")]
+  [global::ProtoBuf.ProtoContract(Name=@"CEntityMessageRemoveAllDecals")]
   public partial class CEntityMessageRemoveAllDecals : global::ProtoBuf.IExtensible
   {
     public CEntityMessageRemoveAllDecals() {}
@@ -1284,7 +1284,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CEntityMessagePropagateForce")]
+  [global::ProtoBuf.ProtoContract(Name=@"CEntityMessagePropagateForce")]
   public partial class CEntityMessagePropagateForce : global::ProtoBuf.IExtensible
   {
     public CEntityMessagePropagateForce() {}
@@ -1303,7 +1303,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CEntityMessageDoSpark")]
+  [global::ProtoBuf.ProtoContract(Name=@"CEntityMessageDoSpark")]
   public partial class CEntityMessageDoSpark : global::ProtoBuf.IExtensible
   {
     public CEntityMessageDoSpark() {}
@@ -1376,7 +1376,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CEntityMessageFixAngle")]
+  [global::ProtoBuf.ProtoContract(Name=@"CEntityMessageFixAngle")]
   public partial class CEntityMessageFixAngle : global::ProtoBuf.IExtensible
   {
     public CEntityMessageFixAngle() {}
@@ -1404,7 +1404,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageCameraTransition")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageCameraTransition")]
   public partial class CUserMessageCameraTransition : global::ProtoBuf.IExtensible
   {
     public CUserMessageCameraTransition() {}
@@ -1436,7 +1436,7 @@ namespace Dota2.GC.Dota.Internal
       get { return _params_data_driven; }
       set { _params_data_driven = value; }
     }
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Transition_DataDriven")]
+  [global::ProtoBuf.ProtoContract(Name=@"Transition_DataDriven")]
   public partial class Transition_DataDriven : global::ProtoBuf.IExtensible
   {
     public Transition_DataDriven() {}
@@ -1469,7 +1469,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMsg_ParticleManager")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMsg_ParticleManager")]
   public partial class CUserMsg_ParticleManager : global::ProtoBuf.IExtensible
   {
     public CUserMsg_ParticleManager() {}
@@ -1605,7 +1605,7 @@ namespace Dota2.GC.Dota.Internal
       get { return _change_control_point_attachment; }
       set { _change_control_point_attachment = value; }
     }
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReleaseParticleIndex")]
+  [global::ProtoBuf.ProtoContract(Name=@"ReleaseParticleIndex")]
   public partial class ReleaseParticleIndex : global::ProtoBuf.IExtensible
   {
     public ReleaseParticleIndex() {}
@@ -1615,7 +1615,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CreateParticle")]
+  [global::ProtoBuf.ProtoContract(Name=@"CreateParticle")]
   public partial class CreateParticle : global::ProtoBuf.IExtensible
   {
     public CreateParticle() {}
@@ -1652,7 +1652,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"DestroyParticle")]
+  [global::ProtoBuf.ProtoContract(Name=@"DestroyParticle")]
   public partial class DestroyParticle : global::ProtoBuf.IExtensible
   {
     public DestroyParticle() {}
@@ -1671,7 +1671,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"DestroyParticleInvolving")]
+  [global::ProtoBuf.ProtoContract(Name=@"DestroyParticleInvolving")]
   public partial class DestroyParticleInvolving : global::ProtoBuf.IExtensible
   {
     public DestroyParticleInvolving() {}
@@ -1699,7 +1699,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UpdateParticle")]
+  [global::ProtoBuf.ProtoContract(Name=@"UpdateParticle")]
   public partial class UpdateParticle : global::ProtoBuf.IExtensible
   {
     public UpdateParticle() {}
@@ -1727,7 +1727,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UpdateParticleFwd")]
+  [global::ProtoBuf.ProtoContract(Name=@"UpdateParticleFwd")]
   public partial class UpdateParticleFwd : global::ProtoBuf.IExtensible
   {
     public UpdateParticleFwd() {}
@@ -1755,7 +1755,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UpdateParticleOrient")]
+  [global::ProtoBuf.ProtoContract(Name=@"UpdateParticleOrient")]
   public partial class UpdateParticleOrient : global::ProtoBuf.IExtensible
   {
     public UpdateParticleOrient() {}
@@ -1801,7 +1801,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UpdateParticleFallback")]
+  [global::ProtoBuf.ProtoContract(Name=@"UpdateParticleFallback")]
   public partial class UpdateParticleFallback : global::ProtoBuf.IExtensible
   {
     public UpdateParticleFallback() {}
@@ -1829,7 +1829,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UpdateParticleOffset")]
+  [global::ProtoBuf.ProtoContract(Name=@"UpdateParticleOffset")]
   public partial class UpdateParticleOffset : global::ProtoBuf.IExtensible
   {
     public UpdateParticleOffset() {}
@@ -1857,7 +1857,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UpdateParticleEnt")]
+  [global::ProtoBuf.ProtoContract(Name=@"UpdateParticleEnt")]
   public partial class UpdateParticleEnt : global::ProtoBuf.IExtensible
   {
     public UpdateParticleEnt() {}
@@ -1921,7 +1921,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UpdateParticleSetFrozen")]
+  [global::ProtoBuf.ProtoContract(Name=@"UpdateParticleSetFrozen")]
   public partial class UpdateParticleSetFrozen : global::ProtoBuf.IExtensible
   {
     public UpdateParticleSetFrozen() {}
@@ -1940,7 +1940,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UpdateParticleShouldDraw")]
+  [global::ProtoBuf.ProtoContract(Name=@"UpdateParticleShouldDraw")]
   public partial class UpdateParticleShouldDraw : global::ProtoBuf.IExtensible
   {
     public UpdateParticleShouldDraw() {}
@@ -1959,7 +1959,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ChangeControlPointAttachment")]
+  [global::ProtoBuf.ProtoContract(Name=@"ChangeControlPointAttachment")]
   public partial class ChangeControlPointAttachment : global::ProtoBuf.IExtensible
   {
     public ChangeControlPointAttachment() {}
@@ -2001,7 +2001,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMsg_HudError")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMsg_HudError")]
   public partial class CUserMsg_HudError : global::ProtoBuf.IExtensible
   {
     public CUserMsg_HudError() {}
@@ -2020,7 +2020,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMsg_CustomGameEvent")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMsg_CustomGameEvent")]
   public partial class CUserMsg_CustomGameEvent : global::ProtoBuf.IExtensible
   {
     public CUserMsg_CustomGameEvent() {}
@@ -2048,7 +2048,7 @@ namespace Dota2.GC.Dota.Internal
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CUserMessageHapticPulse")]
+  [global::ProtoBuf.ProtoContract(Name=@"CUserMessageHapticPulse")]
   public partial class CUserMessageHapticPulse : global::ProtoBuf.IExtensible
   {
     public CUserMessageHapticPulse() {}
