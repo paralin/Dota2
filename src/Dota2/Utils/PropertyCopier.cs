@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using System.Reflection;
 
 namespace Dota2.Utils
 {
@@ -12,7 +12,7 @@ namespace Dota2.Utils
         /// <param name="src">Src</param>
         public static void CopyProperties<T>(T dest, T src)
         {
-            foreach (PropertyDescriptor item in TypeDescriptor.GetProperties(src))
+            foreach (var item in typeof(T).GetProperties())
                 item.SetValue(dest, item.GetValue(src));
         }
     }
