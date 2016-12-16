@@ -8,6 +8,8 @@
 //------------------------------------------------------------------------------
 #pragma warning disable 1591
 
+// Option: light framework (CF/Silverlight) enabled
+    
 // Generated from: dota_gcmessages_msgid.proto
 namespace Dota2.GC.Dota.Internal
 {
@@ -2050,7 +2052,34 @@ namespace Dota2.GC.Dota.Internal
       k_EMsgGCToGCUpdateAccountPublicChatBan = 8196,
             
       [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCChatReportPublicSpam", Value=8197)]
-      k_EMsgGCChatReportPublicSpam = 8197
+      k_EMsgGCChatReportPublicSpam = 8197,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCSetPartyBuilderOptions", Value=8198)]
+      k_EMsgClientToGCSetPartyBuilderOptions = 8198,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCSetPartyBuilderOptionsResponse", Value=8199)]
+      k_EMsgClientToGCSetPartyBuilderOptionsResponse = 8199,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToClientPlaytestStatus", Value=8200)]
+      k_EMsgGCToClientPlaytestStatus = 8200,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCJoinPlaytest", Value=8201)]
+      k_EMsgClientToGCJoinPlaytest = 8201,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgClientToGCJoinPlaytestResponse", Value=8202)]
+      k_EMsgClientToGCJoinPlaytestResponse = 8202,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgLobbyPlaytestDetails", Value=8203)]
+      k_EMsgLobbyPlaytestDetails = 8203,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgDOTASetFavoriteTeam", Value=8204)]
+      k_EMsgDOTASetFavoriteTeam = 8204,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToClientBattlePassRollupListRequest", Value=8205)]
+      k_EMsgGCToClientBattlePassRollupListRequest = 8205,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"k_EMsgGCToClientBattlePassRollupListResponse", Value=8206)]
+      k_EMsgGCToClientBattlePassRollupListResponse = 8206
     }
   
 }
