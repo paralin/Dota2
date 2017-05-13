@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Dota2.Base.Data;
 using Dota2.Datagram.Config.Model;
 using Newtonsoft.Json;
@@ -63,15 +65,16 @@ namespace Dota2.CDN
         }
 
         /// <summary>
-        /// Retreive the network config from the DOTA 2 CDN
+        /// Retrieve the network config from the DOTA 2 CDN
         /// </summary>
         /// <returns>Network config on success, null otherwise.</returns>
-        public static NetworkConfig GetNetworkConfig(CDNType type = CDNType.STANDARD, Games game = Games.DOTA2)
+        public static async Task<NetworkConfig> GetNetworkConfig(CDNType type = CDNType.STANDARD, Games game = Games.DOTA2)
         {
-            using (var wc = new WebClient())
+            using (var wc = new HttpClient())
             {
-                var str = wc.DownloadString(DatagramNetworkConfig(type, game));
-                JObject obj = JObject.Parse(str);
+                HttpResponseMessage response = await wc.GetAsync(DatagramNetworkConfig(type, game));
+                response.EnsureSuccessStatusCode();
+                JObject obj = JObject.Parse(await response.Content.ReadAsStringAsync());
                 return obj.ToObject<NetworkConfig>();
             }
         }

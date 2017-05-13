@@ -1,13 +1,8 @@
-﻿/*
- * This file is subject to the terms and conditions defined in
- * file 'license.txt', which is part of this source code package.
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Timers;
+using System.Threading;
 using Dota2.Base.Data;
 using Dota2.GC.Dota.Internal;
 using Dota2.GC.Internal;
@@ -76,16 +71,19 @@ namespace Dota2.GC
             LeagueViewPasses = new Dictionary<ulong, CSOEconItemLeagueViewPass>(5);
             // Generally this seems to be 2
             MapLocationStates = new Dictionary<int, CSODOTAMapLocationState>(2);
-            _gcConnectTimer = new Timer(5000);
-            _gcConnectTimer.Elapsed += (sender, args) =>
-            {
-                if (!_running)
-                {
-                    _gcConnectTimer.Stop();
-                    return;
-                }
-                SayHello();
-            };
+            _gcConnectTimer = new Timer(
+                new TimerCallback((stateInfo) => {
+                    if (!_running)
+                    {
+                        _gcConnectTimer.Change(0, Timeout.Infinite);
+                        return;
+                    }
+                    SayHello();
+                }),
+                null,
+                0,
+                Timeout.Infinite
+            );
         }
 
         /// <summary>
@@ -219,9 +217,8 @@ namespace Dota2.GC
 
             Client.Send(playGame);
 
-            _gcConnectTimer.Stop();
             SayHello();
-            _gcConnectTimer.Start();
+            _gcConnectTimer.Change(0, 5000);
         }
 
         /// <summary>
@@ -297,7 +294,7 @@ namespace Dota2.GC
         public void Stop()
         {
             _running = false;
-            _gcConnectTimer.Stop();
+            _gcConnectTimer.Change(0, Timeout.Infinite);
 
             var playGame = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
             // playGame.Body.games_played left empty
@@ -1158,7 +1155,7 @@ namespace Dota2.GC
             var resp = new ClientGCMsgProtobuf<CMsgConnectionStatus>(obj);
             Client.PostCallback(new ConnectionStatus(resp.Body));
 
-            if (resp.Body.status != GCConnectionStatus.GCConnectionStatus_HAVE_SESSION) _gcConnectTimer.Start();
+            if (resp.Body.status != GCConnectionStatus.GCConnectionStatus_HAVE_SESSION) _gcConnectTimer.Change(0, 5000);
 
             Ready = resp.Body.status == GCConnectionStatus.GCConnectionStatus_HAVE_SESSION;
         }
@@ -1241,7 +1238,7 @@ namespace Dota2.GC
         //Initial message sent when connected to the GC
         private void HandleWelcome(IPacketGCMsg msg)
         {
-            _gcConnectTimer.Stop();
+            _gcConnectTimer.Change(0, Timeout.Infinite);
 
             Ready = true;
 
