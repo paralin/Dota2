@@ -3,7 +3,7 @@
     <Description>A plugin for SteamKit that interacts with the DOTA 2 game coordinator.</Description>
     <VersionPrefix>0.10.0</VersionPrefix>
     <Authors>paralin</Authors>
-    <TargetFrameworks>netstandard1.5</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>Dota2</AssemblyName>
     <PackageId>Dota2</PackageId>
     <PackageTags>dota2;steam;networking;steamkit;dota;moba</PackageTags>
@@ -12,10 +12,15 @@
     <PackageLicenseUrl>https://github.com/paralin/Dota2/blob/master/src/Dota2/license.txt</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/paralin/dota2</RepositoryUrl>
+    <Version>0.11.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard1.5|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_5</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="SteamKit2" Version="2.0.0-Alpha4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="SteamKit2" Version="2.1.0" />
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
     <PackageReference Include="System.Threading.Timer" Version="4.3.0" />
   </ItemGroup>
